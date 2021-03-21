@@ -1,17 +1,20 @@
 import React from 'react';
 import {
-  Keyboard, Text, View, TextInput, TouchableWithoutFeedback, Alert, KeyboardAvoidingView, StyleSheet
+  Keyboard, Image, View, TextInput, TouchableWithoutFeedback, KeyboardAvoidingView, StyleSheet
 } from 'react-native';
 import { Button } from 'react-native-elements';
-
 const loginScree = () => {
   return (
     <>
       <KeyboardAvoidingView style={styles.containerView} behavior="padding">
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.loginScreenContainer}>
+            <View style={{ flexDirection: 'row', marginTop: 10 }}>
+              <Image source={(require('../src/logo11.png'))} style={styles.logo} />
+            </View>
             <View style={styles.loginFormView}>
-              <Text style={styles.logoText}>Community SR</Text>
+              {/* <Text style={styles.logoText}>Community SR</Text> */}
+
               <TextInput placeholder="Username" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} />
               <TextInput placeholder="Password" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} secureTextEntry={true} />
               <Button
@@ -19,12 +22,12 @@ const loginScree = () => {
                 // onPress={() => this.onLoginPress()}
                 title="Login"
               />
-                <Button buttonStyle={styles.SinginButton}
+              <Button buttonStyle={styles.SinginButton}
                 type='outline'
                 // onPress={() => this.onLoginPress()}
                 title="Sing in">
 
-                </Button>
+              </Button>
             </View>
           </View>
         </TouchableWithoutFeedback>
@@ -41,12 +44,10 @@ const styles = StyleSheet.create({
   loginScreenContainer: {
     flex: 1,
   },
-  logoText: {
-    fontSize: 40,
-    fontWeight: "800",
-    marginTop: 150,
-    marginBottom: 30,
-    textAlign: 'center',
+  logo: {
+    height:300,
+    flex:1,
+    marginHorizontal:4
   },
   loginFormView: {
     flex: 1
@@ -84,6 +85,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
     backgroundColor: 'transparent',
   },
+
+
 
 
 
