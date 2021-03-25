@@ -1,14 +1,13 @@
 import { useState } from 'react';
 import * as React from 'react';
 import { View, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
-
-import Registro from './screens/RegisterScreen'
+import CommonDrawer from './screens/CommonDrawer'
 import LoginScreen from './screens/LoginScreen'
 const App = () => {
 
   return (
     <>
-      <LoginScreen/>
+      <CommonDrawer/>
     </>
   );
 };
