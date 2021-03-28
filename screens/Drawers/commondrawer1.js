@@ -2,12 +2,11 @@ import * as React from 'react';
 import { Button, View } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer, useNavigation} from '@react-navigation/native';
-
 import AtnDesingIcon from 'react-native-vector-icons/AntDesign';
 import AdminDrawer from "./AdminDrawer";
-import { Buttons,Container, Content, Text, Header,Left, Body, Title, Rights } from 'native-base';
 
-function HomeScreen({ navigation }) {
+
+function HomeScreen1({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Button
@@ -20,7 +19,7 @@ function HomeScreen({ navigation }) {
 
 
 
-function NotificationsScreen({ navigation }) {
+function NotificationsScreen1({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Button onPress={() => navigation.goBack()} title="Go back home" />
@@ -30,18 +29,18 @@ function NotificationsScreen({ navigation }) {
 
 
 const Drawer = createDrawerNavigator();
-const CommonDrawer=()=> {
+const CommonDrawer1=()=> {
   return (
     <>
     <NavigationContainer>
       <Drawer.Navigator  drawerContent={props=><AdminDrawer {...props}/>}>
-        <Drawer.Screen name="Home" component={HomeScreen} options={{
+        <Drawer.Screen name="Home1" component={HomeScreen1} options={{
           drawerIcon:({focused,color,size})=>(<AtnDesingIcon name="home" style={{fontSize: size, color:color}}/>),
         }
         }>
            
         </Drawer.Screen >
-        <Drawer.Screen name="Notifications" component={NotificationsScreen} options={{
+        <Drawer.Screen name="Notifications1" component={NotificationsScreen1} options={{
           drawerIcon:({focused,color,size})=>(<AtnDesingIcon name="notification" style={{fontSize: size, color:color}}/>),
         }
         }/>
@@ -52,4 +51,4 @@ const CommonDrawer=()=> {
   );
 }
 
-export default CommonDrawer;
+export default CommonDrawer1;

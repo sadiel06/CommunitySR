@@ -4,6 +4,7 @@ import AntDesingIcon from 'react-native-vector-icons/AntDesign';
 import MatirialIcon from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Ioncons from 'react-native-vector-icons/Ionicons';
+// import Residentes from './Residentes';
 // import Animated from 'react-native-reanimated';
 import { Container, Content, Footer, Header, Button, Right, ListItem, Left, Thumbnail, Body, Text, H3 } from "native-base";
 import { DrawerActions } from '@react-navigation/native';
@@ -25,7 +26,7 @@ function AdminDrawer({ ...props }) {
             <Content>
                 <ListItem thumbnail>
                     <Left>
-                        <Thumbnail source={{ uri: uri }}
+                        <Thumbnail source={require('../../src/logo10.png')}
                         />
                     </Left>
                     <Body>
@@ -36,9 +37,14 @@ function AdminDrawer({ ...props }) {
                 <DrawerContentScrollView {...props}>
 
                     <DrawerItemList {...props} />
+                    
                     <DrawerItem label='Residentes'
                         icon={({ color, size }) => <MatirialIcon name="nature-people" style={{ fontSize: size, color: color }} />}
-                        onPress={() => props.navigation.navigate("Home")}
+                        onPress={() => props.navigation.navigate('./Residentes', {
+                            screen: 'Residentes',
+                            
+                          })}
+                          
                     />
                     <DrawerItem label='Roles'
                         icon={({ color, size }) => <AntDesingIcon name="eyeo" style={{ fontSize: size, color: color }} />}
