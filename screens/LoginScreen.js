@@ -10,12 +10,28 @@ import BackButton from '../components/BackButton'
 import { theme } from '../core/theme'
 import { emailValidator } from '../helpers/emailValidator'
 import { passwordValidator } from '../helpers/passwordValidator'
-import {useNavigation} from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
+import { NavigationActions } from 'react-navigation';
 
 
-export default function LoginScreen({ navigation }) {
+
+export default function LoginScreen({navigation}) {
+  // const navigation = useNavigation()
   const [email, setEmail] = useState({ value: '', error: '' })
   const [password, setPassword] = useState({ value: '', error: '' })
+
+  // const reset = () => {
+  //   return this.props
+  //     .navigation
+  //     .dispatch(NavigationActions.reset(
+  //       {
+  //
+  //         index: 0,
+  //         actions: [
+  //           NavigationActions.navigate({ routes: [{ name: 'Dashboard' }] })
+  //         ]
+  //       }));
+  // }
 
   const onLoginPressed = () => {
     const emailError = emailValidator(email.value)
@@ -25,11 +41,36 @@ export default function LoginScreen({ navigation }) {
       setPassword({ ...password, error: passwordError })
       return
     }
+
     navigation.reset({
       index: 0,
       routes: [{ name: 'Dashboard' }],
     })
   }
+
+  const getMoviesFromApiAsync = async () => {
+    let data = JSON.stringify({
+      data: { dataKey: 'yourValue' }
+    });
+    console.log(data);
+    try {
+      let response = await fetch(
+        'http://10.0.0.10:8080/API/residencial/lista',
+        {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: data = data
+        }
+      );
+      let json = await response.json();
+      return console.warn(json);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <Background>
@@ -66,6 +107,9 @@ export default function LoginScreen({ navigation }) {
       </View>
       <Button mode="contained" onPress={onLoginPressed}>
         Login
+      </Button>
+      <Button mode="contained" onPress={getMoviesFromApiAsync}>
+        API
       </Button>
       <View style={styles.row}>
         <Text>Don’t have an account? </Text>

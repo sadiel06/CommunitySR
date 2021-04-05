@@ -67,7 +67,6 @@ const Registro = () => {
             returnKeyType="next"
             value={nameuser.value}
             onChangeText={(text) => setName({ value: text, error: '' })}
-            
             error={!!name.error}
             errorText={name.error}
           />

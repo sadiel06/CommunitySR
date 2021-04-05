@@ -34,6 +34,7 @@ const Drawer = createDrawerNavigator();
 const CommonDrawer = () => {
   return (
     <>
+    
       <NavigationContainer>
         <Drawer.Navigator drawerContent={props => <AdminDrawer {...props} />}>
           <Drawer.Screen name="Home" component={HomeScreen} options={{
@@ -47,10 +48,12 @@ const CommonDrawer = () => {
           }
           } />
 
-          <Drawer.Screen name="Residentes" component={props => <CommonDrawer1 {...props} />} options={{
+         <Drawer.Navigator>
+         <Drawer.Screen name="Residentes" component={props => <CommonDrawer1 {...props} />} options={{
             drawerIcon: ({ focused, color, size }) => (<AtnDesingIcon name="notification" style={{ fontSize: size, color: color }} />),
           }
           } />
+         </Drawer.Navigator>
 
         </Drawer.Navigator>
       </NavigationContainer>
