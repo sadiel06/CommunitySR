@@ -1,13 +1,13 @@
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 import React, { useState } from 'react';
-import { View, StyleSheet , ScrollView} from 'react-native'
+import { View, StyleSheet , ScrollView, KeyboardAvoidingView} from 'react-native'
 import { Dropdown, Text, TextInput, Headline, Button, Paragraph, Dialog, Portal, DefaultTheme } from 'react-native-paper'
 import globalStyles from '../Styles/global';
 import axios from 'axios';
 import DropDown from 'react-native-paper-dropdown';
 
-
+let provincias1 = [];
 const NuevoResidencial = () => {
   const theme = {
     ...DefaultTheme,
@@ -27,7 +27,7 @@ const NuevoResidencial = () => {
     }
 
   };
-  const list = [{ label: 'Santiago', value: 'santiago' }, { label: 'Samana', value: 'samana' }];
+
   //estados
   const [nombre, setNombre] = useState('');
   const [area, setArea] = useState('');
@@ -40,15 +40,82 @@ const NuevoResidencial = () => {
   const [sector, setSector] = useState('');
   const [mostrarSector, setMostrarSector] = useState(false);
   const [alerta, setAlerta] = useState(false);
+  const [alerta1, setAlerta1] = useState(false);
   //funciones
-  const guardarResidencial = () => {
-    console.log(theme)
+
+//fetch
+
+const getdata = async () => {
+  // let data = JSON.stringify({
+  //   data: { midescri: 'test react' }
+  // });
+  // console.log(data);
+  try {
+    let response = await fetch(
+      'http://10.0.0.12:8080/API/residencial/get_provincias',
+      {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({key: '291290336b75b259b77e181c87cc974f',  data: {}})
+      }
+    );
+    provincias1 = await response.json();
+    console.log(provincias1)
+return provincias1
+   
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const postdata = async () => {
+  // let data = JSON.stringify({
+  //   data: { midescri: 'test react' }
+  // });
+  // console.log(data);
+  try {
+    let response = await fetch(
+      'http://10.0.0.12:8080/API/residencial/test_sending',
+      {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({key: '291290336b75b259b77e181c87cc974f',  data: {idprovincia: provincia}})
+      }
+    );
+  
+  
+
+   
+  } catch (error) {
+    console.error(error);
   }
 
+console.log(provincia);
+};
+
+const guardarResidencial = () => {
+  //validar
+
+  //enviar datos a la api
+
+  //limpiar form 
+
+  //redireccionar a otra pantalla
+  console.log(getdata());
+}
+const list = [{ label: 'Santiago', value: '1' }, { label: 'Samana', value: 'samana' }];
+//
 
   return (
     <>
     <ScrollView>
+      <KeyboardAvoidingView>
       <View style={globalStyles.contenedor}>
         <Headline style={globalStyles.titulo}>Nuevo Residencial</Headline>
         <TextInput
@@ -88,7 +155,7 @@ const NuevoResidencial = () => {
             mode='outlined'
             value={provincia}
             setValue={setProvincia}
-            list={list}
+            list={provincias1}
             visible={mostrarProvinvia}
             showDropDown={() => setMostrarProvincia(true)}
             onDismiss={() => setMostrarProvincia(false)}
@@ -133,6 +200,10 @@ const NuevoResidencial = () => {
         <Button icon='pencil-circle' mode='contained' onPress={
           () => guardarResidencial()
         } style={{marginBottom:15}}>Guardar cliente</Button>
+<Button icon='pencil-circle' mode='contained' onPress={
+          () => postdata()
+        } style={{marginBottom:15}}>enviar</Button>
+
         <Portal>
           <Dialog
             visible={alerta}
@@ -149,7 +220,24 @@ const NuevoResidencial = () => {
           </Dialog>
         </Portal>
 
+        <Portal>
+          <Dialog
+            visible={alerta1}
+            onDismiss={() => setAlerta1(false)}
+          >
+            <Dialog.Title>Error</Dialog.Title>
+            <Dialog.Content>
+              <Paragraph>Todo bien</Paragraph>
+            </Dialog.Content>
+            <Dialog.Actions>
+              <Button onPress={() => setAlerta1(false)}>OK</Button>
+            </Dialog.Actions>
+
+          </Dialog>
+        </Portal>
+
       </View>
+      </KeyboardAvoidingView>
       </ScrollView>
     </>
   );

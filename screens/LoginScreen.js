@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { TouchableOpacity, StyleSheet, View } from 'react-native'
+import { TouchableOpacity, StyleSheet, View, ScrollView } from 'react-native'
 import { Text } from 'react-native-paper'
 import Background from '../components/Background'
 import Logo from '../components/Logo'
@@ -25,7 +25,6 @@ export default function LoginScreen({navigation}) {
   //     .navigation
   //     .dispatch(NavigationActions.reset(
   //       {
-  //
   //         index: 0,
   //         actions: [
   //           NavigationActions.navigate({ routes: [{ name: 'Dashboard' }] })
@@ -50,30 +49,32 @@ export default function LoginScreen({navigation}) {
 
   const getMoviesFromApiAsync = async () => {
     let data = JSON.stringify({
-      data: { dataKey: 'yourValue' }
+      data: { midescri: 'test react' }
     });
     console.log(data);
     try {
       let response = await fetch(
-        'http://10.0.0.10:8080/API/residencial/lista',
+        'http://10.0.0.12:8080/API/residencial/test',
         {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
           },
-          body: data = data
+          body: JSON.stringify({key: '291290336b75b259b77e181c87cc974f',  data: { midescri: 'test react2' }})
         }
       );
       let json = await response.json();
-      return console.warn(json);
+      return console.warn(json.key);
     } catch (error) {
       console.error(error);
     }
   };
 
   return (
+  <ScrollView>
     <Background>
+      
       {/* <BackButton goBack={navigation.goBack} /> */}
       <Logo />
       <Header>Welcome back.</Header>
@@ -113,11 +114,13 @@ export default function LoginScreen({navigation}) {
       </Button>
       <View style={styles.row}>
         <Text>Don’t have an account? </Text>
-        <TouchableOpacity onPress={() => navigation.replace('RegisterScreen')}>
+        <TouchableOpacity onPress={() => navigation.replace('RegistroUsuario')}>
           <Text style={styles.link}>Sign up</Text>
         </TouchableOpacity>
       </View>
+      
     </Background>
+    </ScrollView>
   )
 }
 
