@@ -5,7 +5,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Button from './Button'
 
 
-function SingleDatePage() {
+function Datapiker() {
     const [fecha, guardarFecha] = useState('');
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const showDatePicker = () => {
@@ -82,4 +82,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default SingleDatePage;
+export default Datapiker;

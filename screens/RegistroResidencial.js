@@ -1,13 +1,17 @@
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-import React, { useState } from 'react';
-import { View, StyleSheet , ScrollView, KeyboardAvoidingView} from 'react-native'
-import { Dropdown, Text, TextInput, Headline, Button, Paragraph, Dialog, Portal, DefaultTheme } from 'react-native-paper'
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet, ScrollView, KeyboardAvoidingView } from 'react-native'
+import { Text, TextInput, Headline, Button, Paragraph, Dialog, Portal, DefaultTheme } from 'react-native-paper'
 import globalStyles from '../Styles/global';
+import Alert from '../components/alert';
 import axios from 'axios';
 import DropDown from 'react-native-paper-dropdown';
-
-let provincias1 = [];
+let listaSector = [];
+let provincias = [];
+let municipios = [];
+let sectores = [];
+let list2 = [];
 const NuevoResidencial = () => {
   const theme = {
     ...DefaultTheme,
@@ -43,168 +47,197 @@ const NuevoResidencial = () => {
   const [alerta1, setAlerta1] = useState(false);
   //funciones
 
-//fetch
+  //fetch
+  useEffect(() => {
+    const getdata = async () => {
+      try {
+        let response = await fetch(
+          'http://10.0.0.12:8080/API/residencial/get_provincias',
+          {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ key: '291290336b75b259b77e181c87cc974f', data: {} })
+          }
+        );
+        provincias = await response.json();
+        return provincias
 
-const getdata = async () => {
-  // let data = JSON.stringify({
-  //   data: { midescri: 'test react' }
-  // });
-  // console.log(data);
-  try {
-    let response = await fetch(
-      'http://10.0.0.12:8080/API/residencial/get_provincias',
-      {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({key: '291290336b75b259b77e181c87cc974f',  data: {}})
+      } catch (error) {
+        console.error(error);
       }
-    );
-    provincias1 = await response.json();
-    console.log(provincias1)
-return provincias1
-   
-  } catch (error) {
-    console.error(error);
+    };
+    getdata();
+
+  }, []);
+  // const getdata = async () => {
+  //   try {
+  //     let response = await fetch(
+  //       'http://10.0.0.12:8080/API/residencial/get_provincias',
+  //       {
+  //         method: 'POST',
+  //         headers: {
+  //           'Accept': 'application/json',
+  //           'Content-Type': 'application/json'
+  //         },
+  //         body: JSON.stringify({key: '291290336b75b259b77e181c87cc974f',  data: {}})
+  //       }
+  //     );
+  //     provincias1 = await response.json();
+  //     console.log(provincias1)
+  // return provincias1
+
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  const postdata = async () => {
+    // let data = JSON.stringify({
+    //   data: { midescri: 'test react' }
+    // });
+    // console.log(data);
+    try {
+      let response = await fetch(
+        'http://10.0.0.12:8080/API/residencial/test_sending',
+        {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ key: '291290336b75b259b77e181c87cc974f', data: { idprovincia: provincia } })
+        }
+      );
+
+
+
+
+    } catch (error) {
+      console.error(error);
+    }
+
+    console.log(provincia);
+  };
+
+  const guardarResidencial = () => {
+    //validar
+
+    //enviar datos a la api
+
+    //limpiar form 
+
+    //redireccionar a otra pantalla
+    console.log(getdata());
   }
-};
 
-const postdata = async () => {
-  // let data = JSON.stringify({
-  //   data: { midescri: 'test react' }
-  // });
-  // console.log(data);
-  try {
-    let response = await fetch(
-      'http://10.0.0.12:8080/API/residencial/test_sending',
-      {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({key: '291290336b75b259b77e181c87cc974f',  data: {idprovincia: provincia}})
-      }
-    );
-  
-  
 
-   
-  } catch (error) {
-    console.error(error);
+  //Para dropdow Condicional
+  const prueva = async (region) => {
+    list = [{ label: 'klk', value: '4' }]
+    region === '1' ? list2 = [{ label: 'klk', value: '8' }] : list2 = [{ label: 'klk', value: '8' }, { label: 'klk2', value: '9' }]
+
+    return setRegion(region);
   }
-
-console.log(provincia);
-};
-
-const guardarResidencial = () => {
-  //validar
-
-  //enviar datos a la api
-
-  //limpiar form 
-
-  //redireccionar a otra pantalla
-  console.log(getdata());
-}
-const list = [{ label: 'Santiago', value: '1' }, { label: 'Samana', value: 'samana' }];
-//
-
   return (
     <>
-    <ScrollView>
-      <KeyboardAvoidingView>
-      <View style={globalStyles.contenedor}>
-        <Headline style={globalStyles.titulo}>Nuevo Residencial</Headline>
-        <TextInput
-          label='Nombre del residencial'
-          placeholder='Residencia'
-          style={styles.inputs}
-          onChangeText={texto => setNombre(texto)}
-          value={nombre}
-        />
+      <ScrollView>
+        <KeyboardAvoidingView>
+          <View style={globalStyles.contenedor}>
+            <Headline style={globalStyles.titulo}>Nuevo Residencial</Headline>
+            <TextInput
+              label='Nombre del residencial'
+              placeholder='Residencia'
+              style={styles.inputs}
+              onChangeText={texto => setNombre(texto)}
+              value={nombre}
+            />
 
-        <TextInput
-          label='Area'
-          placeholder='m^2'
-          style={styles.inputs}
-          onChangeText={texto => setArea(texto)}
-          value={area}
-        />
-        <Text style={globalStyles.titulo}>Ubicación:</Text>
-        <View style={styles.inputs}>
-          <DropDown
-            label={'Región'}
-            mode='outlined'
-            value={region}
-            setValue={setRegion}
-            list={list}
-            visible={mostrarRegion}
-            showDropDown={() => setMostrarRegion(true)}
-            onDismiss={() => setMostrarRegion(false)}
-            inputProps={{
-              right: <TextInput.Icon name={'menu-down'} />,
-            }} theme={theme}
-          />
-        </View>
-        <View style={styles.inputs}>
-          <DropDown
-            label={'provincia'}
-            mode='outlined'
-            value={provincia}
-            setValue={setProvincia}
-            list={provincias1}
-            visible={mostrarProvinvia}
-            showDropDown={() => setMostrarProvincia(true)}
-            onDismiss={() => setMostrarProvincia(false)}
-            inputProps={{
-              right: <TextInput.Icon name={'menu-down'} />,
-            }} theme={theme}
-          />
-        </View>
+            <TextInput
+              label='Area'
+              placeholder='m^2'
+              style={styles.inputs}
+              onChangeText={texto => setArea(texto)}
+              value={area}
+            />
+            <Text style={globalStyles.titulo}>Ubicación:</Text>
+            <View style={styles.inputs}>
+              <DropDown
+                label={'Región'}
+                mode='outlined'
+                value={region}
+                setValue={prueva}
+                list={list}
+                visible={mostrarRegion}
+                showDropDown={() => setMostrarRegion(true)}
+                onDismiss={() => setMostrarRegion(false)}
+                inputProps={{
+                  right: <TextInput.Icon name={'menu-down'} />,
+
+                }} theme={theme}
+              />
+            </View>
+            <View style={styles.inputs}>
+              <DropDown
+                label={'provincia'}
+                mode='outlined'
+                value={provincia}
+
+                setValue={setProvincia}
+                list={provincias}
+                visible={mostrarProvinvia}
+                showDropDown={() => setMostrarProvincia(true)}
+                onDismiss={() => setMostrarProvincia(false)}
+                inputProps={{
+                  right: <TextInput.Icon name={'menu-down'} />,
+
+                }} theme={theme}
+              />
+            </View>
 
 
-        <View style={styles.inputs}>
-          <DropDown
-            label={'Municipio'}
-            mode='outlined'
-            value={municipio}
-            setValue={setMunicipio}
-            list={list}
-            visible={mostrarMunicipio}
-            showDropDown={() => setMostrarMunicipio(true)}
-            onDismiss={() => setMostrarMunicipio(false)}
-            inputProps={{
-              right: <TextInput.Icon name={'menu-down'} />,
-            }} theme={theme}
-          />
-        </View>
-        <View style={styles.inputs}>
-          <DropDown
-            label={'Sector'}
-            mode='outlined'
-            value={sector}
-            setValue={setSector}
-            list={list}
-            visible={mostrarSector}
-            showDropDown={() => setMostrarSector(true)}
-            onDismiss={() => setMostrarSector(false)}
-            inputProps={{
-              right: <TextInput.Icon name={'menu-down'} />,
-            }} theme={theme}
-          />
-        </View>
+            <View style={styles.inputs}>
+              <DropDown
+                label={'Municipio'}
+                mode='outlined'
+                value={municipio}
+                setValue={setMunicipio}
+                list={municipios}
+                visible={mostrarMunicipio}
+                showDropDown={() => setMostrarMunicipio(true)}
+                onDismiss={() => setMostrarMunicipio(false)}
+                inputProps={{
+                  right: <TextInput.Icon name={'menu-down'} />,
+                }} theme={theme}
+              />
+            </View>
+            <View style={styles.inputs}>
+              <DropDown
+                label={'Sector'}
+                mode='outlined'
+                value={sector}
+                setValue={setSector}
+                list={sectores}
+                visible={mostrarSector}
+                showDropDown={() => setMostrarSector(true)}
+                onDismiss={() => setMostrarSector(false)}
+                inputProps={{
+                  right: <TextInput.Icon name={'menu-down'} />,
+                }} theme={theme}
+              />
+            </View>
 
-        <Button icon='pencil-circle' mode='contained' onPress={
-          () => guardarResidencial()
-        } style={{marginBottom:15}}>Guardar cliente</Button>
-<Button icon='pencil-circle' mode='contained' onPress={
-          () => postdata()
-        } style={{marginBottom:15}}>enviar</Button>
+            <Button icon='pencil-circle' mode='contained' onPress={
+              () => guardarResidencial()
+            } style={{ marginBottom: 15 }}>Guardar residencial</Button>
 
-        <Portal>
+            <Button icon='pencil-circle' mode='contained' onPress={
+              () => setAlerta1(true)
+            } style={{ marginBottom: 15 }}>enviar</Button>
+
+            <Portal>
           <Dialog
             visible={alerta}
             onDismiss={() => setAlerta(false)}
@@ -220,24 +253,26 @@ const list = [{ label: 'Santiago', value: '1' }, { label: 'Samana', value: 'sama
           </Dialog>
         </Portal>
 
-        <Portal>
-          <Dialog
-            visible={alerta1}
-            onDismiss={() => setAlerta1(false)}
-          >
-            <Dialog.Title>Error</Dialog.Title>
-            <Dialog.Content>
-              <Paragraph>Todo bien</Paragraph>
-            </Dialog.Content>
-            <Dialog.Actions>
-              <Button onPress={() => setAlerta1(false)}>OK</Button>
-            </Dialog.Actions>
 
-          </Dialog>
-        </Portal>
 
-      </View>
-      </KeyboardAvoidingView>
+            <Portal>
+              <Dialog
+                visible={alerta1}
+                onDismiss={() => setAlerta1(false)}
+              >
+                <Dialog.Title>Error</Dialog.Title>
+                <Dialog.Content>
+                  <Paragraph>Todo bien</Paragraph>
+                </Dialog.Content>
+                <Dialog.Actions>
+                  <Button onPress={() => setAlerta1(false)}>OK</Button>
+                </Dialog.Actions>
+
+              </Dialog>
+            </Portal>
+            
+          </View>
+        </KeyboardAvoidingView>
       </ScrollView>
     </>
   );

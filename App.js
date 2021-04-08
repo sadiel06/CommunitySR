@@ -9,7 +9,15 @@ import LoginScreen from './screens/LoginScreen'
 import Registro from './screens/RegisterScreen';
 import Dashboard from './screens/Dashboard';
 import Dropdown from './components/Dropdown'
+import formPrueba from './screens/pruebas/formPrueva';
 import NuevoResidencial from './screens/RegistroResidencial'
+
+//importacion de las pruebas de crud
+
+
+import inicio from './screens/pruebas/verRegistro';
+import nuevo from './screens/pruebas/formPrueva';
+import detalle from './screens/pruebas/detalles';
 
 //stack
 const Stack = createStackNavigator();
@@ -20,14 +28,14 @@ const App = () => {
     <>
       <PaperProvider>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName='Login'>
-            <Stack.Screen name='Login' component={LoginScreen} options={{
+          <Stack.Navigator initialRouteName='formPrueba'>
+            <Stack.Screen name='Inicio' component={inicio} options={{
               headerShown: false
             }} />
-            <Stack.Screen name='Dashboard' component={NuevoResidencial} options={{
+            <Stack.Screen name='formPrueba' component={nuevo} options={{
               headerShown: false
             }}/>
-            <Stack.Screen name='RegistroUsuario' component={Registro} options={{
+            <Stack.Screen name='detalles' component={detalle} options={{
               headerShown: false
             }}/>
           </Stack.Navigator>
