@@ -28,7 +28,7 @@ const verRegistro = ({navigation}) => {
     return (
         <>
             <View style={globalStyles.contenedor}>
-                <Button icon="plus-circle" onPress={()=>navigation.nagate("formPrueba"),{setConsultar}}>
+                <Button icon="plus-circle" onPress={()=>navigation.navigate("formPrueba",{setConsultar})}>
                     Nuevo dato
                 </Button>
 
@@ -49,7 +49,7 @@ const verRegistro = ({navigation}) => {
                 <FAB
                  icon='plus'
                  style={styles.fab}
-                 onPress={()=>navigation.nagate("formPrueba"),{setConsultar}}
+                 onPress={()=>navigation.navigate("formPrueba",{setConsultar})}
                 />
             </View>
         </>
