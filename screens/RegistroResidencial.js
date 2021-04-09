@@ -64,7 +64,6 @@ const NuevoResidencial = () => {
         );
         provincias = await response.json();
         return provincias
-
       } catch (error) {
         console.error(error);
       }
@@ -72,33 +71,10 @@ const NuevoResidencial = () => {
     getdata();
 
   }, []);
-  // const getdata = async () => {
-  //   try {
-  //     let response = await fetch(
-  //       'http://10.0.0.12:8080/API/residencial/get_provincias',
-  //       {
-  //         method: 'POST',
-  //         headers: {
-  //           'Accept': 'application/json',
-  //           'Content-Type': 'application/json'
-  //         },
-  //         body: JSON.stringify({key: '291290336b75b259b77e181c87cc974f',  data: {}})
-  //       }
-  //     );
-  //     provincias1 = await response.json();
-  //     console.log(provincias1)
-  // return provincias1
 
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
 
   const postdata = async () => {
-    // let data = JSON.stringify({
-    //   data: { midescri: 'test react' }
-    // });
-    // console.log(data);
+  
     try {
       let response = await fetch(
         'http://10.0.0.12:8080/API/residencial/test_sending',

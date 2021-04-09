@@ -28,7 +28,7 @@ const App = () => {
     <>
       <PaperProvider>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName='formPrueba'>
+          <Stack.Navigator initialRouteName='Inicio'>
             <Stack.Screen name='Inicio' component={inicio} options={{
               headerShown: false
             }} />

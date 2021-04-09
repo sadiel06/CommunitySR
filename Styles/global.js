@@ -1,4 +1,24 @@
 import { StyleSheet } from "react-native";
+import { DefaultTheme } from "react-native-paper";
+
+export const theme = {
+    ...DefaultTheme,
+    roundness: 2,
+    colors: {
+      ...DefaultTheme.colors,
+      primary: '#3498db',
+      accent: '#f1c40f',
+
+
+    },
+    fonts: {
+      thin: {
+        fontFamily: 'sans-serif-thin',
+        fontWeight: 'normal',
+      },
+    }
+
+  };
 
 const globalStyles =StyleSheet.create({
     contenedor:{
@@ -11,7 +31,12 @@ const globalStyles =StyleSheet.create({
         marginTop: 20,
         marginBottom: 30,
         fontSize: 30
-    }
+    },
+    inputs: {
+        marginBottom: 20,
+        backgroundColor: 'transparent'
+      },
+
 
 
 });

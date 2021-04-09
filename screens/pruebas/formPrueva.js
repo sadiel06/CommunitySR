@@ -68,7 +68,7 @@ console.log(route.params);
         }else{
           //creando un nuevo registro
           try {
-            await axios.post('http://localhost:3000/datos',datos);
+            await axios.post('http://localhost:3000/datos',{ key: '291290336b75b259b77e181c87cc974f', data: datos });
            } catch (error) {
              console.log(error)
            }
