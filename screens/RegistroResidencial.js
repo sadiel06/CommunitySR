@@ -1,18 +1,15 @@
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, KeyboardAvoidingView } from 'react-native'
 import { Text, TextInput, Headline, Button, Paragraph, Dialog, Portal, DefaultTheme } from 'react-native-paper'
 import globalStyles from '../Styles/global';
-import Alert from '../components/alert';
 import axios from 'axios';
 import DropDown from 'react-native-paper-dropdown';
-let listaSector = [];
-let provincias = [];
-let municipios = [];
-let sectores = [];
-let list2 = [];
-const NuevoResidencial = () => {
+import ClientAxios from '../helpers/clientAxios';
+let provincias = [{label:'santiago',value:'1'},{label:'samana',value:'2'},{label:'punta cana',value:'3'},{label:'puerto plata',value:'4'},{label:'mao',value:'5'}];
+let listamunicipios = [{label:'janico',value:'1'},{label:'sabana iglesias',value:'2'},{label:'sajoma',value:'3'},{label:'tamboril',value:'4'},{label:'villagonzales',value:'5'}];
+let listasectores = [{label:'las palomas',value:'1'},{label:'atomayor',value:'2'},{label:'los jardines',value:'3'},{label:'el embrujo I',value:'4'},{label:'La trinitaria',value:'5'}];
+let list = [];
+const NuevoResidencial = ({navigation,route}) => {
   const theme = {
     ...DefaultTheme,
     roundness: 2,
@@ -35,8 +32,8 @@ const NuevoResidencial = () => {
   //estados
   const [nombre, setNombre] = useState('');
   const [area, setArea] = useState('');
-  const [region, setRegion] = useState('');
-  const [mostrarRegion, setMostrarRegion] = useState(false);
+  // const [region, setRegion] = useState('');
+  // const [mostrarRegion, setMostrarRegion] = useState(false);
   const [provincia, setProvincia] = useState('');
   const [mostrarProvinvia, setMostrarProvincia] = useState(false);
   const [municipio, setMunicipio] = useState('');
@@ -52,7 +49,7 @@ const NuevoResidencial = () => {
     const getdata = async () => {
       try {
         let response = await fetch(
-          'http://10.0.0.12:8080/API/residencial/get_provincias',
+          'http://25.31.135.148/API/complementos/get_provincias',
           {
             method: 'POST',
             headers: {
@@ -72,51 +69,67 @@ const NuevoResidencial = () => {
 
   }, []);
 
-
-  const postdata = async () => {
+const { setConsultar} =route.params;
+  // const postdata = async () => {
   
-    try {
-      let response = await fetch(
-        'http://10.0.0.12:8080/API/residencial/test_sending',
-        {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ key: '291290336b75b259b77e181c87cc974f', data: { idprovincia: provincia } })
-        }
-      );
+  //   try {
+  //     let response = await fetch(
+  //       'http://10.0.0.12:8080/API/residencial/test_sending',
+  //       {
+  //         method: 'POST',
+  //         headers: {
+  //           'Accept': 'application/json',
+  //           'Content-Type': 'application/json'
+  //         },
+  //         body: JSON.stringify({ key: '291290336b75b259b77e181c87cc974f', data: { idprovincia: provincia } })
+  //       }
+  //     );
 
 
 
 
-    } catch (error) {
-      console.error(error);
-    }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
 
-    console.log(provincia);
-  };
+  //   console.log(provincia);
+  // };
 
-  const guardarResidencial = () => {
+  const guardarResidencial = async () => {
     //validar
-
+    if(nombre===''|| area ==='' || provincia===''||municipio===''||sector===''){
+      setArea(true);
+      return
+    }
     //enviar datos a la api
-
+    const Residencial = {nombre,area,provincia,municipio,sector}
+    
     //limpiar form 
-
+    setNombre('');
+    setArea('');
+    setProvincia('');
+    setMunicipio('');
+    setSector('');
     //redireccionar a otra pantalla
-    console.log(getdata());
+    navigation.navigate('verResidenciales');
+    setConsultar(true);
+    console.log(Residencial);
   }
 
 
   //Para dropdow Condicional
-  const prueva = async (region) => {
-    list = [{ label: 'klk', value: '4' }]
-    region === '1' ? list2 = [{ label: 'klk', value: '8' }] : list2 = [{ label: 'klk', value: '8' }, { label: 'klk2', value: '9' }]
-
-    return setRegion(region);
+  const municipios = async (provincia) => {
+    listamunicipios= await ClientAxios.post('complementos/get_municipio',{ key: '291290336b75b259b77e181c87cc974f', data: { idprovincia: provincia } })
+    // listamunicipios=await axios.post("http://10.0.0.12:8080/API/residencial/get_provincias",{ key: '291290336b75b259b77e181c87cc974f', data: { idprovincia: provincia } });
+    setProvincia(provincia);
   }
+
+  const sectores = async (municipio) => {
+    listamunicipios=await ClientAxios.post('complementos/get_sector',{ key: '291290336b75b259b77e181c87cc974f', data: { idprovincia: provincia } })
+   // listasectores=await axios.post("http://10.0.0.12:8080/API/residencial/get_provincias",{ key: '291290336b75b259b77e181c87cc974f', data: { idprovincia: municipio } });
+    setMunicipio(municipio);
+  }
+
   return (
     <>
       <ScrollView>
@@ -139,7 +152,7 @@ const NuevoResidencial = () => {
               value={area}
             />
             <Text style={globalStyles.titulo}>Ubicación:</Text>
-            <View style={styles.inputs}>
+            {/* <View style={styles.inputs}>
               <DropDown
                 label={'Región'}
                 mode='outlined'
@@ -151,18 +164,16 @@ const NuevoResidencial = () => {
                 onDismiss={() => setMostrarRegion(false)}
                 inputProps={{
                   right: <TextInput.Icon name={'menu-down'} />,
-
                 }} theme={theme}
               />
-            </View>
+            </View> */}
             <View style={styles.inputs}>
               <DropDown
                 label={'provincia'}
                 mode='outlined'
                 value={provincia}
-
-                setValue={setProvincia}
                 list={provincias}
+                setValue={setProvincia}
                 visible={mostrarProvinvia}
                 showDropDown={() => setMostrarProvincia(true)}
                 onDismiss={() => setMostrarProvincia(false)}
@@ -172,7 +183,6 @@ const NuevoResidencial = () => {
                 }} theme={theme}
               />
             </View>
-
 
             <View style={styles.inputs}>
               <DropDown
@@ -195,7 +205,7 @@ const NuevoResidencial = () => {
                 mode='outlined'
                 value={sector}
                 setValue={setSector}
-                list={sectores}
+                list={listasectores}
                 visible={mostrarSector}
                 showDropDown={() => setMostrarSector(true)}
                 onDismiss={() => setMostrarSector(false)}
