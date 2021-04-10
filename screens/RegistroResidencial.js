@@ -1,34 +1,44 @@
-import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, ScrollView, KeyboardAvoidingView } from 'react-native'
-import { Text, TextInput, Headline, Button, Paragraph, Dialog, Portal, DefaultTheme } from 'react-native-paper'
+import React, {useState, useEffect} from 'react';
+import {View, StyleSheet, ScrollView, KeyboardAvoidingView} from 'react-native';
+import {
+  Text,
+  TextInput,
+  Headline,
+  Button,
+  Paragraph,
+  Dialog,
+  Portal,
+  DefaultTheme,
+} from 'react-native-paper';
 import globalStyles from '../Styles/global';
 import axios from 'axios';
 import DropDown from 'react-native-paper-dropdown';
 import ClientAxios from '../helpers/clientAxios';
-let provincias = [{label:'santiago',value:'1'},{label:'samana',value:'2'},{label:'punta cana',value:'3'},{label:'puerto plata',value:'4'},{label:'mao',value:'5'}];
-let listamunicipios = [{label:'janico',value:'1'},{label:'sabana iglesias',value:'2'},{label:'sajoma',value:'3'},{label:'tamboril',value:'4'},{label:'villagonzales',value:'5'}];
-let listasectores = [{label:'las palomas',value:'1'},{label:'atomayor',value:'2'},{label:'los jardines',value:'3'},{label:'el embrujo I',value:'4'},{label:'La trinitaria',value:'5'}];
+let provincias = [
+  {label: 'santiago', value: '1'},
+  {label: 'samana', value: '2'},
+  {label: 'punta cana', value: '3'},
+  {label: 'puerto plata', value: '4'},
+  {label: 'mao', value: '5'},
+];
+let listamunicipios = [
+  {label: 'janico', value: '1'},
+  {label: 'sabana iglesias', value: '2'},
+  {label: 'sajoma', value: '3'},
+  {label: 'tamboril', value: '4'},
+  {label: 'villagonzales', value: '5'},
+];
+let listasectores = [
+  {label: 'las palomas', value: '1'},
+  {label: 'atomayor', value: '2'},
+  {label: 'los jardines', value: '3'},
+  {label: 'el embrujo I', value: '4'},
+  {label: 'La trinitaria', value: '5'},
+];
 let list = [];
-const NuevoResidencial = ({navigation,route}) => {
-  const theme = {
-    ...DefaultTheme,
-    roundness: 2,
-    colors: {
-      ...DefaultTheme.colors,
-      primary: '#3498db',
-      accent: '#f1c40f',
 
-
-    },
-    fonts: {
-      thin: {
-        fontFamily: 'sans-serif-thin',
-        fontWeight: 'normal',
-      },
-    }
-
-  };
-
+const NuevoResidencial = ({navigation, route}) => {
+   
   //estados
   const [nombre, setNombre] = useState('');
   const [area, setArea] = useState('');
@@ -37,7 +47,9 @@ const NuevoResidencial = ({navigation,route}) => {
   const [provincia, setProvincia] = useState('');
   const [mostrarProvinvia, setMostrarProvincia] = useState(false);
   const [municipio, setMunicipio] = useState('');
+
   const [mostrarMunicipio, setMostrarMunicipio] = useState(false);
+
   const [sector, setSector] = useState('');
   const [mostrarSector, setMostrarSector] = useState(false);
   const [alerta, setAlerta] = useState(false);
@@ -53,25 +65,27 @@ const NuevoResidencial = ({navigation,route}) => {
           {
             method: 'POST',
             headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ key: '291290336b75b259b77e181c87cc974f', data: {} })
-          }
+            body: JSON.stringify({
+              key: '291290336b75b259b77e181c87cc974f',
+              data: {},
+            }),
+          },
         );
         provincias = await response.json();
-        return provincias
+        return provincias;
       } catch (error) {
         console.error(error);
       }
     };
-    getdata();
-
+    // getdata();
   }, []);
 
-const { setConsultar} =route.params;
+  // const {setConsultar} = route.params;
   // const postdata = async () => {
-  
+
   //   try {
   //     let response = await fetch(
   //       'http://10.0.0.12:8080/API/residencial/test_sending',
@@ -85,9 +99,6 @@ const { setConsultar} =route.params;
   //       }
   //     );
 
-
-
-
   //   } catch (error) {
   //     console.error(error);
   //   }
@@ -97,38 +108,72 @@ const { setConsultar} =route.params;
 
   const guardarResidencial = async () => {
     //validar
-    if(nombre===''|| area ==='' || provincia===''||municipio===''||sector===''){
-      setArea(true);
-      return
+    if (
+      nombre === '' ||
+      // area === '' ||
+      provincia === '' ||
+      municipio === '' ||
+      sector === '' ||
+      isNaN(area)
+    ) {
+      alert('Revise los campos');
+      return;
     }
     //enviar datos a la api
-    const Residencial = {nombre,area,provincia,municipio,sector}
-    
-    //limpiar form 
-    setNombre('');
-    setArea('');
-    setProvincia('');
-    setMunicipio('');
-    setSector('');
-    //redireccionar a otra pantalla
-    navigation.navigate('verResidenciales');
-    setConsultar(true);
-    console.log(Residencial);
-  }
+    const Residencial = {
+      nombre,
+      area: Number(area),
+      provincia: Number(provincia),
+      municipio: Number(municipio),
+      sector: Number(sector),
+    };
+    // Consulta
+    try {
+      const res = await ClientAxios.post('residencial/insert', {
+        key: '291290336b75b259b77e181c87cc974f',
+        data: Residencial,
+      });
+      if (res.data.key === '1') {
+        // alert('Se completó');
+        navigation.navigate('verResidenciales');
+      } else {
+        throw Error('No se ha podido completar');
+      }
+    } catch (error) {
+      console.log(error);
+      alert(error);
+    }
 
+    //limpiar form
+    // setNombre('');
+    // setArea('');
+    // setProvincia('');
+    // setMunicipio('');
+    // setSector('');
+    // //redireccionar a otra pantalla
+    // navigation.navigate('verResidenciales');
+    // setConsultar(true);
+    // console.log(Residencial);
+  };
 
   //Para dropdow Condicional
-  const municipios = async (provincia) => {
-    listamunicipios= await ClientAxios.post('complementos/get_municipio',{ key: '291290336b75b259b77e181c87cc974f', data: { idprovincia: provincia } })
+  const municipios = async provincia => {
+    listamunicipios = await ClientAxios.post('complementos/get_municipio', {
+      key: '291290336b75b259b77e181c87cc974f',
+      data: {idprovincia: provincia},
+    });
     // listamunicipios=await axios.post("http://10.0.0.12:8080/API/residencial/get_provincias",{ key: '291290336b75b259b77e181c87cc974f', data: { idprovincia: provincia } });
     setProvincia(provincia);
-  }
+  };
 
-  const sectores = async (municipio) => {
-    listamunicipios=await ClientAxios.post('complementos/get_sector',{ key: '291290336b75b259b77e181c87cc974f', data: { idprovincia: provincia } })
-   // listasectores=await axios.post("http://10.0.0.12:8080/API/residencial/get_provincias",{ key: '291290336b75b259b77e181c87cc974f', data: { idprovincia: municipio } });
+  const sectores = async municipio => {
+    listamunicipios = await ClientAxios.post('complementos/get_sector', {
+      key: '291290336b75b259b77e181c87cc974f',
+      data: {idprovincia: provincia},
+    });
+    // listasectores=await axios.post("http://10.0.0.12:8080/API/residencial/get_provincias",{ key: '291290336b75b259b77e181c87cc974f', data: { idprovincia: municipio } });
     setMunicipio(municipio);
-  }
+  };
 
   return (
     <>
@@ -137,40 +182,27 @@ const { setConsultar} =route.params;
           <View style={globalStyles.contenedor}>
             <Headline style={globalStyles.titulo}>Nuevo Residencial</Headline>
             <TextInput
-              label='Nombre del residencial'
-              placeholder='Residencia'
+              label="Nombre del residencial"
+              placeholder="Residencia"
               style={styles.inputs}
               onChangeText={texto => setNombre(texto)}
               value={nombre}
             />
 
             <TextInput
-              label='Area'
-              placeholder='m^2'
+              label="Area"
+              placeholder="m^2"
               style={styles.inputs}
               onChangeText={texto => setArea(texto)}
               value={area}
+              keyboardType="numeric"
             />
             <Text style={globalStyles.titulo}>Ubicación:</Text>
-            {/* <View style={styles.inputs}>
-              <DropDown
-                label={'Región'}
-                mode='outlined'
-                value={region}
-                setValue={prueva}
-                list={list}
-                visible={mostrarRegion}
-                showDropDown={() => setMostrarRegion(true)}
-                onDismiss={() => setMostrarRegion(false)}
-                inputProps={{
-                  right: <TextInput.Icon name={'menu-down'} />,
-                }} theme={theme}
-              />
-            </View> */}
+
             <View style={styles.inputs}>
               <DropDown
                 label={'provincia'}
-                mode='outlined'
+                mode="outlined"
                 value={provincia}
                 list={provincias}
                 setValue={setProvincia}
@@ -179,30 +211,30 @@ const { setConsultar} =route.params;
                 onDismiss={() => setMostrarProvincia(false)}
                 inputProps={{
                   right: <TextInput.Icon name={'menu-down'} />,
-
-                }} theme={theme}
+                }} 
               />
             </View>
 
             <View style={styles.inputs}>
               <DropDown
-                label={'Municipio'}
-                mode='outlined'
+                label="Municipios"
+                mode="outlined"
                 value={municipio}
                 setValue={setMunicipio}
-                list={municipios}
+                list={listamunicipios}
                 visible={mostrarMunicipio}
                 showDropDown={() => setMostrarMunicipio(true)}
                 onDismiss={() => setMostrarMunicipio(false)}
                 inputProps={{
                   right: <TextInput.Icon name={'menu-down'} />,
-                }} theme={theme}
+                }}
+                 
               />
             </View>
             <View style={styles.inputs}>
               <DropDown
                 label={'Sector'}
-                mode='outlined'
+                mode="outlined"
                 value={sector}
                 setValue={setSector}
                 list={listasectores}
@@ -211,41 +243,41 @@ const { setConsultar} =route.params;
                 onDismiss={() => setMostrarSector(false)}
                 inputProps={{
                   right: <TextInput.Icon name={'menu-down'} />,
-                }} theme={theme}
+                }}
+                 
               />
             </View>
 
-            <Button icon='pencil-circle' mode='contained' onPress={
-              () => guardarResidencial()
-            } style={{ marginBottom: 15 }}>Guardar residencial</Button>
+            <Button
+              icon="pencil-circle"
+              mode="contained"
+              onPress={() => guardarResidencial()}
+              style={{marginBottom: 15}}>
+              Guardar residencial
+            </Button>
 
-            <Button icon='pencil-circle' mode='contained' onPress={
-              () => setAlerta1(true)
-            } style={{ marginBottom: 15 }}>enviar</Button>
-
-            <Portal>
-          <Dialog
-            visible={alerta}
-            onDismiss={() => setAlerta(false)}
-          >
-            <Dialog.Title>Error</Dialog.Title>
-            <Dialog.Content>
-              <Paragraph>Todos los campos son requeridos</Paragraph>
-            </Dialog.Content>
-            <Dialog.Actions>
-              <Button onPress={() => setAlerta(false)}>OK</Button>
-            </Dialog.Actions>
-
-          </Dialog>
-        </Portal>
-
-
+            <Button
+              icon="pencil-circle"
+              mode="contained"
+              onPress={() => setAlerta1(true)}
+              style={{marginBottom: 15}}>
+              enviar
+            </Button>
 
             <Portal>
-              <Dialog
-                visible={alerta1}
-                onDismiss={() => setAlerta1(false)}
-              >
+              <Dialog visible={alerta} onDismiss={() => setAlerta(false)}>
+                <Dialog.Title>Error</Dialog.Title>
+                <Dialog.Content>
+                  <Paragraph>Todos los campos son requeridos</Paragraph>
+                </Dialog.Content>
+                <Dialog.Actions>
+                  <Button onPress={() => setAlerta(false)}>OK</Button>
+                </Dialog.Actions>
+              </Dialog>
+            </Portal>
+
+            <Portal>
+              <Dialog visible={alerta1} onDismiss={() => setAlerta1(false)}>
                 <Dialog.Title>Error</Dialog.Title>
                 <Dialog.Content>
                   <Paragraph>Todo bien</Paragraph>
@@ -253,25 +285,20 @@ const { setConsultar} =route.params;
                 <Dialog.Actions>
                   <Button onPress={() => setAlerta1(false)}>OK</Button>
                 </Dialog.Actions>
-
               </Dialog>
             </Portal>
-            
           </View>
         </KeyboardAvoidingView>
       </ScrollView>
     </>
   );
-}
+};
 
 const styles = StyleSheet.create({
   inputs: {
     marginBottom: 20,
-    backgroundColor: 'transparent'
-  }
-
-
-
-})
+    backgroundColor: 'transparent',
+  },
+});
 
 export default NuevoResidencial;
