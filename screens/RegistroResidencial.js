@@ -248,6 +248,7 @@ const NuevoResidencial = ({navigation, route}) => {
               />
             </View>
 
+           
             <Button
               icon="pencil-circle"
               mode="contained"

@@ -33,6 +33,7 @@ const verResidenciales = ({navigation}) => {
           onPress={() => navigation.navigate('NuevaTorre')}>
           Nueva torre
         </Button>
+        
         <Headline style={globalStyles.titulo}>
           {residencial.length > 0
             ? 'Residenciales'
@@ -48,11 +49,13 @@ const verResidenciales = ({navigation}) => {
             />
           )}
         />
+        
         <FAB
           icon="plus"
           style={globalStyles.fab}
           onPress={() => navigation.navigate('NuevoResidencial')}
         />
+        
       </View>
     </>
   );

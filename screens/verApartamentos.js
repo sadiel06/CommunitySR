@@ -3,32 +3,35 @@ import { Text, Button, List, Headline, FAB } from 'react-native-paper';
 import { FlatList, View,StyleSheet } from 'react-native';
 import axios from 'axios';
 import globalStyles from '../Styles/global';
+import ClientAxios from '../helpers/clientAxios';
+import {useFocusEffect} from '@react-navigation/core';
 
 const verApartamento = ({navigation,route}) => {
     const [departamento, setDepartamento] = useState([]);
-    const [consultar, setConsultar] = useState(true)
-    useEffect(() => {
-        const obtenerDatos = async () => {
+    
+    useFocusEffect(
+        React.useCallback(() => {
+          const getData = async () => {
             try {
-                const resultados = await axios.get('http://localhost:3000/datos');
-                setDepartamento(resultados.data);
-                setConsultar(false);
+              const resultados = await ClientAxios.post(
+                'departamento/getdepartamentos',
+                {key: '291290336b75b259b77e181c87cc974f', data: {id:route.params.item.id}},
+              );
+              setDepartamento(resultados.data);
             } catch (error) {
-                console.log(error);
+              console.log(error);
             }
-        }
-        if (consultar) {
-            obtenerDatos();
-        }
-
-
-    }, [consultar]);
+          };
+          getData();
+          return () => console.log('on cleanup');
+        }, []),
+      );
 
 
     return (
         <>
             <View style={globalStyles.contenedor}>
-                <Button icon="plus-circle" onPress={()=>navigation.navigate("NuevoDepartamento",{setConsultar})}>
+                <Button icon="plus-circle" onPress={()=>navigation.navigate("NuevoDepartamento",route.params.item.id)}>
                     Nuevo departamento
                 </Button>
 
@@ -39,9 +42,9 @@ const verApartamento = ({navigation,route}) => {
                     keyExtractor={departamento => (departamento.id).toString()}
                     renderItem={({ item }) => (
                         <List.Item
-                            title={item.entrada}
-                            description={item.combo1}
-                            onPress={()=>navigation.navigate('detalleDepartamento',{item})}
+                            title={item.Nombre_departamento}
+                            //navigation.navigate('detalleDepartamento',{item})
+                            onPress={()=>console.log(item)}
                         />
                     )}
                 />
@@ -49,7 +52,7 @@ const verApartamento = ({navigation,route}) => {
                 <FAB
                  icon='plus'
                  style={styles.fab}
-                 onPress={()=>navigation.navigate("NuevaTorre",{setConsultar})}
+                 onPress={()=>navigation.navigate("NuevaTorre")}
                 />
             </View>
         </>
@@ -64,5 +67,5 @@ const styles=StyleSheet.create({
         bottom:20
     }
 })
-
+//setTorres
 export default verApartamento;
