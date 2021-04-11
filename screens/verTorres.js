@@ -5,6 +5,7 @@ import {FlatList, View, StyleSheet} from 'react-native';
 import globalStyles from '../Styles/global';
 import {AppContext} from '../context/AppContext';
 import ClientAxios from '../helpers/clientAxios';
+import ScreenHeader from '../components/ScreenHeader';
 
 const verTorre = ({navigation, route}) => {
   const [torres, setTorres] = useState([]);
@@ -27,7 +28,7 @@ const verTorre = ({navigation, route}) => {
   );
 
   return (
-    <>
+    <ScreenHeader title="Torres">
       <View style={globalStyles.contenedor}>
         <Button
           icon="plus-circle"
@@ -50,12 +51,16 @@ const verTorre = ({navigation, route}) => {
             />
           )}
         />
-        <Button icon="plus-circle"  onPress={() =>
-            navigation.navigate('verServicios', route.params.item)}>
+        <Button
+          icon="plus-circle"
+          onPress={() =>
+            navigation.navigate('verServicios', route.params.item)
+          }>
           Servicios
         </Button>
-        <Button icon="plus-circle" onPress={() =>
-            navigation.navigate('verQuejas', route.params.item)}>
+        <Button
+          icon="plus-circle"
+          onPress={() => navigation.navigate('verQuejas', route.params.item)}>
           Quejas
         </Button>
         <FAB
@@ -66,7 +71,7 @@ const verTorre = ({navigation, route}) => {
           }
         />
       </View>
-    </>
+    </ScreenHeader>
   );
 };
 const styles = StyleSheet.create({

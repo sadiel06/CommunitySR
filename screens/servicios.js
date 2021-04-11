@@ -24,18 +24,19 @@ const NuevoServicio = ({navigation, route}) => {
       descripcion,
       cobro:Number(cobro),
       pago:Number(pago),
-      idresidencial:Number(route.params.item.id)
+      idresidencial:Number(route.params.id)
       };
     //insert cantidadPisos
     console.log(route.params)
     try {
-        const res = await ClientAxios.post('departamento/insert', {
+        const res = await ClientAxios.post('servicios/insert', {
           key: '291290336b75b259b77e181c87cc974f',
           data: servicio,
         });
         if (res.data.key === '1') {
           // alert('Se completó');
-          navigation.navigate('verDepartamentos');
+          // navigation.navigate('verDepartamentos');
+          navigation.goBack()
         } else {
           throw Error('No se ha podido completar');
         }
@@ -73,7 +74,7 @@ const NuevoServicio = ({navigation, route}) => {
         keyboardType="numeric"
       />
 
-      <Button onPress={() => guardarServicios()}>Crear</Button>
+      <Button mode='contained' onPress={() => guardarServicios()}>Crear</Button>
     </View>
   );
 };

@@ -5,7 +5,7 @@ export const AppContext = createContext();
 export function AppContextProvider({children}) {
   const [user, setUser] = useState({
     nombre: 'pepito',
-    rol: 0
+    rol: 4
   });
 
   return (

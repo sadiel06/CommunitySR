@@ -14,6 +14,7 @@ import globalStyles from '../Styles/global';
 import axios from 'axios';
 import DropDown from 'react-native-paper-dropdown';
 import ClientAxios from '../helpers/clientAxios';
+import ScreenHeader from '../components/ScreenHeader';
 let provincias = [
   {label: 'santiago', value: '1'},
   {label: 'samana', value: '2'},
@@ -38,7 +39,6 @@ let listasectores = [
 let list = [];
 
 const NuevoResidencial = ({navigation, route}) => {
-   
   //estados
   const [nombre, setNombre] = useState('');
   const [area, setArea] = useState('');
@@ -176,7 +176,7 @@ const NuevoResidencial = ({navigation, route}) => {
   };
 
   return (
-    <>
+    <ScreenHeader title="Residencial">
       <ScrollView>
         <KeyboardAvoidingView>
           <View style={globalStyles.contenedor}>
@@ -211,7 +211,7 @@ const NuevoResidencial = ({navigation, route}) => {
                 onDismiss={() => setMostrarProvincia(false)}
                 inputProps={{
                   right: <TextInput.Icon name={'menu-down'} />,
-                }} 
+                }}
               />
             </View>
 
@@ -228,7 +228,6 @@ const NuevoResidencial = ({navigation, route}) => {
                 inputProps={{
                   right: <TextInput.Icon name={'menu-down'} />,
                 }}
-                 
               />
             </View>
             <View style={styles.inputs}>
@@ -244,11 +243,9 @@ const NuevoResidencial = ({navigation, route}) => {
                 inputProps={{
                   right: <TextInput.Icon name={'menu-down'} />,
                 }}
-                 
               />
             </View>
 
-           
             <Button
               icon="pencil-circle"
               mode="contained"
@@ -291,7 +288,7 @@ const NuevoResidencial = ({navigation, route}) => {
           </View>
         </KeyboardAvoidingView>
       </ScrollView>
-    </>
+    </ScreenHeader>
   );
 };
 
