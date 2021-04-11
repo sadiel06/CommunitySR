@@ -22,6 +22,10 @@ import VerApartamentos from './screens/verApartamentos';
 import VerTorres from './screens/verTorres';
 import NuevaTorre from './screens/torres';
 import NuevoDepartamento from './screens/departamentos';
+import Servicios from './screens/servicios';
+import VerServisios from './screens/verServicios';
+
+
 import {AppContextProvider} from './context/AppContext';
 
 //stack
@@ -63,6 +67,14 @@ const App = () => {
               <Stack.Screen
                 name="NuevoResidencial"
                 component={NuevoResidencial}
+              />
+              <Stack.Screen
+                name="NuevoServicio"
+                component={Servicios}
+              />
+              <Stack.Screen
+                name="verServicios"
+                component={VerServisios}
               />
             </Stack.Navigator>
           </NavigationContainer>

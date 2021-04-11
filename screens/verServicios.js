@@ -5,18 +5,20 @@ import {FlatList, View, StyleSheet} from 'react-native';
 import globalStyles from '../Styles/global';
 import {AppContext} from '../context/AppContext';
 import ClientAxios from '../helpers/clientAxios';
+import {set} from 'react-hook-form';
 
 const verTorre = ({navigation, route}) => {
-  const [torres, setTorres] = useState([]);
+  const [servicios, setTServicios] = useState([]);
+
   useFocusEffect(
     React.useCallback(() => {
       const getData = async () => {
         try {
-          const resultados = await ClientAxios.post('torre/gettorres', {
+          const resultados = await ClientAxios.post('servicios/getservicios', {
             key: '291290336b75b259b77e181c87cc974f',
             data: {id: route.params.item.id},
           });
-          setTorres(resultados.data);
+          setTServicios(resultados.data);
         } catch (error) {
           console.log(error);
         }
@@ -32,37 +34,33 @@ const verTorre = ({navigation, route}) => {
         <Button
           icon="plus-circle"
           onPress={() =>
-            navigation.navigate('NuevaTorre', route.params.item.id)
+            navigation.navigate('NuevoServicio', route.params.item.id)
           }>
-          Nueva torre
+          Nuevo Servicio
         </Button>
         <Headline style={globalStyles.titulo}>
-          {torres.length > 0 ? 'Torres' : 'Aún no tiene torres regiistradas'}
+          {servicios.length > 0 ? 'Servicios' : 'Aún no tiene servicios registrados'}
         </Headline>
         <FlatList
-          data={torres}
-          keyExtractor={torres => torres.id.toString()}
+          data={servicios}
+          keyExtractor={servicios => servicios.id.toString()}
           renderItem={({item}) => (
             <List.Item
               title={item.nombre}
-              // navigation.navigate('verDepartamentos', {item})
               onPress={() => navigation.navigate('verDepartamentos', {item})}
             />
           )}
         />
-        <Button icon="plus-circle"  onPress={() =>
-            navigation.navigate('verServicios', route.params.item)}>
+        <Button icon="plus-circle" onPress={() => console.log('servicios')}>
           Servicios
-        </Button>
-        <Button icon="plus-circle" onPress={() =>
-            navigation.navigate('verQuejas', route.params.item)}>
-          Quejas
         </Button>
         <FAB
           icon="plus"
           style={styles.fab}
           onPress={() =>
-            navigation.navigate('NuevoResidencial', route.params.item)
+            navigation.navigate('NuevoServicio', route.params.residencial, {
+              setConsultar,
+            })
           }
         />
       </View>
