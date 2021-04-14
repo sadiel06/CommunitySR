@@ -2,11 +2,11 @@ import React, {useEffect, useState, useContext} from 'react';
 import {useFocusEffect} from '@react-navigation/core';
 import {Appbar, List, Headline, FAB} from 'react-native-paper';
 import {FlatList, View, StyleSheet} from 'react-native';
-import globalStyles from '../Styles/global';
-import {AppContext} from '../context/AppContext';
-import ClientAxios from '../helpers/clientAxios';
+import globalStyles from '../../Styles/global';
+import {AppContext} from '../../context/AppContext';
+import ClientAxios from '../../helpers/clientAxios';
 import {set} from 'react-hook-form';
-import ScreenHeader from '../components/ScreenHeader';
+import ScreenHeader from '../../components/ScreenHeader';
 
 const verTorre = ({navigation, route}) => {
   const [servicios, setTServicios] = useState([]);

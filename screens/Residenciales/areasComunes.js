@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View } from "react-native";
 import { TextInput, Button, } from 'react-native-paper';
-import globalStyles from '../Styles/global';
+import globalStyles from '../../Styles/global';
 
 const areaComun = () => {
 const [nombre,setNombre]=useState('');

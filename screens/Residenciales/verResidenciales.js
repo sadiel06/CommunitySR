@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import {FlatList, View} from 'react-native';
-import globalStyles from '../Styles/global';
-import ClientAxios from '../helpers/clientAxios';
+import globalStyles from '../../Styles/global';
+import ClientAxios from '../../helpers/clientAxios';
 import {useFocusEffect} from '@react-navigation/core';
 import {Button, List, Headline, FAB, Appbar} from 'react-native-paper';
-import ScreenHeader from '../components/ScreenHeader';
+
 
 const verResidenciales = ({navigation}) => {
   const [residencial, setResidencial] = useState([]);
@@ -26,6 +26,27 @@ const verResidenciales = ({navigation}) => {
       return () => console.log('on cleanup');
     }, []),
   );
+
+  const CardResid = ({ item }) => {
+    const {nombreResidencial, imgResi, nombreuser, nombrerent, fecha,  cantDias, ID_Usuario } = item;
+
+    // console.log(item);
+    return (
+        <TouchableWithoutFeedback>
+            <Card onPress={() => navigation.navigate('', { item, user })}>
+                <Card.Content>
+                    <Card.Cover source={{ uri: 'https://i.picsum.photos/id/863/700/700.jpg?hmac=0CH3HWqzcDYHNml_TBbqPWK1AY1te1JTmJXbb5UZpFY' }} />
+                    <Title>{nombreResidencial}</Title>
+                </Card.Content>
+                <Card.Actions>
+                    <Button onPress={() => navigation.navigate('', { item })}>Detalles</Button>
+                </Card.Actions>
+            </Card>
+        </TouchableWithoutFeedback>
+    );
+};
+
+
   return (
     <>
       <Appbar.Header> 
@@ -46,12 +67,8 @@ const verResidenciales = ({navigation}) => {
         <FlatList
           data={residencial}
           keyExtractor={residencial => residencial.id.toString()}
-          renderItem={({item}) => (
-            <List.Item
-              title={item.nombre}
-              onPress={() => navigation.navigate('verTorres', {item})}
-            />
-          )}
+          renderItem={({ item }) => <CardResid item={item} />}
+
         />
 
         <FAB

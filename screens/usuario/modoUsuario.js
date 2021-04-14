@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View } from 'react-native';
-import globalStyles from '../Styles/global';
+import globalStyles from '../../Styles/global';
 import DropDown from 'react-native-paper-dropdown'
 import {DefaultTheme, TextInput, Button} from 'react-native-paper';
 import axios from 'axios';

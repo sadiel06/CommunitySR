@@ -16,8 +16,8 @@ import {
   DefaultTheme,
   Switch,
 } from 'react-native-paper';
-import globalStyles from '../Styles/global';
-import ClientAxios from '../helpers/clientAxios';
+import globalStyles from '../../Styles/global';
+import ClientAxios from '../../helpers/clientAxios';
 const NuevoDepartamento = ({navigation, route}) => {
   //estados
   const [nombre, setNombre] = useState('');

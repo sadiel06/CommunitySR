@@ -10,11 +10,11 @@ import {
   Portal,
   DefaultTheme,
 } from 'react-native-paper';
-import globalStyles from '../Styles/global';
+import globalStyles from '../../Styles/global';
 import axios from 'axios';
 import DropDown from 'react-native-paper-dropdown';
-import ClientAxios from '../helpers/clientAxios';
-import ScreenHeader from '../components/ScreenHeader';
+import ClientAxios from '../../helpers/clientAxios';
+import ScreenHeader from '../../components/ScreenHeader';
 let provincias = [
   {label: 'santiago', value: '1'},
   {label: 'samana', value: '2'},

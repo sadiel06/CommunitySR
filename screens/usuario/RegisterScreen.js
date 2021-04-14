@@ -1,7 +1,7 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import * as React from 'react';
-import {View, StyleSheet, TouchableOpacity, ScrollView} from 'react-native';
-import {RadioButton, Text, TextInput as PaperInput} from 'react-native-paper';
+import { View, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { RadioButton, Text, TextInput as PaperInput } from 'react-native-paper';
 import Background from '../../components/Background';
 import Logo from '../../components/Logo';
 import ReadMeExampleSingle from '../../components/Datapiker';
@@ -9,27 +9,35 @@ import Header from '../../components/Header';
 import Button from '../../components/Button';
 import TextInput from '../../components/TextInput';
 import BackButton from '../../components/BackButton';
-import {theme} from '../../core/theme';
+import { theme } from '../../core/theme';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import DropDown from 'react-native-paper-dropdown';
 import ClientAxios from '../../helpers/clientAxios';
 import { useNavigation } from '@react-navigation/core';
-// import globalStyles from '../../Styles/global'
+import globalStyles from '../../Styles/global'
 const list = [
-  {label: 'Administrador', value: '1'},
-  {label: 'Cliente', value: '4'},
+  { label: 'Administrador', value: '1' },
+  { label: 'Cliente', value: '4' },
 ];
 
-const Registro = ({}) => {
- const navigation=useNavigation();
-  const [name, setName] = useState({value: '', error: ''});
-  const [apellido, setApellido] = useState({value: '', error: ''});
-  const [nameuser, setNameUser] = useState({value: '', error: ''});
-  const [password, setPassword] = useState({value: '', error: ''});
+const listaSexo = [
+  { label: 'Masculino', value: '1' },
+  { label: 'Femenino', value: '2' },
+  { label: 'otros', value: '3' },
+];
+
+const Registro = ({ }) => {
+  const navigation = useNavigation();
+  const [name, setName] = useState({ value: '', error: '' });
+  const [apellido, setApellido] = useState({ value: '', error: '' });
+  const [nameuser, setNameUser] = useState({ value: '', error: '' });
+  const [password, setPassword] = useState({ value: '', error: '' });
   const [fecha, setFecha] = useState('');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [tipoCuenta, setTipoCuenta] = useState('');
   const [mostrarTipoCuenta, setMostrarTipoCuenta] = useState(false);
+  const [sexo, setSexo] = useState('');
+  const [mostrarSexo, setMostrarSexo] = useState(false);
 
   //{funciones datapiker
   const showDatePicker = () => {
@@ -72,14 +80,14 @@ const Registro = ({}) => {
     const usuario = {
       nombre: name.value,
       apellido: apellido.value,
-      fecha: fecha,
+      sexo: sexo,
+      numCuenta:'',
       user: nameuser.value,
       pass: password.value,
-      tipo: tipoCuenta,
     };
     //insertar
     try {
-      const res = await ClientAxios.post('login/logininsertuser', {
+      const res = await ClientAxios.post('usuario/insert', {
         key: '291290336b75b259b77e181c87cc974f',
         data: usuario,
       });
@@ -112,7 +120,7 @@ const Registro = ({}) => {
             label="Nombre"
             returnKeyType="next"
             value={name.value}
-            onChangeText={text => setName({value: text, error: ''})}
+            onChangeText={text => setName({ value: text, error: '' })}
             error={!!name.error}
             errorText={name.error}
           />
@@ -120,7 +128,7 @@ const Registro = ({}) => {
             label="Apellido"
             returnKeyType="next"
             value={apellido.value}
-            onChangeText={text => setApellido({value: text, error: ''})}
+            onChangeText={text => setApellido({ value: text, error: '' })}
             error={!!apellido.error}
             errorText={apellido.error}
           />
@@ -143,12 +151,23 @@ const Registro = ({}) => {
             label="Nombre de usuario"
             returnKeyType="next"
             value={nameuser.value}
-            onChangeText={text => setNameUser({value: text, error: ''})}
+            onChangeText={text => setNameUser({ value: text, error: '' })}
             error={!!nameuser.error}
             errorText={nameuser.error}
           />
 
-          <View >
+          <TextInput
+            label="Contraseña"
+            returnKeyType="done"
+            value={password.value}
+            onChangeText={text => setPassword({ value: text, error: '' })}
+            error={!!password.error}
+            errorText={password.error}
+            secureTextEntry
+          />
+
+
+          <View style={globalStyles.inputs}>
             <DropDown
               label={'Tipo de cuenta '}
               mode="outlined"
@@ -165,20 +184,28 @@ const Registro = ({}) => {
             />
           </View>
 
-          <TextInput
-            label="Contraseña"
-            returnKeyType="done"
-            value={password.value}
-            onChangeText={text => setPassword({value: text, error: ''})}
-            error={!!password.error}
-            errorText={password.error}
-            secureTextEntry
-          />
+          <View style={globalStyles.inputs} >
+            <DropDown
+              label={'Sexo'}
+              mode="outlined"
+              value={sexo}
+              setValue={setSexo}
+              list={listaSexo}
+              visible={mostrarSexo}
+              showDropDown={() => setMostrarSexo(true)}
+              onDismiss={() => setMostrarSexo(false)}
+              inputProps={{
+                right: <PaperInput.Icon name={'menu-down'} />,
+              }}
+              theme={theme}
+            />
+          </View>
+
 
           <Button
             mode="contained"
             onPress={onSignUpPressed}
-            style={{marginTop: 24}}>
+            style={{ marginTop: 24 }}>
             Sign Up
           </Button>
           <View style={styles.row}>
@@ -194,10 +221,10 @@ const Registro = ({}) => {
 };
 
 const styles = StyleSheet.create({
-  container:{
+  container: {
     flex: 1,
     padding: 20,
-  // alignItems: 'center',
+    // alignItems: 'center',
     justifyContent: 'center',
   },
   row: {

@@ -26,22 +26,22 @@ export default function LoginScreen() {
   const [usuario, setUsuario] = useState({ value: '', error: '' });
   const [password, setPassword] = useState({ value: '', error: '' });
   const onLoginPressed = async() => {
-    const userError = userValidator(usuario.value);
-    const passwordError = passwordValidator(password.value);
-    if (userError || passwordError) {
-      setUsuario({ ...usuario, error: userError });
-      setPassword({ ...password, error: passwordError });
-      return;
-    }
+    // const userError = userValidator(usuario.value);
+    // const passwordError = passwordValidator(password.value);
+    // if (userError || passwordError) {
+    //   setUsuario({ ...usuario, error: userError });
+    //   setPassword({ ...password, error: passwordError });
+    //   return;
+    // }
     try {
-      const resultados = await ClientAxios.post('login/verificar', {
+      const resultados = await ClientAxios.post('login/iniciarsesion', {
         key: '291290336b75b259b77e181c87cc974f',
         data: {
-          user: usuario.value,
+          username: usuario.value,
           pass: password.value,
         },
       });
-
+      
       if (JSON.stringify(resultados.data) === '{}') {
         alert('Usuario/Contraseña incorrectos');
       } else {

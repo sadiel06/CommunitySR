@@ -2,10 +2,10 @@ import React, {useEffect, useState, useContext} from 'react';
 import {useFocusEffect} from '@react-navigation/core';
 import {Button, List, Headline, FAB} from 'react-native-paper';
 import {FlatList, View, StyleSheet} from 'react-native';
-import globalStyles from '../Styles/global';
-import {AppContext} from '../context/AppContext';
-import ClientAxios from '../helpers/clientAxios';
-import ScreenHeader from '../components/ScreenHeader';
+import globalStyles from '../../Styles/global';
+import {AppContext} from '../../context/AppContext';
+import ClientAxios from '../../helpers/clientAxios';
+import ScreenHeader from '../../components/ScreenHeader';
 
 const verTorre = ({navigation, route}) => {
   const [torres, setTorres] = useState([]);

@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import {View} from 'react-native';
 import {TextInput, Button} from 'react-native-paper';
-import globalStyles from '../Styles/global';
-import ClientAxios from '../helpers/clientAxios'
+import globalStyles from '../../Styles/global';
+import ClientAxios from '../../helpers/clientAxios'
 
 const nuevaTorre = ({navigation,route}) => {
   const [nombre, setNombre] = useState('');

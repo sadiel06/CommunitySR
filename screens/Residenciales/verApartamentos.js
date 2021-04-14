@@ -2,8 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {Text, Button, List, Headline, FAB} from 'react-native-paper';
 import {FlatList, View, StyleSheet} from 'react-native';
 import axios from 'axios';
-import globalStyles from '../Styles/global';
-import ClientAxios from '../helpers/clientAxios';
+import globalStyles from '../../Styles/global';
+import ClientAxios from '../../helpers/clientAxios';
 import {useFocusEffect} from '@react-navigation/core';
 
 const verApartamento = ({navigation, route}) => {
