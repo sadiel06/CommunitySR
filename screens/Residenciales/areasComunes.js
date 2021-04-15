@@ -1,16 +1,50 @@
-import React, { useState } from 'react';
+import React, { useState,useContext } from 'react';
 import { View } from "react-native";
 import { TextInput, Button, } from 'react-native-paper';
 import globalStyles from '../../Styles/global';
+import AppContext from '../../context/AppContext'
+import ClientAxios from '../../helpers/clientAxios/'
 
-const areaComun = () => {
+const areaComun = ({route}) => {
+    const {user} = useContext(AppContext);
 const [nombre,setNombre]=useState('');
 const [descripcion,setDescripcion]=useState('');
-const guardarArea=()=>{
+const guardarArea=async()=>{
     //validar form
+    if(descripcion===''||nombre===''){
+        alert('existen campos vacíos')
+        return
+    }
     //verificar si es modificar o crear una torre
+
     //crear o modificar
+    const areaComun={
+        descripcion : descripcion,
+        nombre:nombre,
+        user:1,
+        residencial:1,
+        
+    }
+
+    try {
+        const res = await ClientAxios.post('areas/insert', {
+          key: '291290336b75b259b77e181c87cc974f',
+          data: areaComun,
+        });
+        if (res.data.key === '1') {
+          console.log(res.data);
+          ToastAndroid.show('Se completó la avería. !', ToastAndroid.SHORT);
+          navigation.goBack();
+        } else {
+          throw Error('No se ha podido completar');
+        }
+      } catch (error) {
+        console.log(error);
+        alert(error);
+      }
+
     //limpiar form
+
     //redireccionar
   }
     return (
@@ -25,18 +59,15 @@ const guardarArea=()=>{
             />
 
             <TextInput
-                label='breve descripción'
-                placeholder='Residencia'
+                mode='outlined'
+                placeholder='breve descripción'
                 style={globalStyles.inputs}
                 onChangeText={texto => setDescripcion(texto)}
                 value={descripcion}
                 multiline={true}
+                numberOfLines={10}
             />
             <Button onPress={() => guardarArea()}>Crear</Button>
-
-
-
-
         </View>
     );
 }

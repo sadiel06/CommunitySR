@@ -8,16 +8,17 @@ import ClientAxios from '../../helpers/clientAxios';
 import {set} from 'react-hook-form';
 import ScreenHeader from '../../components/ScreenHeader';
 
-const verServicios = ({navigation, route}) => {
-  const [servicios, setTServicios] = useState([]);
+const verAreasComunes = ({navigation, route}) => {
+  const [AreasComunes, setTServicios] = useState([]);
 
   useFocusEffect(
     React.useCallback(() => {
-      const getData = async () => {
+      const getData = async () => {//areas/getAreasbyResidencial
+        console.log(route.params)
         try {
-          const resultados = await ClientAxios.post('servicios/getservicios', {
+          const resultados = await ClientAxios.post('areas/getAreasbyResidencial', {
             key: '291290336b75b259b77e181c87cc974f',
-            data: {id: route.params.id},
+            data: {idResi: route.params.id},
           });
           setTServicios(resultados.data);
           console.log(resultados.data);
@@ -34,12 +35,12 @@ const verServicios = ({navigation, route}) => {
       <ScreenHeader title="Servicios">
         <View style={globalStyles.contenedor}>
           <Headline style={globalStyles.titulo}>
-            {servicios.length > 0
+            {AreasComunes.length > 0
               ? 'Servicios'
               : 'Aún no tiene servicios registrados'}
           </Headline>
           <FlatList
-            data={servicios}
+            data={AreasComunes}
             keyExtractor={servicios => servicios.id.toString()}
             renderItem={({item}) => (
               <List.Item
@@ -70,4 +71,4 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
 });
-export default verServicios;
+export default verAreasComunes;

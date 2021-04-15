@@ -16,8 +16,8 @@ import ClientAxios from '../../helpers/clientAxios';
 import { useNavigation } from '@react-navigation/core';
 import globalStyles from '../../Styles/global'
 const list = [
-  { label: 'Administrador', value: '1' },
-  { label: 'Cliente', value: '4' },
+  { label: 'Administrador', value: true },
+  { label: 'Cliente', value: false },
 ];
 
 const listaSexo = [
@@ -34,7 +34,7 @@ const Registro = ({ }) => {
   const [password, setPassword] = useState({ value: '', error: '' });
   const [fecha, setFecha] = useState('');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [tipoCuenta, setTipoCuenta] = useState('');
+  const [tipoCuenta, setTipoCuenta] = useState(true);
   const [mostrarTipoCuenta, setMostrarTipoCuenta] = useState(false);
   const [sexo, setSexo] = useState('');
   const [mostrarSexo, setMostrarSexo] = useState(false);
@@ -83,6 +83,7 @@ const Registro = ({ }) => {
       sexo: sexo,
       numCuenta:'',
       user: nameuser.value,
+      tipouser:tipoCuenta,
       pass: password.value,
     };
     //insertar

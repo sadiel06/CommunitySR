@@ -10,7 +10,8 @@ import BackButton from '../../components/BackButton';
 import { theme } from '../../core/theme';
 import { userValidator } from '../../helpers/userValidator';
 import { passwordValidator } from '../../helpers/passwordValidator';
-import { useNavigation } from '@react-navigation/native';
+// import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/core';
 import { NavigationActions } from 'react-navigation';
 import { AppContext } from '../../context/AppContext';
 import ClientAxios from '../../helpers/clientAxios';
@@ -19,9 +20,9 @@ import ClientAxios from '../../helpers/clientAxios';
 
 
 
-export default function LoginScreen() {
+export default function LoginScreen({}) {
 
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   const { user, setUser } = useContext(AppContext);
   const [usuario, setUsuario] = useState({ value: '', error: '' });
   const [password, setPassword] = useState({ value: '', error: '' });
@@ -47,7 +48,7 @@ export default function LoginScreen() {
       } else {
         setUser(resultados.data);
         console.log(resultados.data);
-        navigation.navigate('Stack');
+        navigation.navigate('ModoUser');
       }
     } catch (error) {
       console.log(error);
@@ -81,8 +82,7 @@ export default function LoginScreen() {
           secureTextEntry
         />
         <View style={styles.forgotPassword}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('ResetPasswordScreen')}>
+          <TouchableOpacity>
             <Text style={styles.forgot}>Forgot your password?</Text>
           </TouchableOpacity>
         </View>

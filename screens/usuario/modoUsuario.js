@@ -5,7 +5,7 @@ import DropDown from 'react-native-paper-dropdown'
 import {DefaultTheme, TextInput, Button} from 'react-native-paper';
 import axios from 'axios';
 
-const listPermisos=[]
+const listPermisos=[{label:'Admin',value:'1'},{label:'Admin',value:'2'},{label:'Admin',value:'3'},{label:'Admin',value:'4'}]
 
 const modoSesion = ({navigation, route}) => {
     const [permiso,setPermiso]=useState('');

@@ -7,8 +7,10 @@ import {AppContext} from '../../context/AppContext';
 import ClientAxios from '../../helpers/clientAxios';
 import ScreenHeader from '../../components/ScreenHeader';
 
+
 const verTorre = ({navigation, route}) => {
   const [torres, setTorres] = useState([]);
+  const { user } = useContext(AppContext);
   useFocusEffect(
     React.useCallback(() => {
       const getData = async () => {
@@ -30,6 +32,7 @@ const verTorre = ({navigation, route}) => {
   return (
     <ScreenHeader title="Torres">
       <View style={globalStyles.contenedor}>
+        <View >
         <Button
           icon="plus-circle"
           onPress={() =>
@@ -37,8 +40,25 @@ const verTorre = ({navigation, route}) => {
           }>
           Nueva torre
         </Button>
+        <Button
+          icon="plus-circle"
+          onPress={() =>
+            navigation.navigate('NuevoResidencial', route.params.item)
+          }>
+          Editar Residencial
+        </Button>
+        <Button
+          icon="plus-circle"
+          onPress={() =>
+            navigation.navigate('AreasComunes',route.params.item)
+          }>
+          áreas Comunes
+        </Button>
+        </View>
+
+
         <Headline style={globalStyles.titulo}>
-          {torres.length > 0 ? 'Torres' : 'Aún no tiene torres regiistradas'}
+          {torres.length > 0 ? 'Torres' : 'Aún no tiene torres registradas'}
         </Headline>
         <FlatList
           data={torres}

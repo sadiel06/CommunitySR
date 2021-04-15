@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
+import { useFocusEffect } from '@react-navigation/core';
 import {View, StyleSheet, ScrollView, KeyboardAvoidingView} from 'react-native';
 import {
   Text,
@@ -11,7 +12,6 @@ import {
   DefaultTheme,
 } from 'react-native-paper';
 import globalStyles from '../../Styles/global';
-import axios from 'axios';
 import DropDown from 'react-native-paper-dropdown';
 import ClientAxios from '../../helpers/clientAxios';
 import ScreenHeader from '../../components/ScreenHeader';
@@ -80,7 +80,7 @@ const NuevoResidencial = ({navigation, route}) => {
         console.error(error);
       }
     };
-    // getdata();
+    getdata();
   }, []);
 
   // const {setConsultar} = route.params;
