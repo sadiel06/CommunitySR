@@ -17,6 +17,8 @@ import RegistroUser from './screens/usuario/RegisterScreen'
 import ModoUser from './screens/usuario/modoUsuario'
 import NuevaArea from './screens/Residenciales/areasComunes'
 import verArea from './screens/Residenciales/verAreaComun'
+import NuevoMantenimiento from './screens/Residenciales/mantenimientos'
+
 //stack
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -88,6 +90,7 @@ function StackScreensResidenciales() {
       <Stack.Screen name="verServicios" component={VerServisios} />
       <Stack.Screen name="NuevaArea" component={NuevaArea} />
       <Stack.Screen name="AreasComunes" component={verArea} /> 
+      <Stack.Screen name="Mantenimiento" component={NuevoMantenimiento} /> 
     </Stack.Navigator>
   );
 }

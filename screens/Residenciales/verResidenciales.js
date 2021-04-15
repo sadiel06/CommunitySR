@@ -55,8 +55,8 @@ const verResidenciales = ({ navigation }) => {
       <View style={globalStyles.contenedor}>
         <Button
           icon="plus-circle"
-          onPress={() => navigation.navigate('NuevaTorre')}>
-          Nueva torre
+          onPress={() => navigation.navigate('Mantenimiento',residencial)}>
+          Nuevo Mantenimiento
         </Button>
 
         <Headline style={globalStyles.titulo}>
