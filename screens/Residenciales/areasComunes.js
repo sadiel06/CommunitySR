@@ -1,12 +1,12 @@
 import React, { useState,useContext } from 'react';
-import { View } from "react-native";
+import { View,ToastAndroid } from "react-native";
 import { TextInput, Button, } from 'react-native-paper';
 import globalStyles from '../../Styles/global';
 import AppContext from '../../context/AppContext'
 import ClientAxios from '../../helpers/clientAxios/'
 
-const areaComun = ({route}) => {
-    const {user} = useContext(AppContext);
+const areaComun = ({navigation,route}) => {
+    // const {user} = useContext(AppContext);
 const [nombre,setNombre]=useState('');
 const [descripcion,setDescripcion]=useState('');
 const guardarArea=async()=>{
@@ -21,8 +21,7 @@ const guardarArea=async()=>{
     const areaComun={
         descripcion : descripcion,
         nombre:nombre,
-        user:1,
-        residencial:1,
+        idResi:route.params.id,
         
     }
 
@@ -33,7 +32,7 @@ const guardarArea=async()=>{
         });
         if (res.data.key === '1') {
           console.log(res.data);
-          ToastAndroid.show('Se completó la avería. !', ToastAndroid.SHORT);
+          // ToastAndroid.show('Se completó la avería. !', ToastAndroid.SHORT);
           navigation.goBack();
         } else {
           throw Error('No se ha podido completar');
