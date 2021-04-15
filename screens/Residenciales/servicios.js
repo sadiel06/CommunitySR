@@ -24,7 +24,7 @@ const NuevoServicio = ({navigation, route}) => {
       descripcion,
       cobro:Number(cobro),
       pago:Number(pago),
-      idresidencial:Number(route.params.id)
+      idResi:Number(route.params.id)
       };
     //insert cantidadPisos
     console.log(route.params)

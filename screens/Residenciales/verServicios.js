@@ -17,7 +17,7 @@ const verServicios = ({navigation, route}) => {
         try {
           const resultados = await ClientAxios.post('servicios/getservicios', {
             key: '291290336b75b259b77e181c87cc974f',
-            data: {id: route.params.id},
+            data: {idResi: route.params.id},
           });
           setTServicios(resultados.data);
           console.log(resultados.data);

@@ -36,13 +36,6 @@ const verTorre = ({navigation, route}) => {
         <Button
           icon="plus-circle"
           onPress={() =>
-            navigation.navigate('NuevaTorre', route.params.item.id)
-          }>
-          Nueva torre
-        </Button>
-        <Button
-          icon="plus-circle"
-          onPress={() =>
             navigation.navigate('NuevoResidencial', route.params.item)
           }>
           Editar Residencial

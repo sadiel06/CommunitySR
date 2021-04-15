@@ -50,7 +50,6 @@ const guardarArea=async()=>{
         <View style={globalStyles.contenedor}>
             <TextInput
                 label='Nombre del área común'
-                placeholder='Residencia'
                 style={globalStyles.inputs}
                 onChangeText={texto => setNombre(texto)}
                 value={nombre}
