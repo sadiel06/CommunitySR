@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { TouchableOpacity, StyleSheet, View, ScrollView } from 'react-native';
-import { Text } from 'react-native-paper';
+
+import { Modal, Portal, Text, Button as PaperButton, Provider } from 'react-native-paper';
 import Background from '../../components/Background';
 import Logo from '../../components/Logo';
 import Header from '../../components/Header';
@@ -11,22 +12,30 @@ import { theme } from '../../core/theme';
 import { userValidator } from '../../helpers/userValidator';
 import { passwordValidator } from '../../helpers/passwordValidator';
 // import { useNavigation } from '@react-navigation/native';
-import {useNavigation} from '@react-navigation/core';
+import { useNavigation } from '@react-navigation/core';
 import { NavigationActions } from 'react-navigation';
 import { AppContext } from '../../context/AppContext';
 import ClientAxios from '../../helpers/clientAxios';
+import DropDown from 'react-native-paper-dropdown';
+
+import DropDownPicker from 'react-native-dropdown-picker';
 
 
-
-
-
-export default function LoginScreen({}) {
+export default function LoginScreen({ }) {
 
   const navigation = useNavigation();
+  const [mostrarSector, setMostrarSector] = useState(false)
+  const [visible, setVisible] = React.useState(false);
+  const [sector, setSector] = useState('');
   const { user, setUser } = useContext(AppContext);
   const [usuario, setUsuario] = useState({ value: '', error: '' });
   const [password, setPassword] = useState({ value: '', error: '' });
-  const onLoginPressed = async() => {
+  const [listasPermisos, setListaPermisos] = useState([])
+  const [dataResult, setDataResult] = useState({})
+  const showModal = () => setVisible(true);
+  const hideModal = () => setVisible(false);
+  // const containerStyle = { backgroundColor: 'white', padding: 20, paddo };
+  const onLoginPressed = async () => {
     // const userError = userValidator(usuario.value);
     // const passwordError = passwordValidator(password.value);
     // if (userError || passwordError) {
@@ -42,13 +51,49 @@ export default function LoginScreen({}) {
           pass: password.value,
         },
       });
-      
-      if (JSON.stringify(resultados.data) === '{}') {
+
+      if (resultados.data.key === '-3') {
         alert('Usuario/Contraseña incorrectos');
       } else {
-        setUser(resultados.data);
-        console.log(resultados.data);
-        navigation.navigate('ModoUser');
+        const {
+          idUsuario,
+          userName,
+          password,
+          IdPersona,
+          NumeroCuenta,
+          idStatusUsuario,
+          IsClient,
+          isAdmin,
+          Permisos,
+          cantPermisos,
+        } = resultados.data;
+
+        setListaPermisos(Permisos
+        )
+        // alert(JSON.stringify(resultados.data, null, 2))
+        let rol;
+        if (Number(cantPermisos) === 0) {
+          if (isAdmin) {
+            rol = 1;
+          } else {
+            rol = 3;
+          }
+        } else if (Number(cantPermisos) === 1) {
+          rol = Permisos[0].idTipoUsuario;
+        } else {
+          // Presentar el dropdown lista permisos
+          // Asignar el rol al dropdown
+          //setMostrarSector
+          setVisible(true)
+          setDataResult(resultados.data);
+          return;
+
+        }
+        setDataResult(resultados.data);
+        setUser(dataResult);
+        navigation.navigate('Stack');
+        // submit();
+        // 
       }
     } catch (error) {
       console.log(error);
@@ -61,44 +106,78 @@ export default function LoginScreen({}) {
 
   return (
     <ScrollView>
-      <Background>
-        <Logo />
-        <TextInput
-          label="Usuario"
-          returnKeyType="next"
-          value={usuario.value}
-          onChangeText={text => setUsuario({ value: text, error: '' })}
-          error={!!usuario.error}
-          errorText={usuario.error}
-          autoCapitalize="none"
-        />
-        <TextInput
-          label="Password"
-          returnKeyType="done"
-          value={password.value}
-          onChangeText={text => setPassword({ value: text, error: '' })}
-          error={!!password.error}
-          errorText={password.error}
-          secureTextEntry
-        />
-        <View style={styles.forgotPassword}>
-          <TouchableOpacity>
-            <Text style={styles.forgot}>Forgot your password?</Text>
-          </TouchableOpacity>
-        </View>
-        <Button mode="contained" onPress={onLoginPressed}>
-          Login
+      <Logo />
+      <TextInput
+        label="Usuario"
+        returnKeyType="next"
+        value={usuario.value}
+        onChangeText={text => setUsuario({ value: text, error: '' })}
+        error={!!usuario.error}
+        errorText={usuario.error}
+        autoCapitalize="none"
+      />
+      <TextInput
+        label="Password"
+        returnKeyType="done"
+        value={password.value}
+        onChangeText={text => setPassword({ value: text, error: '' })}
+        error={!!password.error}
+        errorText={password.error}
+        secureTextEntry
+      />
+
+      <View style={styles.forgotPassword}>
+        <TouchableOpacity>
+          <Text style={styles.forgot}>Forgot your password?</Text>
+        </TouchableOpacity>
+      </View>
+      <Button mode="contained" onPress={onLoginPressed}>
+        Login
         </Button>
-       
-        <View style={styles.row}>
-          <Text>Don’t have an account? </Text>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('RegistroUsuario')}>
-            <Text style={styles.link}>Sign up</Text>
-          </TouchableOpacity>
-        </View>
-      </Background>
-    </ScrollView>
+
+      <Portal>
+        <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={{ backgroundColor: 'white', paddingVertical: 100, paddingHorizontal: 10 }} style={{
+          paddingHorizontal: 10
+        }}>
+          <View >
+            <Text style={{ marginBottom: 10, fontWeight: 'bold', }}>Selecione su modo de inicio</Text>
+            <DropDown
+              label={'Selecciona su modo de'}
+              mode="outlined"
+              value={sector}
+              setValue={e => {
+                alert(e)
+                setSector(e)
+              }}
+              list={listasPermisos}
+              visible={mostrarSector}
+              showDropDown={() => setMostrarSector(true)}
+              onDismiss={() => setMostrarSector(false)}
+              inputProps={{
+                right: <TextInput.Icon name={'menu-down'} />,
+              }}
+
+            />
+            <PaperButton mode='contained' style={{ marginTop: 10 }} onPress={() => {
+              setUser({ ...dataResult, rol: sector });
+              hideModal()
+              navigation.navigate('Stack');
+            }}>Guardar</PaperButton>
+          </View>
+
+        </Modal>
+      </Portal>
+
+
+      <View style={styles.row}>
+        <Text>Don’t have an account? </Text>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('RegistroUsuario')}>
+          <Text style={styles.link}>Sign up</Text>
+        </TouchableOpacity>
+      </View>
+
+    </ScrollView >
   );
 }
 

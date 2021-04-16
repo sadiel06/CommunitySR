@@ -14,7 +14,7 @@ import {AppContext} from './context/AppContext';
 import Login from './screens/usuario/LoginScreen'
 import DashBoard from './screens/usuario/Dashboard'
 import RegistroUser from './screens/usuario/RegisterScreen'
-import ModoUser from './screens/usuario/modoUsuario'
+
 import NuevaArea from './screens/Residenciales/areasComunes'
 import verArea from './screens/Residenciales/verAreaComun'
 import NuevoMantenimiento from './screens/Residenciales/mantenimientos'
@@ -33,7 +33,7 @@ function StackScreensUser() {
       <Stack.Screen name="Stack" component={Routes} />
       <Stack.Screen name="LoginScreen" component={Login} />
       <Stack.Screen name="RegistroUsuario" component={RegistroUser} />
-      <Stack.Screen name="ModoUser" component={ModoUser} />
+      
     </Stack.Navigator>
   );
 }
@@ -101,4 +101,4 @@ function StackScreensResidenciales() {
 
 
 
-export default Routes;
+export default StackScreensUser;
