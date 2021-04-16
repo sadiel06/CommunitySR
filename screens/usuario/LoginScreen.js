@@ -70,8 +70,10 @@ export default function LoginScreen({ }) {
 
         setListaPermisos(Permisos
         )
-        // alert(JSON.stringify(resultados.data, null, 2))
+        alert(JSON.stringify(resultados.data, null, 2))
         let rol;
+
+        
         if (Number(cantPermisos) === 0) {
           if (isAdmin) {
             rol = 1;
@@ -89,6 +91,7 @@ export default function LoginScreen({ }) {
           return;
 
         }
+        
         setDataResult(resultados.data);
         setUser(dataResult);
         navigation.navigate('Stack');

@@ -3,31 +3,38 @@ import { View } from 'react-native';
 import { TextInput, Button, Appbar } from 'react-native-paper';
 import globalStyles from '../../Styles/global';
 import ClientAxios from '../../helpers/clientAxios';
-import MultiSelect from 'react-native-multiple-select';
-
+import AppContext from '../../context/AppContext'
+const listTipoqueja = []
+const listPresuntos = []
 
 const Quejarse = ({ navigation, route }) => {
 
-
   const [descripcion, setDescripcion] = useState('');
-  const [selectedItem, setMultiselect] = useState('');
-  const list = route.params;
+  const [tipoQueja, setTipoQueja] = useState('');
+  const [verTipo, setVerTipo] = useState(false);
+  const [presunto, setPresunto] = useState('');
+  const [verPresuntos, setVerPresuntos] = useState(false);
+  const { user } = useContext(AppContext);
 
-  const guardarMantenimieto = async () => {
+ 
+
+  list = route.params;
+
+  const realizarQueja = async () => {
     //validar
-    if (descripcion === '' || selectedItem === '') {
+    if (descripcion === ''||tipoQueja===''||presunto==='') {
       alert('Aun existen campos vacios');
       return;
     }
     //declarar objeto
     const Quejarse = {
       descripcion: descripcion,
-      listidResi: selectedItem,
-      idTipoqueja,
-      idUserfrom,
-      idUserto,
-      idUser,
-      username
+      idTipoqueja:tipoQueja,
+      idUserfrom:user.idUsuario,
+      idUserto:presunto,
+      idUser:user.idUsuario,
+      idResi,
+      username:user.userName
     }
     //insert
     try {
@@ -66,14 +73,14 @@ const Quejarse = ({ navigation, route }) => {
 
         <View style={styles.inputs}>
           <DropDown
-            label={'Presunto'}
+            label={'Tipo de queja'}
             mode="outlined"
-            value={queja.diriguido}
-            setValue={() => setQueja({ diriguido, ...queja })}
-            list={listaDirigido}
-            visible={verDirigido}
-            showDropDown={() => setVerDirigido(true)}
-            onDismiss={() => setVerDirigido(false)}
+            value={tipoQueja}
+            setValue={setTipoQueja}
+            list={listTipoqueja}
+            visible={verTipo}
+            showDropDown={() => setVerTipo(true)}
+            onDismiss={() => setVerTipo(false)}
             inputProps={{
               right: <TextInput.Icon name={'menu-down'} />,
             }}
@@ -84,18 +91,19 @@ const Quejarse = ({ navigation, route }) => {
           <DropDown
             label={'Presunto'}
             mode="outlined"
-            value={queja.diriguido}
-            setValue={() => setQueja({ diriguido, ...queja })}
-            list={listaDirigido}
-            visible={verDirigido}
-            showDropDown={() => setVerDirigido(true)}
-            onDismiss={() => setVerDirigido(false)}
+            value={presunto}
+            setValue={setPresunto}
+            list={listPresuntos}
+            visible={verPresuntos}
+            showDropDown={() => setVerPresuntos(true)}
+            onDismiss={() => setVerPresuntos(false)}
             inputProps={{
               right: <TextInput.Icon name={'menu-down'} />,
             }}
           />
         </View>
 
+        <Button onPress={() => realizarQueja()}>Realizar queja</Button>
 
       </View>
     </>
