@@ -73,7 +73,7 @@ const verTorre = ({navigation, route}) => {
         </Button>
         <Button
           icon="plus-circle"
-          onPress={() => navigation.navigate('verQuejas', route.params.item)}>
+          onPress={() => navigation.navigate('VerQueja', route.params)}>
           Quejas
         </Button>
         <FAB

@@ -18,6 +18,8 @@ import ModoUser from './screens/usuario/modoUsuario'
 import NuevaArea from './screens/Residenciales/areasComunes'
 import verArea from './screens/Residenciales/verAreaComun'
 import NuevoMantenimiento from './screens/Residenciales/mantenimientos'
+import NuevaQueja from './screens/Quejas/NuevaQuejas'
+import VerQueja from './screens/Quejas/verQuejas'
 
 //stack
 const Stack = createStackNavigator();
@@ -91,6 +93,8 @@ function StackScreensResidenciales() {
       <Stack.Screen name="NuevaArea" component={NuevaArea} />
       <Stack.Screen name="AreasComunes" component={verArea} /> 
       <Stack.Screen name="Mantenimiento" component={NuevoMantenimiento} /> 
+      <Stack.Screen name="NuevaQueja" component={NuevaQueja} /> 
+      <Stack.Screen name="VerQueja" component={VerQueja} /> 
     </Stack.Navigator>
   );
 }
