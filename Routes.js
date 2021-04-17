@@ -1,4 +1,3 @@
-import {Text} from 'react-native';
 import React, {useContext} from 'react';
 import VerResidenciales from './screens/Residenciales/verResidenciales';
 import VerApartamentos from './screens/Residenciales/verApartamentos';
@@ -21,6 +20,14 @@ import NuevaQueja from './screens/Quejas/NuevaQuejas'
 import VerQueja from './screens/Quejas/verQuejas'
 import Calificar from './screens/Calificardep/calificarDep'
 import Quejarse from './screens/Quejas/Quejarse'
+import VerPendientes from './screens/Tareas/VerPendientes'
+import DetalleTarea from './screens/Tareas/DetalleTarea'
+import AreasComunesMant from './screens/Tareas/AreasComunesMant'
+import MantenimientoProg from './screens/Tareas/MantenimientoProg'
+import AsignarTareas from './screens/Tareas/AsignarTarea'
+
+
+
 //stack
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -47,9 +54,19 @@ const Routes = () => {
       rol: [1,2,3,4],
     },
     {
+      name: 'Tareas Pendientes',
+      component: () => <StackScreenTareasPen/>,
+      rol: [4],
+    },
+    {
       name: 'ListaResidenciales',
       component: () => <StackScreensResidenciales />,
-      rol: [1,2, 4],
+      rol: [1],
+    },
+    {
+      name: 'Asignar Tarea',
+      component: () => <AsignarTareas/>,
+      rol: [1],
     },
     {
       name: 'Quejarse',
@@ -99,6 +116,15 @@ function StackScreensResidenciales() {
   );
 }
 
-
+function StackScreenTareasPen() {
+  return (
+    <Stack.Navigator
+      initialRouteName="TareasPendientes"
+      screenOptions={{headerShown: false}}>
+      <Stack.Screen name="TareasPendientes" component={VerPendientes} />
+      <Stack.Screen name="DetallePendiente" component={DetalleTarea} />
+    </Stack.Navigator>
+  );
+}
 
 export default StackScreensUser;

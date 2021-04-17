@@ -38,6 +38,8 @@ const Registro = ({ }) => {
   const [mostrarTipoCuenta, setMostrarTipoCuenta] = useState(false);
   const [sexo, setSexo] = useState('');
   const [mostrarSexo, setMostrarSexo] = useState(false);
+  const [telefono, setTelefono] = useState('')
+
 
   //{funciones datapiker
   const showDatePicker = () => {
@@ -81,9 +83,10 @@ const Registro = ({ }) => {
       nombre: name.value,
       apellido: apellido.value,
       sexo: sexo,
-      numCuenta:'',
+      numCuenta: '',
+      cel:telefono,
       user: nameuser.value,
-      tipouser:tipoCuenta,
+      tipouser: tipoCuenta,
       pass: password.value,
     };
     //insertar
@@ -133,20 +136,15 @@ const Registro = ({ }) => {
             error={!!apellido.error}
             errorText={apellido.error}
           />
-          <View>
-            <Text style={styles.label}>fecha</Text>
-            <Button mode="contained" onPress={showDatePicker}>
-              Selecciona una fecha
-            </Button>
-            <DateTimePickerModal
-              isVisible={isDatePickerVisible}
-              mode="date"
-              onConfirm={handleConfirm}
-              onCancel={hideDatePicker}
-              locale="es_ES"
-            />
-            <Text>{fecha}</Text>
-          </View>
+
+          <PaperInput
+            label="Numero de contacto"
+            mode='outlined'
+            style={globalStyles.inputs}
+            onChangeText={texto => setTelefono(texto)}
+            value={telefono}
+            keyboardType="number-pad"
+          />
 
           <TextInput
             label="Nombre de usuario"

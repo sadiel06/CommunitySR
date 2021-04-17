@@ -91,9 +91,12 @@ const LoginScreen=()=> {
           return;
 
         }
-        
-        setDataResult(resultados.data);
-        setUser(dataResult);
+
+        setUser({ ...dataResult, rol: rol });
+
+
+        // setDataResult(resultados.data);
+        // setUser(dataResult);
         navigation.navigate('Stack');
         // submit();
         // 
