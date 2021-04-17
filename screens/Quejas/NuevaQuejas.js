@@ -9,6 +9,8 @@ const NuevaQueja = ({ navigation, route }) => {
   const [queja, setQueja] = useState({ descripcion: '', cantAdvertencia: 1, limite: 5, costo: '', idResi: '' })
   const [dirigido,setDirigido] =useState('')
   const [verDirigido, setVerDirigido] = useState(false);
+
+  
   const guardarQueja = async () => {
     //validar
 
@@ -58,7 +60,7 @@ const NuevaQueja = ({ navigation, route }) => {
           value={queja.descripcion}
         />
         <TextInput
-          label="Costo del servicio"
+          label="Multa"
           placeholder="Residencia"
           style={globalStyles.inputs}
           onChangeText={texto => setQueja({  ...queja ,costo: texto})}

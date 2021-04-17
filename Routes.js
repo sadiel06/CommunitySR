@@ -14,13 +14,13 @@ import {AppContext} from './context/AppContext';
 import Login from './screens/usuario/LoginScreen'
 import DashBoard from './screens/usuario/Dashboard'
 import RegistroUser from './screens/usuario/RegisterScreen'
-
 import NuevaArea from './screens/Residenciales/areasComunes'
 import verArea from './screens/Residenciales/verAreaComun'
 import NuevoMantenimiento from './screens/Residenciales/mantenimientos'
 import NuevaQueja from './screens/Quejas/NuevaQuejas'
 import VerQueja from './screens/Quejas/verQuejas'
-
+import Calificar from './screens/Calificardep/calificarDep'
+import Quejarse from './screens/Quejas/Quejarse'
 //stack
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -52,14 +52,14 @@ const Routes = () => {
       rol: [1,2, 4],
     },
     {
-      name: '2',
-      component: () => <Text>Quejas</Text>,
-      rol: [3, 2, 4],
+      name: 'Quejarse',
+      component: () => <Quejarse/>,
+      rol: [2],
     },
     {
-      name: '3',
-      component: () => <Text>Configuraciones</Text>,
-      rol: [1, 4],
+      name: 'Calificar Departamento',
+      component: () => <Calificar/>,
+      rol: [2],
     },
   ];
 

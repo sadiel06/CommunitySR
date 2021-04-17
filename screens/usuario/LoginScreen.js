@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { TouchableOpacity, StyleSheet, View, ScrollView } from 'react-native';
 
-import { Modal, Portal, Text, Button as PaperButton, Provider } from 'react-native-paper';
+import { Modal, Portal, Text, Button as PaperButton, Provider , TextInput as PaperInput} from 'react-native-paper';
 import Background from '../../components/Background';
 import Logo from '../../components/Logo';
 import Header from '../../components/Header';
@@ -21,7 +21,7 @@ import DropDown from 'react-native-paper-dropdown';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 
-export default function LoginScreen({ }) {
+const LoginScreen=()=> {
 
   const navigation = useNavigation();
   const [mostrarSector, setMostrarSector] = useState(false)
@@ -68,9 +68,9 @@ export default function LoginScreen({ }) {
           cantPermisos,
         } = resultados.data;
 
-        setListaPermisos(Permisos
-        )
-        alert(JSON.stringify(resultados.data, null, 2))
+        setListaPermisos(Permisos)
+        // alert(JSON.stringify(resultados.data, null, 2))
+        
         let rol;
 
         
@@ -149,7 +149,7 @@ export default function LoginScreen({ }) {
               mode="outlined"
               value={sector}
               setValue={e => {
-                alert(e)
+                //alert(e)
                 setSector(e)
               }}
               list={listasPermisos}
@@ -157,13 +157,14 @@ export default function LoginScreen({ }) {
               showDropDown={() => setMostrarSector(true)}
               onDismiss={() => setMostrarSector(false)}
               inputProps={{
-                right: <TextInput.Icon name={'menu-down'} />,
+                right: <PaperInput.Icon name={'menu-down'} />,
               }}
 
             />
             <PaperButton mode='contained' style={{ marginTop: 10 }} onPress={() => {
               setUser({ ...dataResult, rol: sector });
               hideModal()
+             alert(JSON.stringify(user))
               navigation.navigate('Stack');
             }}>Guardar</PaperButton>
           </View>
@@ -203,3 +204,5 @@ const styles = StyleSheet.create({
     color: theme.colors.primary,
   },
 });
+
+export default LoginScreen

@@ -1,23 +1,41 @@
-import React, {useEffect, useState, useContext} from 'react';
-import {useFocusEffect} from '@react-navigation/core';
-import {Button, List, Headline, FAB} from 'react-native-paper';
-import {FlatList, View, StyleSheet} from 'react-native';
+import React, { useEffect, useState, useContext } from 'react';
+import { useFocusEffect } from '@react-navigation/core';
+import { Button, List, Headline, FAB } from 'react-native-paper';
+import { FlatList, View, StyleSheet, Text } from 'react-native';
 import globalStyles from '../../Styles/global';
-import {AppContext} from '../../context/AppContext';
+//import {AppContext} from '../../context/AppContext';
 import ClientAxios from '../../helpers/clientAxios';
 import ScreenHeader from '../../components/ScreenHeader';
 
 
-const verTorre = ({navigation, route}) => {
+const verTorre = ({ navigation, route }) => {
   const [torres, setTorres] = useState([]);
-  const { user } = useContext(AppContext);
+  //const { user } = useContext(AppContext);
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     try {
+  //       const resultados = await ClientAxios.post('torre/gettorres', {
+  //         key: '291290336b75b259b77e181c87cc974f',
+  //         data: { id: route.params.id },
+  //       });
+  //       console.log(resultados.data)
+  //       setTorres(resultados.data);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   getData();
+
+  // }, [])
   useFocusEffect(
     React.useCallback(() => {
+      console.log(route)
+
       const getData = async () => {
         try {
           const resultados = await ClientAxios.post('torre/gettorres', {
             key: '291290336b75b259b77e181c87cc974f',
-            data: {id: route.params.item.id},
+            data: { id: route.params.id },
           });
           setTorres(resultados.data);
         } catch (error) {
@@ -29,38 +47,40 @@ const verTorre = ({navigation, route}) => {
     }, []),
   );
 
+
+
   return (
     <ScreenHeader title="Torres">
-      <View style={globalStyles.contenedor}>
+      <View /* style={globalStyles.contenedor} */>
         <View >
-        <Button
-          icon="plus-circle"
-          onPress={() =>
-            navigation.navigate('NuevoResidencial', route.params.item)
-          }>
-          Editar Residencial
+          <Button
+            icon="plus-circle"
+            onPress={() =>
+              navigation.navigate('NuevoResidencial', route.params.item)
+            }>
+            Editar Residencial
         </Button>
-        <Button
-          icon="plus-circle"
-          onPress={() =>
-            navigation.navigate('AreasComunes',route.params.item)
-          }>
-          áreas Comunes
+          <Button
+            icon="plus-circle"
+            onPress={() =>
+              navigation.navigate('AreasComunes', route.params.item)
+            }>
+            áreas Comunes
         </Button>
         </View>
 
 
-        <Headline style={globalStyles.titulo}>
+        <Headline /* style={globalStyles.titulo} */>
           {torres.length > 0 ? 'Torres' : 'Aún no tiene torres registradas'}
         </Headline>
         <FlatList
           data={torres}
           keyExtractor={torres => torres.id.toString()}
-          renderItem={({item}) => (
+          renderItem={({ item }) => (
             <List.Item
               title={item.nombre}
               // navigation.navigate('verDepartamentos', {item})
-              onPress={() => navigation.navigate('verDepartamentos', {item})}
+              onPress={() => navigation.navigate('verDepartamentos', { item })}
             />
           )}
         />
@@ -78,7 +98,7 @@ const verTorre = ({navigation, route}) => {
         </Button>
         <FAB
           icon="plus"
-          style={styles.fab}
+          /* style={styles.fab} */
           onPress={() =>
             navigation.navigate('NuevoResidencial', route.params.item)
           }
