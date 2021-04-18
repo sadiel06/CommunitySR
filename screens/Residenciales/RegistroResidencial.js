@@ -96,28 +96,6 @@ const NuevoResidencial = ({ navigation, route }) => {
   //fetch
   
 
-  // const {setConsultar} = route.params;
-  // const postdata = async () => {
-
-  //   try {
-  //     let response = await fetch(
-  //       'http://10.0.0.12:8080/API/residencial/test_sending',
-  //       {
-  //         method: 'POST',
-  //         headers: {
-  //           'Accept': 'application/json',
-  //           'Content-Type': 'application/json'
-  //         },
-  //         body: JSON.stringify({ key: '291290336b75b259b77e181c87cc974f', data: { idprovincia: provincia } })
-  //       }
-  //     );
-
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-
-  //   console.log(provincia);
-  // };
 
   const guardarResidencial = async () => {
     //validar
@@ -134,13 +112,7 @@ const NuevoResidencial = ({ navigation, route }) => {
     }
     //enviar datos a la api
     const Residencial = {
-     // residencial/update
-      // nombre
-      // provincia
-      // municipio
-      // sector
-      // area
-      // ID_residencial
+     
       nombre,
       area: Number(area),
       provincia: Number(provincia),

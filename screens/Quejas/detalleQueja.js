@@ -73,7 +73,7 @@ const DetalleQuejas = ({navigation, route}) => {
           <Card.Content>
             <Title>
               {queja.nombre + ' - ' + queja.nombreResi} 
-            </Title>
+            </Title> 
             <Paragraph>Descripcion: {queja.descripcion}</Paragraph>
           </Card.Content>
           <Card.Actions>

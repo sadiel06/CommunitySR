@@ -4,7 +4,7 @@ import globalStyles from '../../Styles/global';
 import DropDown from 'react-native-paper-dropdown';
 import ClientAxios from '../../helpers/clientAxios';
 import { useFocusEffect } from '@react-navigation/core';
-import AppContext from '../../context/AppContext' 
+import AppContext from '../../context/AppContext'
 import {
     Button,
     Text,
@@ -23,13 +23,13 @@ import {
 
 const CalificarDep = ({ navigation, route }) => {
     const [calificacion, setCalificacion] = useState('');
-    const [departamento,setDepartamento] = useState('');
+    const [departamento, setDepartamento] = useState('');
     const [Resena, setResena] = useState('');
     const { user } = useContext(AppContext);
 
     console.log(user);
     const item = route.params.item;
-  
+
     //   useFocusEffect(
     //     React.useCallback(() => {
     //       const getData = async () => {
@@ -62,16 +62,16 @@ const CalificarDep = ({ navigation, route }) => {
         console.log(item.ID_Carro);
 
         const CalificacionDep = {
-            idUser:user.idUsuario,
-            idDepartamento:'', //Con un useEfect obtener enciare ID usuario.
-            calificacion:calificacion,
-            descripcion:Resena
+            idUser: user.idUsuario,
+            idDepartamento: '', //Con un useEfect obtener enciare ID usuario.
+            calificacion: calificacion,
+            descripcion: Resena
         }
 
         try {
             const resultados = await ClientAxios.post('complementos/calificar', {
                 key: '291290336b75b259b77e181c87cc974f',
-                data: {calificacion: CalificacionDep },
+                data: { calificacion: CalificacionDep },
             });
             //setCarros(resultados.data);
             // console.log(resultados.data);
@@ -83,14 +83,14 @@ const CalificarDep = ({ navigation, route }) => {
     // <Paragraph>alquilado por: {item.nombreuser}</Paragraph>
     //             <Paragraph>fecha de alquiler: {item.fecha}</Paragraph>
     //             <Paragraph>Días rentados: {item.cantDias}</Paragraph>x
-    
+
     return (
         <>
             <Appbar.Header>
                 <Appbar.Content title="Calificanos" />
             </Appbar.Header>
-            <View style={globalStyles.contenedor}>
 
+            <View style={globalStyles.contenedor}>
                 <TextInput
                     label="Calificación"
                     style={globalStyles.inputs}

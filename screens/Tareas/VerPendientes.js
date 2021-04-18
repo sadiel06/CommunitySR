@@ -49,9 +49,6 @@ const VerPendientes = ({ navigation, route }) => {
               />
             )}
           />
-
-
-         
         </View>
       </ScreenHeader>
     </>

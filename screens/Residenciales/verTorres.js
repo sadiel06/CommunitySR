@@ -17,6 +17,7 @@ const verTorre = ({ navigation, route }) => {
   const [torres, setTorres] = useState([]);
   const [isOpen, setIsOpen] = useState(false)
   const [fabVIsible, setFABVisible] = useState(true)
+  // console.log(route.params)
   //const { user } = useContext(AppContext);
   // useEffect(() => {
   //   const getData = async () => {
@@ -66,7 +67,7 @@ const verTorre = ({ navigation, route }) => {
   // )
 
   return (
-    <ScreenHeader title="Torres">
+    <ScreenHeader title={`Residencial: ${route.params.nombre}`}>
       <View style={globalStyles.contenedor}>        
         <Headline style={globalStyles.titulo}>
           {torres.length > 0 ? 'Torres' : 'Aún no tiene torres registradas'}

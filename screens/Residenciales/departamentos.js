@@ -16,6 +16,7 @@ import {
   DefaultTheme,
   Switch,
 } from 'react-native-paper';
+import ScreenHeader from '../../components/ScreenHeader'
 import globalStyles from '../../Styles/global';
 import ClientAxios from '../../helpers/clientAxios';
 const NuevoDepartamento = ({navigation, route}) => {
@@ -88,6 +89,7 @@ const NuevoDepartamento = ({navigation, route}) => {
   //     return setRegion(region);
   // }
   return (
+    <ScreenHeader title='Nuevo Apartamento'>
     <ScrollView>
       <KeyboardAvoidingView>
         <View style={globalStyles.contenedor}>
@@ -178,6 +180,7 @@ const NuevoDepartamento = ({navigation, route}) => {
         </View>
       </KeyboardAvoidingView>
     </ScrollView>
+    </ScreenHeader>
   );
 };
 

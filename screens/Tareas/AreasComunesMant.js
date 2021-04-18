@@ -5,7 +5,6 @@ import { FlatList, View, StyleSheet } from 'react-native';
 import globalStyles from '../../Styles/global';
 import { AppContext } from '../../context/AppContext';
 import ClientAxios from '../../helpers/clientAxios';
-import { set } from 'react-hook-form';
 import ScreenHeader from '../../components/ScreenHeader';
 
 const AreasComunesMant = ({ navigation, route }) => {

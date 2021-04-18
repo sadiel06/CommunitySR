@@ -3,6 +3,7 @@ import {View} from 'react-native';
 import {TextInput, Button} from 'react-native-paper';
 import globalStyles from '../../Styles/global';
 import ClientAxios from '../../helpers/clientAxios';
+import ScreenHeader from '../../components/ScreenHeader';
 
 const NuevoServicio = ({navigation, route}) => {
   const [descripcion, setDescripcion] = useState('');
@@ -49,6 +50,7 @@ const NuevoServicio = ({navigation, route}) => {
   };
 
   return (
+    <ScreenHeader title='Nuevo Servicio'>
     <View style={globalStyles.contenedor}>
       <TextInput
         label="Descripción"
@@ -76,6 +78,7 @@ const NuevoServicio = ({navigation, route}) => {
 
       <Button mode='contained' onPress={() => guardarServicios()}>Crear</Button>
     </View>
+    </ScreenHeader>
   );
 };
 
