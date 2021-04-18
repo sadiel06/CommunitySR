@@ -12,6 +12,7 @@ const verResidenciales = ({ navigation }) => {
   useFocusEffect(
     React.useCallback(() => {
       const getData = async () => {
+        
         try {
           const resultados = await ClientAxios.post(
             'residencial/getAllResidencial',

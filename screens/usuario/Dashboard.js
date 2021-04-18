@@ -4,8 +4,10 @@ import Logo from '../../components/Logo'
 import Header from '../../components/Header'
 import Paragraph from '../../components/Paragraph'
 import Button from '../../components/Button'
+import { useNavigation } from '@react-navigation/native'
 
-export default function Dashboard({ navigation }) {
+export default function Dashboard({   }) {
+  const navigation = useNavigation();
   return (
     <Background>
       <Logo />
@@ -17,10 +19,7 @@ export default function Dashboard({ navigation }) {
       <Button
         mode="outlined"
         onPress={() =>
-          navigation.reset({
-            index: 0,
-            routes: [{ name: 'Login' }],
-          })
+          navigation.navigate('LoginScreen')
         }
       >
         Logout

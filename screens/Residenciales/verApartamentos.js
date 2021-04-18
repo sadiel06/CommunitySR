@@ -5,6 +5,7 @@ import axios from 'axios';
 import globalStyles from '../../Styles/global';
 import ClientAxios from '../../helpers/clientAxios';
 import {useFocusEffect} from '@react-navigation/core';
+import ScreenHeader from '../../components/ScreenHeader';
 
 const verApartamento = ({navigation, route}) => {
   const [departamento, setDepartamento] = useState([]);
@@ -32,6 +33,7 @@ const verApartamento = ({navigation, route}) => {
 
   return (
     <>
+    <ScreenHeader title='Ver apartamentos'>
       <View style={globalStyles.contenedor}>
         <Button
           icon="plus-circle"
@@ -65,6 +67,7 @@ const verApartamento = ({navigation, route}) => {
           onPress={() => navigation.navigate('NuevaTorre')}
         />
       </View>
+      </ScreenHeader>
     </>
   );
 };

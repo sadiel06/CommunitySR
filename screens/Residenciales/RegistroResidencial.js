@@ -1,6 +1,6 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useFocusEffect } from '@react-navigation/core';
-import {View, StyleSheet, ScrollView, KeyboardAvoidingView} from 'react-native';
+import { View, StyleSheet, ScrollView, KeyboardAvoidingView } from 'react-native';
 import {
   Text,
   TextInput,
@@ -16,37 +16,43 @@ import DropDown from 'react-native-paper-dropdown';
 import ClientAxios from '../../helpers/clientAxios';
 import ScreenHeader from '../../components/ScreenHeader';
 let provincias = [
-  {label: 'santiago', value: '1'},
-  {label: 'samana', value: '2'},
-  {label: 'punta cana', value: '3'},
-  {label: 'puerto plata', value: '4'},
-  {label: 'mao', value: '5'},
+  { label: 'santiago', value: '1' },
+  { label: 'samana', value: '2' },
+  { label: 'punta cana', value: '3' },
+  { label: 'puerto plata', value: '4' },
+  { label: 'mao', value: '5' },
 ];
 let listamunicipios = [
-  {label: 'janico', value: '1'},
-  {label: 'sabana iglesias', value: '2'},
-  {label: 'sajoma', value: '3'},
-  {label: 'tamboril', value: '4'},
-  {label: 'villagonzales', value: '5'},
+  { label: 'janico', value: '1' },
+  { label: 'sabana iglesias', value: '2' },
+  { label: 'sajoma', value: '3' },
+  { label: 'tamboril', value: '4' },
+  { label: 'villagonzales', value: '5' },
 ];
 let listasectores = [
-  {label: 'las palomas', value: '1'},
-  {label: 'atomayor', value: '2'},
-  {label: 'los jardines', value: '3'},
-  {label: 'el embrujo I', value: '4'},
-  {label: 'La trinitaria', value: '5'},
+  { label: 'las palomas', value: '1' },
+  { label: 'atomayor', value: '2' },
+  { label: 'los jardines', value: '3' },
+  { label: 'el embrujo I', value: '4' },
+  { label: 'La trinitaria', value: '5' },
 ];
 let list = [];
 
-const NuevoResidencial = ({navigation, route}) => {
+const NuevoResidencial = ({ navigation, route }) => {
+
+  const [isEditando, setIsEditando] = useState(false);
+  const [idResidencial, setIDresidencial] = useState(0)
+ 
+
   //estados
   const [nombre, setNombre] = useState('');
   const [area, setArea] = useState('');
   // const [region, setRegion] = useState('');
   // const [mostrarRegion, setMostrarRegion] = useState(false);
   const [provincia, setProvincia] = useState('');
-  const [mostrarProvinvia, setMostrarProvincia] = useState(false);
   const [municipio, setMunicipio] = useState('');
+
+  const [mostrarProvinvia, setMostrarProvincia] = useState(false);
 
   const [mostrarMunicipio, setMostrarMunicipio] = useState(false);
 
@@ -54,34 +60,41 @@ const NuevoResidencial = ({navigation, route}) => {
   const [mostrarSector, setMostrarSector] = useState(false);
   const [alerta, setAlerta] = useState(false);
   const [alerta1, setAlerta1] = useState(false);
-  //funciones
 
-  //fetch
-  useEffect(() => {
-    const getdata = async () => {
-      try {
-        let response = await fetch(
-          'http://25.31.135.148/API/complementos/get_provincias',
-          {
-            method: 'POST',
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              key: '291290336b75b259b77e181c87cc974f',
-              data: {},
-            }),
-          },
-        );
-        provincias = await response.json();
-        return provincias;
-      } catch (error) {
-        console.error(error);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      if (
+        route.params?.id
+      ) {
+        setIDresidencial(route.params?.id)
+        console.log(
+          JSON.stringify(
+            route.params, null, 4
+          )
+        )
+        setNombre(route.params.nombre);
+        setArea(route.params.areacuadrada.toString());
+        setProvincia(route.params.ID_provincia.toString());
+        setMunicipio(route.params.ID_municipio.toString());
+        setSector(route.params.ID_sector.toString());
+        setIsEditando(true)
       }
-    };
-    getdata();
-  }, []);
+      return () => console.log('on cleanup');
+    }, []),
+  );
+
+
+  //funciones
+  // residencial/update
+  // nombre
+  // provincia
+  // municipio
+  // sector
+  // area
+  // ID_residencial
+  //fetch
+  
 
   // const {setConsultar} = route.params;
   // const postdata = async () => {
@@ -121,15 +134,25 @@ const NuevoResidencial = ({navigation, route}) => {
     }
     //enviar datos a la api
     const Residencial = {
+     // residencial/update
+      // nombre
+      // provincia
+      // municipio
+      // sector
+      // area
+      // ID_residencial
       nombre,
       area: Number(area),
       provincia: Number(provincia),
       municipio: Number(municipio),
       sector: Number(sector),
+      ID_residencial: Number(idResidencial)
     };
     // Consulta
     try {
-      const res = await ClientAxios.post('residencial/insert', {
+      // residencial/update
+      console.log(Residencial)
+      const res = await ClientAxios.post(`residencial/${isEditando ? 'update' : 'insert'}`, {
         key: '291290336b75b259b77e181c87cc974f',
         data: Residencial,
       });
@@ -160,7 +183,7 @@ const NuevoResidencial = ({navigation, route}) => {
   const municipios = async provincia => {
     listamunicipios = await ClientAxios.post('complementos/get_municipio', {
       key: '291290336b75b259b77e181c87cc974f',
-      data: {idprovincia: provincia},
+      data: { idprovincia: provincia },
     });
     // listamunicipios=await axios.post("http://10.0.0.12:8080/API/residencial/get_provincias",{ key: '291290336b75b259b77e181c87cc974f', data: { idprovincia: provincia } });
     setProvincia(provincia);
@@ -169,7 +192,7 @@ const NuevoResidencial = ({navigation, route}) => {
   const sectores = async municipio => {
     listamunicipios = await ClientAxios.post('complementos/get_sector', {
       key: '291290336b75b259b77e181c87cc974f',
-      data: {idprovincia: provincia},
+      data: { idprovincia: provincia },
     });
     // listasectores=await axios.post("http://10.0.0.12:8080/API/residencial/get_provincias",{ key: '291290336b75b259b77e181c87cc974f', data: { idprovincia: municipio } });
     setMunicipio(municipio);
@@ -180,7 +203,7 @@ const NuevoResidencial = ({navigation, route}) => {
       <ScrollView>
         <KeyboardAvoidingView>
           <View style={globalStyles.contenedor}>
-            <Headline style={globalStyles.titulo}>Nuevo Residencial</Headline>
+            <Headline style={globalStyles.titulo}>{isEditando ? 'Editando' : 'Nuevo'} Residencasdasdial</Headline>
             <TextInput
               label="Nombre del residencial"
               placeholder="Residencia"
@@ -250,15 +273,16 @@ const NuevoResidencial = ({navigation, route}) => {
               icon="pencil-circle"
               mode="contained"
               onPress={() => guardarResidencial()}
-              style={{marginBottom: 15}}>
-              Guardar residencial
+              style={{ marginBottom: 15 }}>
+              {isEditando ? 'Editar ' : 'Crear '}
+               residencial
             </Button>
 
             <Button
               icon="pencil-circle"
               mode="contained"
               onPress={() => setAlerta1(true)}
-              style={{marginBottom: 15}}>
+              style={{ marginBottom: 15 }}>
               enviar
             </Button>
 

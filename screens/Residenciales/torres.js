@@ -3,11 +3,11 @@ import {View} from 'react-native';
 import {TextInput, Button} from 'react-native-paper';
 import globalStyles from '../../Styles/global';
 import ClientAxios from '../../helpers/clientAxios'
-
+import ScreenHeader from '../../components/ScreenHeader';
 const nuevaTorre = ({navigation,route}) => {
   const [nombre, setNombre] = useState('');
   const [cantidadPisos, setCantidad] = useState('');
-
+  console.log(route.params)
   const guardarTorre = async () => {
     //validar form
     if (
@@ -22,9 +22,10 @@ const nuevaTorre = ({navigation,route}) => {
     //crear o modificar
     const torres = {
       nombre,
-      idresidencial:Number(route.params),
+      idresidencial:Number(route.params.id),
       niveles: Number(cantidadPisos),
     };
+    
     
     //insert
     try {
@@ -48,6 +49,7 @@ const nuevaTorre = ({navigation,route}) => {
   };
 
   return (
+    <ScreenHeader title="Nueva Torre">
     <View style={globalStyles.contenedor}>
       <TextInput
         label="Nombre de la torre"
@@ -66,6 +68,7 @@ const nuevaTorre = ({navigation,route}) => {
       />
       <Button onPress={() => guardarTorre()}>Crear</Button>
     </View>
+    </ScreenHeader>
   );
 };
 

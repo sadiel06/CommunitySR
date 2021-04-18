@@ -28,8 +28,8 @@ const LoginScreen=()=> {
   const [visible, setVisible] = React.useState(false);
   const [sector, setSector] = useState('');
   const { user, setUser } = useContext(AppContext);
-  const [usuario, setUsuario] = useState({ value: '', error: '' });
-  const [password, setPassword] = useState({ value: '', error: '' });
+  const [usuario, setUsuario] = useState({ value: 'sadiel', error: '' });
+  const [password, setPassword] = useState({ value: '123456', error: '' });
   const [listasPermisos, setListaPermisos] = useState([])
   const [dataResult, setDataResult] = useState({})
   const showModal = () => setVisible(true);
@@ -81,7 +81,8 @@ const LoginScreen=()=> {
             rol = 3;
           }
         } else if (Number(cantPermisos) === 1) {
-          rol = Permisos[0].idTipoUsuario;
+          rol = Permisos[0].value;
+          alert(rol)
         } else {
           // Presentar el dropdown lista permisos
           // Asignar el rol al dropdown
@@ -91,13 +92,13 @@ const LoginScreen=()=> {
           return;
 
         }
-
+         
         setUser({ ...dataResult, rol: rol });
 
 
         // setDataResult(resultados.data);
         // setUser(dataResult);
-        navigation.navigate('Stack');
+        navigation.replace('Stack');
         // submit();
         // 
       }
@@ -111,8 +112,10 @@ const LoginScreen=()=> {
 
 
   return (
-    <ScrollView>
-      <Logo />
+    <ScrollView contentContainerStyle={{padding: 20}}>
+      <View style={{alignItems: 'center'}}>
+      <Logo  />
+      </View>
       <TextInput
         label="Usuario"
         returnKeyType="next"
@@ -168,7 +171,7 @@ const LoginScreen=()=> {
               setUser({ ...dataResult, rol: sector });
               hideModal()
              alert(JSON.stringify(user))
-              navigation.navigate('Stack');
+              navigation.replace('Stack');
             }}>Guardar</PaperButton>
           </View>
 

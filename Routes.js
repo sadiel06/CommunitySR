@@ -50,32 +50,32 @@ const Routes = () => {
   const pantallasDrawer = [
     {
       name: 'Home',
-      component: () => <DashBoard/>,
+      component:  <DashBoard/>,
       rol: [1,2,3,4],
     },
     {
       name: 'Tareas Pendientes',
-      component: () => <StackScreenTareasPen/>,
+      component:  <StackScreenTareasPen/>,
       rol: [4],
     },
     {
       name: 'ListaResidenciales',
-      component: () => <StackScreensResidenciales />,
+      component:  <StackScreensResidenciales />,
       rol: [1],
     },
     {
       name: 'Asignar Tarea',
-      component: () => <AsignarTareas/>,
+      component:  <AsignarTareas/>,
       rol: [1],
     },
     {
       name: 'Quejarse',
-      component: () => <Quejarse/>,
+      component:  <Quejarse/>,
       rol: [2],
     },
     {
       name: 'Calificar Departamento',
-      component: () => <Calificar/>,
+      component:  <Calificar/>,
       rol: [2],
     },
   ];
@@ -85,7 +85,11 @@ const Routes = () => {
       <Drawer.Navigator initialRouteName="Home">
         {pantallasDrawer.map(pantalla => {
           if (pantalla.rol.includes(user.rol)) {
-            return <Drawer.Screen name={pantalla.name} component={pantalla.component} />;
+            return <Drawer.Screen name={pantalla.name}  
+            key={pantalla.name}
+            
+            children={() => pantalla.component}
+            />;
           }
           return;
         })}
