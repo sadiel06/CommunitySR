@@ -1,10 +1,10 @@
 import React, { useState, useContext } from 'react';
-import { FlatList, View, TouchableWithoutFeedback, Image } from 'react-native';
+import { FlatList, View,KeyboardAvoidingView, TouchableWithoutFeedback, Image } from 'react-native';
 import globalStyles from '../../Styles/global';
 import DropDown from 'react-native-paper-dropdown';
 import ClientAxios from '../../helpers/clientAxios';
 import { useFocusEffect } from '@react-navigation/core';
-import AppContext from '../../context/AppContext'
+import {AppContext} from '../../context/AppContext'
 import {
     Button,
     Text,
@@ -27,8 +27,8 @@ const CalificarDep = ({ navigation, route }) => {
     const [Resena, setResena] = useState('');
     const { user } = useContext(AppContext);
 
-    console.log(user);
-    const item = route.params.item;
+   console.log(user);
+  //  const item = route.params.item;
 
     //   useFocusEffect(
     //     React.useCallback(() => {
@@ -59,8 +59,7 @@ const CalificarDep = ({ navigation, route }) => {
             alert('La calificacion no puede estar vacío')
             return
         }
-        console.log(item.ID_Carro);
-
+        
         const CalificacionDep = {
             idUser: user.idUsuario,
             idDepartamento: '', //Con un useEfect obtener enciare ID usuario.
@@ -89,8 +88,9 @@ const CalificarDep = ({ navigation, route }) => {
             <Appbar.Header>
                 <Appbar.Content title="Calificanos" />
             </Appbar.Header>
-
+            
             <View style={globalStyles.contenedor}>
+
                 <TextInput
                     label="Calificación"
                     style={globalStyles.inputs}
@@ -99,12 +99,14 @@ const CalificarDep = ({ navigation, route }) => {
                     keyboardType="number-pad"
                 />
                 <TextInput
-                    label="Breve reseña:"
+                     mode='outlined'
+                    placeholder='Breve reseña:'
+                   
                     style={globalStyles.inputs}
                     onChangeText={texto => setResena(texto)}
                     value={Resena}
                     multiline
-                    numberOfLines={20}
+                    numberOfLines={10}
 
                 />
                 <Button onPress={() => Calificar()} mode='contained'>Calificar</Button>

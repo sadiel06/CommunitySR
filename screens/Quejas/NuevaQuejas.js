@@ -17,12 +17,13 @@ const NuevaQueja = ({ navigation, route }) => {
     //declarar objeto
     // setQueja({  ...queja ,idResi: route.params.id,})
 
-     setQueja({...queja,idResi:route.params.id.id})
+     setQueja({...queja, idResi:route.params.id})
     const Queja ={
       ...queja,
       diriguido:dirigido
     }
    
+ 
     
     try {
         const res = await ClientAxios.post('quejas/insert', {
@@ -42,7 +43,7 @@ const NuevaQueja = ({ navigation, route }) => {
       }
     //redireccionar a otra pantalla
 
-    console.log(servicio);
+    
   };
 
   return (

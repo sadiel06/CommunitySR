@@ -18,6 +18,7 @@ import verArea from './screens/Residenciales/verAreaComun'
 import NuevoMantenimiento from './screens/Residenciales/mantenimientos'
 import NuevaQueja from './screens/Quejas/NuevaQuejas'
 import VerQueja from './screens/Quejas/verQuejas'
+import DetalleQueja from './screens/Quejas/detalleQueja'
 import Calificar from './screens/Calificardep/calificarDep'
 import Quejarse from './screens/Quejas/Quejarse'
 import VerPendientes from './screens/Tareas/VerPendientes'
@@ -87,7 +88,6 @@ const Routes = () => {
           if (pantalla.rol.includes(user.rol)) {
             return <Drawer.Screen name={pantalla.name}  
             key={pantalla.name}
-            
             children={() => pantalla.component}
             />;
           }
@@ -116,6 +116,7 @@ function StackScreensResidenciales() {
       <Stack.Screen name="Mantenimiento" component={NuevoMantenimiento} /> 
       <Stack.Screen name="NuevaQueja" component={NuevaQueja} /> 
       <Stack.Screen name="VerQueja" component={VerQueja} /> 
+      <Stack.Screen name="DetalleQueja" component={DetalleQueja} />
     </Stack.Navigator>
   );
 }

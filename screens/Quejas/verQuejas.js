@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useFocusEffect } from '@react-navigation/core';
-import { Button, List, Headline, FAB } from 'react-native-paper';
+import { Button, List, Headline, FAB,Text } from 'react-native-paper';
 import { FlatList, View, StyleSheet } from 'react-native';
 import globalStyles from '../../Styles/global';
 import { AppContext } from '../../context/AppContext';
@@ -10,16 +10,17 @@ import ScreenHeader from '../../components/ScreenHeader';
 
 const verQuejas = ({ navigation, route }) => {
   const [quejas, setQuejas] = useState([]);
+ 
   useFocusEffect(
     React.useCallback(() => {
       const getData = async () => {
         try {
-          const resultados = await ClientAxios.post('quejas/getquejas', {
+          const resultados = await ClientAxios.post('quejas/getquejasbyresidencial', {
             key: '291290336b75b259b77e181c87cc974f',
-            data: { idResi: route.params.item.id },
+            data: { idResi: route.params.id },
           });
           setQuejas(resultados.data);
-          console.log(resultados.data)
+          // console.log(resultados.data)
         } catch (error) {
           console.log(error);
         }
@@ -30,6 +31,7 @@ const verQuejas = ({ navigation, route }) => {
   );
 
   return (
+
     <ScreenHeader title="quejas">
       <View style={globalStyles.contenedor}>
         <Headline style={globalStyles.titulo}>
@@ -37,11 +39,11 @@ const verQuejas = ({ navigation, route }) => {
         </Headline>
         <FlatList
           data={quejas}
-          keyExtractor={queja => queja.id.toString()}
+          keyExtractor={queja => queja.ID_TipoQuejas.toString()}
           renderItem={({ item }) => (
             <List.Item
-              title={item.nombre}
-              onPress={() => navigation.navigate('verDepartamentos', { item })}
+              title={item.descripcion}
+              onPress={() =>navigation.navigate('DetalleQueja',item)}
             />
           )}
         />
@@ -50,7 +52,7 @@ const verQuejas = ({ navigation, route }) => {
           icon="plus"
           style={styles.fab}
           onPress={() =>
-            navigation.navigate('NuevaQueja', route.params.item)
+            navigation.navigate('NuevaQueja', route.params)
           }
         />
       </View>

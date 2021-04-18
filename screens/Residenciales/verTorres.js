@@ -96,7 +96,7 @@ const verTorre = ({ navigation, route }) => {
               }, {
                 label: 'Servicios',
                 icon: 'room-service-outline',
-                onPress: () => navigation.navigate('verServicios', route.params.item),
+                onPress: () => navigation.navigate('verServicios', route.params),
                 // small: false,
               },
               {
@@ -108,7 +108,7 @@ const verTorre = ({ navigation, route }) => {
               {
                 icon: 'tree-outline',
                 label: 'Areas Comunes',
-                onPress: () => navigation.navigate('AreasComunes', route.params.item),
+                onPress: () => navigation.navigate('AreasComunes', route.params),
               },
 
               {
