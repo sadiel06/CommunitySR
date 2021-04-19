@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Text, Button, List, Headline, FAB, Portal } from 'react-native-paper';
-import { FlatList, View, StyleSheet } from 'react-native';
+import { Text, Button, List, Headline, FAB, Portal,Card , Title} from 'react-native-paper';
+import { FlatList, View, StyleSheet,TouchableWithoutFeedback } from 'react-native';
 import axios from 'axios';
 import globalStyles from '../../Styles/global';
 import ClientAxios from '../../helpers/clientAxios';
@@ -33,10 +33,30 @@ const verApartamento = ({ navigation, route }) => {
       setFABVisible(true);
       return () => {
         setFABVisible(false);
-        console.log('on cleanup')
+        console.log(departamento)
       }
     }, []),
   );
+
+  const Cartas = ({ item }) => {
+    const { Nombre_departamento, image } = item;
+    //<Button onPress={() => navigation.navigate('', { item })}>Detalles</Button>
+    // console.log(item);
+    return (
+      <TouchableWithoutFeedback>
+        <Card onPress={() => navigation.navigate('verTorres', item)} >
+          <Card.Content>
+            <Card.Cover source={{ uri: image }} />
+            <Title>{Nombre_departamento}</Title>
+          </Card.Content>
+          <Card.Actions>
+            <Button onPress={() => navigation.navigate('verTorres', item)}>Detalles</Button>
+
+          </Card.Actions>
+        </Card>
+      </TouchableWithoutFeedback>
+    );
+  };
 
   return (
     <>
@@ -53,12 +73,7 @@ const verApartamento = ({ navigation, route }) => {
           <FlatList
             data={departamento}
             keyExtractor={departamento => departamento.id.toString()}
-            renderItem={({ item }) => (
-              <List.Item
-                title={item.Nombre_departamento}
-                onPress={() => navigation.navigate('detalleDepartamento',{item})}
-              />
-            )}
+            renderItem={({ item }) => <Cartas item={item} />}
           />
 
           {fabVIsible ? <Portal>

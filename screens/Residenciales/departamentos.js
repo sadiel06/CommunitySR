@@ -16,9 +16,11 @@ import {
   DefaultTheme,
   Switch,
 } from 'react-native-paper';
+import { launchImageLibrary, launchCamera } from 'react-native-image-picker';
 import ScreenHeader from '../../components/ScreenHeader'
 import globalStyles from '../../Styles/global';
 import ClientAxios from '../../helpers/clientAxios';
+import {UPLOADIMG} from '../../helpers/uploadIMG'
 const NuevoDepartamento = ({navigation, route}) => {
   //estados
   const [nombre, setNombre] = useState('');
@@ -28,13 +30,51 @@ const NuevoDepartamento = ({navigation, route}) => {
   const [precioAlquiler, setPrecioAlquiler] = useState('');
   const [precioVenta, setPrecioVenta] = useState('');
   const [disponibeVenta, setDisponibleVenta] = useState(false);
+  const [url,setUrl]=useState('')
+  const [response, setResponse] = React.useState(null);
   //   const [mostrarServicios, setMostrarServicios] = useState(false);
   //   //   const [mostrarSector, setMostrarSector] = useState(false);
   const [alerta, setAlerta] = useState(false);
   const [alerta1, setAlerta1] = useState(false);
   //funciones
 
+const tomarFoto=()=>{
+  launchCamera(
+    {
+      mediaType: 'photo',
+      includeBase64: true,
+      maxHeight: 200,
+      maxWidth: 200,
+    },
+    async (response) => {
+      setResponse(response);
+      // alert(JSON.stringify(response, null, 2))
+      const respuesta = await UPLOADIMG(response);
+      setUrl(respuesta)
+      alert(respuesta);
+      setAlerta1(false);
 
+    },
+  )
+}
+const seleccionarimg=()=>{
+   launchImageLibrary(
+      {
+        mediaType: 'photo',
+        includeBase64: true,
+        maxHeight: 200,
+        maxWidth: 200,
+      },
+      async (response) => {
+        setResponse(response);
+        // alert(JSON.stringify(response, null, 2))
+        const respuesta = await UPLOADIMG(response);
+        alert(respuesta);
+        setUrl(respuesta);
+        setAlerta1(false);
+      },
+    )
+}
   const guardarDepartamento = async () => {
     //validar
     if (
@@ -56,7 +96,8 @@ const NuevoDepartamento = ({navigation, route}) => {
         dispoventa:disponibeVenta,
         cantBath:Number(cantBanos),
         cantHabi:Number(cantHabitaciones),
-        amueblado:amueblado
+        amueblado:amueblado,
+        image:url
       };
     //insert cantidadPisos
     console.log(route.params)
@@ -141,18 +182,18 @@ const NuevoDepartamento = ({navigation, route}) => {
             keyboardType="numeric"
           />
           <Button
+            icon={url?"check":"upload"}
+            mode="contained"
+            onPress={() => setAlerta1(true)}
+            style={{marginBottom: 15}}>
+            Subir imagen
+          </Button>
+          <Button
             icon="pencil-circle"
             mode="contained"
             onPress={() => guardarDepartamento()}
             style={{marginBottom: 15}}>
             Guardar Departamento
-          </Button>
-          <Button
-            icon="pencil-circle"
-            mode="contained"
-            onPress={() => setAlerta1(true)}
-            style={{marginBottom: 15}}>
-            enviar
           </Button>
           {/* Para campos vacios */}
           <Portal>
@@ -168,12 +209,14 @@ const NuevoDepartamento = ({navigation, route}) => {
           </Portal>
           <Portal>
             <Dialog visible={alerta1} onDismiss={() => setAlerta1(false)}>
-              <Dialog.Title>Error</Dialog.Title>
+              <Dialog.Title>Desea seleccionar una foto o tomarla</Dialog.Title>
               <Dialog.Content>
-                <Paragraph>Todo bien</Paragraph>
+                <Paragraph>Presione el boton correspondiente</Paragraph>
               </Dialog.Content>
               <Dialog.Actions>
-                <Button onPress={() => setAlerta1(false)}>OK</Button>
+                <Button icon='file-image' onPress={seleccionarimg}>Selecciona</Button>
+                <Button icon='camera' onPress={tomarFoto}>captura</Button>
+
               </Dialog.Actions>
             </Dialog>
           </Portal>

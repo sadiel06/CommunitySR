@@ -1,65 +1,98 @@
-import React, {useEffect, useState} from 'react';
-import {View, ToastAndroid} from 'react-native';
-import {
-  Button,
-  Appbar,
-  Card,
-  Title,
-  Paragraph,
-} from 'react-native-paper';
+import React, { useState, useContext } from 'react';
+import { FlatList, View, TouchableWithoutFeedback } from 'react-native';
 import globalStyles from '../../Styles/global';
 import ClientAxios from '../../helpers/clientAxios';
+import { useFocusEffect } from '@react-navigation/core';
+import { Button, List, Headline, FAB, Appbar, Card, Title, } from 'react-native-paper';
+import { AppContext } from '../../context/AppContext';
+import { Right } from 'native-base';
 
-const PagosResidente = ({navigation, route}) => {
-  // return <Text>{route.params.item.descripcion}</Text>
-  const [residente, setResidente] = useState({});
-  
-  useEffect(() => {
-    setResidente(route.params.item);
-  }, []);
+const verResidenciales = ({ navigation }) => {
+  const [pagos, setPagos] = useState([]);
+  const { user } = useContext(AppContext);
+  useFocusEffect(
+    React.useCallback(() => {
+      const getData = async () => {
+        // console.log(JSON.stringify(user,null,4))
+        // return
+        try {
+          const resultados = await ClientAxios.post(
+            'usuario/cuentaxcobrar',
+            {
+              key: '291290336b75b259b77e181c87cc974f', data: {
+                idUser: 1
+              }
+            },
+          );
+          setPagos(resultados.data);
 
-  const Completar = async () => {
-      
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      getData();
+      return () => console.log('on cleanup');
+    }, []),
+  );
+
+  const pagar = async() => {
     try {
-      const res = await ClientAxios.post('tarea/completar', {
-        key: '291290336b75b259b77e181c87cc974f',
-        data: {idPago: residente.ID, userRes:'1'},
-      });
-      if (res.data.key === '1') {
-        console.log(res.data);
-      } else {
-        throw Error('No se ha podido completar');
-      }
+      const resultados = await ClientAxios.post(
+        'usuario/cuentaxcobrar',
+        {
+          key: '291290336b75b259b77e181c87cc974f', data: {
+            idUser: 1
+          }
+        },
+      );
+      setPagos(resultados.data);
+
     } catch (error) {
       console.log(error);
-      alert(error);
     }
-    ToastAndroid.show('Se completó la Queja. !', ToastAndroid.SHORT);
-    navigation.navigate('verQuejas');
-    //limpiar form
-    //redireccionar
+
+  }
+
+
+  const Cartas = ({ item }) => {
+    const { definicion, monto } = item;
+
+    return (
+      <TouchableWithoutFeedback>
+        <Card onPress={() => console.log('carta')} >
+          <Card.Content>
+            <Title>{definicion + ' - $' + monto}</Title>
+
+          </Card.Content>
+          <Card.Actions>
+          </Card.Actions>
+        </Card>
+      </TouchableWithoutFeedback>
+    );
   };
+
 
   return (
     <>
       <Appbar.Header>
-        <Appbar.Content title="Detalle Queja" />
+        <Appbar.Content title="Pagos pendientes" />
       </Appbar.Header>
+
       <View style={globalStyles.contenedor}>
-        <Card>
-          <Card.Content>
-            <Title>
-              {residente.nombre + ' - ' + residente.nombreArea} 
-            </Title>
-            <Paragraph>Descripcion: {residente.cantDias}</Paragraph>
-          </Card.Content>
-          <Card.Actions>
-            <Button onPress={() => Completar()}>Completar</Button>
-          </Card.Actions>
-        </Card>
+
+        <FlatList
+          data={pagos}
+
+          keyExtractor={(_, i) => i.toString()}
+          renderItem={({ item }) => <Cartas item={item} />}
+
+        />
+
+
       </View>
+      <Button mode='contained' >Pagar</Button>
     </>
   );
 };
 
-export default PagosResidente;
+export default verResidenciales;

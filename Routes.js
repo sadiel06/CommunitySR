@@ -31,6 +31,7 @@ import agregarServicios from './screens/Residenciales/agregarServicios'
 import AllDepartamentos from './screens/Filtro/AllDepartamentos'
 import DetalleDepCliente from './screens/Filtro/DetalleDepCliente'
 import VerNotificaciones from './screens/Notificaciones/VerNotificaion'
+import Pagos from './screens/Pagos/pagos'
 import DetalleNotificaciones from './screens/Notificaciones/DetalleNotificaciones'
 //stack
 const Stack = createStackNavigator();
@@ -90,6 +91,11 @@ const Routes = () => {
       rol: [1],
     },
     {
+      name: 'Pagos pendientes',
+      component:  <Pagos/>,
+      rol: [2],
+    },
+    {
       name: 'Quejarse',
       component:  <Quejarse/>,
       rol: [2],
@@ -99,11 +105,7 @@ const Routes = () => {
       component:  <Calificar/>,
       rol: [2],
     },
-    {
-      name: 'Calificar Departamento',
-      component:  <Calificar/>,
-      rol: [2],
-    },
+   
     {
       name: 'Buscar Departamentos',
       component:  <StackScreensDepCli/>,
@@ -156,7 +158,7 @@ function StackScreensResidenciales() {
 function StackScreenNotificaciones() {
   return (
     <Stack.Navigator
-      initialRouteName="TareasPendientes"
+      initialRouteName="VerNotificaciones"
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="VerNotificaciones" component={VerNotificaciones} />
       <Stack.Screen name="DetalleNotificaciones" component={DetalleNotificaciones} />

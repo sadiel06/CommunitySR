@@ -23,27 +23,25 @@ const detalleNotificacion = ({ navigation, route }) => {
 
   useEffect(() => {
     setNotificacion(route.params.item);
+    
+
   }, []);
 
+  const aceptar = async()=>{
+    try {
+      const resultados = await ClientAxios.post(
+        'complementos/insertinquilinos',
+        { key: '291290336b75b259b77e181c87cc974f', data: { idResi:notificacion.idResidencial, idDepart:notificacion.ID_departamento, idUser: notificacion.ID_usuario,idPerso:notificacion.IdPersona, nomDepartameto:notificacion.Nombre_departamento } },
+      );
+      
+      console.log(JSON.stringify(resultados.data, null, 4))
+      navigation.goBack();
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
-  //   const [response, setResponse] = React.useState(null);
 
-  //   const handlePicker = () => {
-  //     launchImageLibrary(
-  //       {
-  //         mediaType: 'photo',
-  //         includeBase64: true,
-  //         maxHeight: 200,
-  //         maxWidth: 200,
-  //       },
-  //       async (response) => {
-  //         setResponse(response);
-  //         // alert(JSON.stringify(response, null, 2))
-  //         const respuesta = await UPLOADIMG(response);
-  //         alert(respuesta);
-  //       },
-  //     )
-  //   } 
 
   return (
     <>
@@ -57,13 +55,13 @@ const detalleNotificacion = ({ navigation, route }) => {
             <Title>
               {notificacion.Nombre_departamento}
             </Title>
-            <Paragraph>Precio alquiler: {notificacion.PrecioAlquiler}$</Paragraph>
-            <Paragraph>{notificacion.VentaDiponible ? 'Disponible para ventas' : 'No disponible para ventas'}</Paragraph>
-            <Paragraph> {notificacion.VentaDiponible ? 'Preacio de venta: $' + notificacion.PrecioVenta : ''}</Paragraph>
+            <Paragraph>Nombre: {notificacion.nombrepersona}</Paragraph>
+            <Paragraph>Contacto: {notificacion.celular}</Paragraph>
+            
 
           </Card.Content>
           <Card.Actions>
-            <Button onPress={handlePicker}>Aceptar</Button>
+            <Button onPress={aceptar}>Aceptar</Button>
           </Card.Actions>
         </Card>
 
