@@ -1,14 +1,14 @@
-import React, {useEffect, useState, useContext} from 'react';
-import {useFocusEffect} from '@react-navigation/core';
-import {Appbar, List, Headline, FAB} from 'react-native-paper';
-import {FlatList, View, StyleSheet} from 'react-native';
+import React, { useEffect, useState, useContext } from 'react';
+import { useFocusEffect } from '@react-navigation/core';
+import { Appbar, List, Headline, FAB } from 'react-native-paper';
+import { FlatList, View, StyleSheet } from 'react-native';
 import globalStyles from '../../Styles/global';
-import {AppContext} from '../../context/AppContext';
+import { AppContext } from '../../context/AppContext';
 import ClientAxios from '../../helpers/clientAxios';
-import {set} from 'react-hook-form';
+import { set } from 'react-hook-form';
 import ScreenHeader from '../../components/ScreenHeader';
 
-const verServicios = ({navigation, route}) => {
+const verServicios = ({ navigation, route }) => {
   const [servicios, setTServicios] = useState([]);
 
   useFocusEffect(
@@ -17,7 +17,7 @@ const verServicios = ({navigation, route}) => {
         try {
           const resultados = await ClientAxios.post('servicios/getservicios', {
             key: '291290336b75b259b77e181c87cc974f',
-            data: {idResi: route.params.id},
+            data: { idResi: route.params.id },
           });
           setTServicios(resultados.data);
           console.log(resultados.data);
@@ -28,7 +28,7 @@ const verServicios = ({navigation, route}) => {
       getData();
       return () => console.log('on cleanup');
     }, []),
-  ); 
+  );
   return (
     <>
       <ScreenHeader title="Servicios">
@@ -41,10 +41,10 @@ const verServicios = ({navigation, route}) => {
           <FlatList
             data={servicios}
             keyExtractor={servicios => servicios.id.toString()}
-            renderItem={({item}) => (
+            renderItem={({ item }) => (
               <List.Item
                 title={item.Descripcion}
-                onPress={() => navigation.navigate('verDepartamentos', {item})}
+                onPress={() => navigation.navigate('NuevoServicio', { item, idResidencial: route.params.id })}
               />
             )}
           />
@@ -53,8 +53,9 @@ const verServicios = ({navigation, route}) => {
             icon="plus"
             style={styles.fab}
             onPress={() =>
-              navigation.navigate('NuevoServicio', {id: route.params.id})
+              navigation.navigate('NuevoServicio', { idResidencial: route.params.id })
             }
+
           />
         </View>
       </ScreenHeader>
