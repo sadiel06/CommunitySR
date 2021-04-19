@@ -30,6 +30,8 @@ import detalleDepartamento from './screens/Residenciales/detalleDeparatamento'
 import agregarServicios from './screens/Residenciales/agregarServicios'
 import AllDepartamentos from './screens/Filtro/AllDepartamentos'
 import DetalleDepCliente from './screens/Filtro/DetalleDepCliente'
+import VerNotificaciones from './screens/Notificaciones/VerNotificaion'
+import DetalleNotificaciones from './screens/Notificaciones/DetalleNotificaciones'
 //stack
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -50,7 +52,7 @@ function StackScreensUser() {
 function StackScreensDepCli() {
   return (
     <Stack.Navigator
-      initialRouteName="LoginScreen"
+      initialRouteName="AllDepartamentos"
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="AllDepartamentos" component={AllDepartamentos} />
       <Stack.Screen name="DetalleDepCliente" component={DetalleDepCliente} />
@@ -75,6 +77,11 @@ const Routes = () => {
     {
       name: 'ListaResidenciales',
       component:  <StackScreensResidenciales />,
+      rol: [1],
+    },
+    {
+      name: 'Notificaciones',
+      component:  <StackScreenNotificaciones />,
       rol: [1],
     },
     {
@@ -142,6 +149,17 @@ function StackScreensResidenciales() {
       <Stack.Screen name="DetalleQueja" component={DetalleQueja} />
       <Stack.Screen name="detalleDepartamento" component={detalleDepartamento} />
       <Stack.Screen name="agregarServicios" component={agregarServicios} />
+    </Stack.Navigator>
+  );
+}
+
+function StackScreenNotificaciones() {
+  return (
+    <Stack.Navigator
+      initialRouteName="TareasPendientes"
+      screenOptions={{headerShown: false}}>
+      <Stack.Screen name="VerNotificaciones" component={VerNotificaciones} />
+      <Stack.Screen name="DetalleNotificaciones" component={DetalleNotificaciones} />
     </Stack.Navigator>
   );
 }

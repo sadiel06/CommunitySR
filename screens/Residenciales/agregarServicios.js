@@ -10,23 +10,23 @@ import ScreenHeader from '../../components/ScreenHeader';
 
 import DropDown from 'react-native-paper-dropdown'
 
-let listadoServicios = [
-  {
-    "ID_servicio": 1,
-    "ID_Departamento": 1,
-    "Nombre": "agua"
-  },
-  {
-    "ID_servicio": 2,
-    "ID_Departamento": 1,
-    "Nombre": "luz"
-  },
-  {
-    "ID_servicio": 3,
-    "ID_Departamento": 1,
-    "Nombre": "cable"
-  }
-]
+// let listadoServicios = [
+//   {
+//     "ID_servicio": 1,
+//     "ID_Departamento": 1,
+//     "Nombre": "agua"
+//   },
+//   {
+//     "ID_servicio": 2,
+//     "ID_Departamento": 1,
+//     "Nombre": "luz"
+//   },
+//   {
+//     "ID_servicio": 3,
+//     "ID_Departamento": 1,
+//     "Nombre": "cable"
+//   }
+// ]
 
 const AgregarServicio = ({ navigation, route }) => {
   const [servicios, setServicios] = useState([])
@@ -104,7 +104,7 @@ const AgregarServicio = ({ navigation, route }) => {
         data: { idServicio:service,
           idDepartamento:route.params.id }
       });
-      
+      navigation.goBack();
       console.log('bien '+JSON.stringify(resultados.data,null,2));
     } catch (error) {
       console.log(error);
@@ -140,11 +140,11 @@ const AgregarServicio = ({ navigation, route }) => {
           {
             servicios.length > 0 ?
               <FlatList style={{ marginBottom: 10 }}
-                data={listadoServicios}
+                data={servicios}
                 keyExtractor={(_, i) => i.toString()}
                 renderItem={({ item }) => (
                   <List.Item
-                    title={item.Nombre}
+                    title={item.nombre}
                     onPress={() => console.log('')}
                   />
                 )}

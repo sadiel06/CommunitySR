@@ -175,7 +175,6 @@ const LoginScreen=()=> {
             <PaperButton mode='contained' style={{ marginTop: 10 }} onPress={() => {
               setUser({ ...dataResult, rol: sector });
               hideModal()
-             alert(JSON.stringify(user))
               navigation.replace('Stack');
             }}>Guardar</PaperButton>
           </View>
