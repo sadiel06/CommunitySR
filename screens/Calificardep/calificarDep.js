@@ -27,7 +27,6 @@ const CalificarDep = ({ navigation, route }) => {
     const [Resena, setResena] = useState('');
     const { user } = useContext(AppContext);
 
-   console.log(user);
   //  const item = route.params.item;
 
     //   useFocusEffect(

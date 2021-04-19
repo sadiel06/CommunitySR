@@ -1,10 +1,11 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { View, ScrollView } from 'react-native';
 import { TextInput, Button, Appbar } from 'react-native-paper';
+import { useFocusEffect } from '@react-navigation/core';
 import globalStyles from '../../Styles/global';
 import ClientAxios from '../../helpers/clientAxios';
 import DropDown from 'react-native-paper-dropdown'
-//import AppContext from '../../context/AppContext'
+import {AppContext} from '../../context/AppContext'
 const listTipoqueja = []
 const listPresuntos = []
 const listDirigido = [{ label: 'Administracion', value: '1' }, { label: 'Residente', value: '2' }]
@@ -17,6 +18,47 @@ const Quejarse = ({ navigation, route }) => {
   const [verTipo, setVerTipo] = useState(false);
   const [presunto, setPresunto] = useState('');
   const [verPresuntos, setVerPresuntos] = useState(false);
+  const { user } = useContext(AppContext);
+  const [idResi,setIDResi]=useState(0);
+  const [idDepartamento,setIDdepartamento]=useState(0);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const getData = async () => {
+        try {
+          const resultados = await ClientAxios.post('departamento/user', {
+            key: '291290336b75b259b77e181c87cc974f',
+            data: { idUser: user.idUsuario },
+          });
+          setIDResi(resultados.data);
+          // console.log(resultados.data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      getData();
+      return () => console.log('on cleanup');
+    }, []),
+  );
+  
+     useFocusEffect(
+        React.useCallback(() => {
+          const getData = async () => {
+            try {
+              const resultados = await ClientAxios.post('departamento/listaInquilinos', {
+                key: '291290336b75b259b77e181c87cc974f',
+                data: { idResi: idResi },
+              });
+              setIDdepartamento(resultados.data);
+              // console.log(resultados.data);
+            } catch (error) {
+              console.log(error);
+            }
+          };
+          getData();
+          return () => console.log('on cleanup');
+        }, []),
+      );
  // const { user } = useContext(AppContext);
 
 //   useEffect(() => {
@@ -28,7 +70,6 @@ const Quejarse = ({ navigation, route }) => {
 //         });
 //         if (res.data.key === '1') {
 //           listTipoqueja = res.data;
-  
 //         } else {
 //           throw Error('No se ha podido completar');
 //         }
@@ -51,7 +92,7 @@ const Quejarse = ({ navigation, route }) => {
     const Quejarse = {
       descripcion: descripcion,
       idTipoqueja: tipoQueja,
-     // idUserfrom: user.idUsuario,
+      idUserfrom: user.idUsuario,
       idUserto: presunto,
       //idUser: user.idUsuario,
       idResi, //Obtener de algun metodo con use efect tambien

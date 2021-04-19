@@ -72,9 +72,11 @@ const LoginScreen=()=> {
         // alert(JSON.stringify(resultados.data, null, 2))
         
         let rol;
-
+        // let idResi;
         
         if (Number(cantPermisos) === 0) {
+          idResi=0;
+          
           if (isAdmin) {
             rol = 1;
           } else {
@@ -82,11 +84,13 @@ const LoginScreen=()=> {
           }
         } else if (Number(cantPermisos) === 1) {
           rol = Permisos[0].value;
+          idResi=Permisos[0].ID_residencial;
           alert(rol)
         } else {
           // Presentar el dropdown lista permisos
           // Asignar el rol al dropdown
           //setMostrarSector
+
           setVisible(true)
           setDataResult(resultados.data);
           return;
@@ -156,6 +160,7 @@ const LoginScreen=()=> {
               value={sector}
               setValue={e => {
                 //alert(e)
+                
                 setSector(e)
               }}
               list={listasPermisos}
@@ -170,7 +175,7 @@ const LoginScreen=()=> {
             <PaperButton mode='contained' style={{ marginTop: 10 }} onPress={() => {
               setUser({ ...dataResult, rol: sector });
               hideModal()
-             alert(JSON.stringify(user))
+            
               navigation.replace('Stack');
             }}>Guardar</PaperButton>
           </View>

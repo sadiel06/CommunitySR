@@ -26,8 +26,8 @@ import DetalleTarea from './screens/Tareas/DetalleTarea'
 import AreasComunesMant from './screens/Tareas/AreasComunesMant'
 import MantenimientoProg from './screens/Tareas/MantenimientoProg'
 import AsignarTareas from './screens/Tareas/AsignarTarea'
-
-
+import detalleDepartamento from './screens/Residenciales/detalleDeparatamento'
+import agregarServicios from './screens/Residenciales/agregarServicios'
 
 //stack
 const Stack = createStackNavigator();
@@ -117,6 +117,8 @@ function StackScreensResidenciales() {
       <Stack.Screen name="NuevaQueja" component={NuevaQueja} /> 
       <Stack.Screen name="VerQueja" component={VerQueja} /> 
       <Stack.Screen name="DetalleQueja" component={DetalleQueja} />
+      <Stack.Screen name="detalleDepartamento" component={detalleDepartamento} />
+      <Stack.Screen name="agregarServicios" component={agregarServicios} />
     </Stack.Navigator>
   );
 }

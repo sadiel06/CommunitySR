@@ -15,9 +15,9 @@ export function AppContextProvider({ children }) {
     Permisos: null,
     cantPermisos: null,
   });
-
+const [idResidencial,setIdResidencial] = useState(0)
   return (
-    <AppContext.Provider value={{ user, setUser }}>
+    <AppContext.Provider value={{ user, setUser, idResidencial, setIdResidencial }}>
       {children}
     </AppContext.Provider>
   );

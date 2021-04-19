@@ -12,6 +12,7 @@ const verApartamento = ({ navigation, route }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [fabVIsible, setFABVisible] = useState(true)
   
+ 
   useFocusEffect(
     React.useCallback(() => {
       const getData = async () => {
@@ -55,8 +56,7 @@ const verApartamento = ({ navigation, route }) => {
             renderItem={({ item }) => (
               <List.Item
                 title={item.Nombre_departamento}
-                //navigation.navigate('detalleDepartamento',{item})
-                onPress={() => console.log(item)}
+                onPress={() => navigation.navigate('detalleDepartamento',{item})}
               />
             )}
           />
@@ -64,7 +64,7 @@ const verApartamento = ({ navigation, route }) => {
           {fabVIsible ? <Portal>
             <FAB.Group
               open={isOpen}
-              icon={true ? 'wrench-outline' : 'plus'}
+              icon={true ? 'cogs' : 'plus'}
               actions={[
 
                 {

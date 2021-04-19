@@ -54,6 +54,8 @@ const verResidenciales = ({ navigation }) => {
       <Appbar.Header>
         <Appbar.Content title="Residenciales" />
       </Appbar.Header>
+
+      <Button onPress={()=>navigation.navigate('Mantenimiento',residencial)}>MAntenimientos</Button>
       <View style={globalStyles.contenedor}>
         <Headline style={globalStyles.titulo}>
           {residencial.length > 0

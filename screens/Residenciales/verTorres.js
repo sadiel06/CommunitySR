@@ -10,13 +10,14 @@ import ScreenHeader from '../../components/ScreenHeader';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 
 const Tab = createMaterialBottomTabNavigator();
-
+let resi;
 const Prueba = () => <Text>asdasd</Text>;
 
 const verTorre = ({ navigation, route }) => {
   const [torres, setTorres] = useState([]);
   const [isOpen, setIsOpen] = useState(false)
   const [fabVIsible, setFABVisible] = useState(true)
+
   // console.log(route.params)
   //const { user } = useContext(AppContext);
   // useEffect(() => {
@@ -87,7 +88,7 @@ const verTorre = ({ navigation, route }) => {
         {fabVIsible ? <Portal>
           <FAB.Group
             open={isOpen}
-            icon={true ? 'wrench-outline' : 'plus'}
+            icon={true ? 'cogs' : 'plus'}
             actions={[
               {
                 label: 'Queja',
