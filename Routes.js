@@ -28,7 +28,8 @@ import MantenimientoProg from './screens/Tareas/MantenimientoProg'
 import AsignarTareas from './screens/Tareas/AsignarTarea'
 import detalleDepartamento from './screens/Residenciales/detalleDeparatamento'
 import agregarServicios from './screens/Residenciales/agregarServicios'
-
+import AllDepartamentos from './screens/Filtro/AllDepartamentos'
+import DetalleDepCliente from './screens/Filtro/DetalleDepCliente'
 //stack
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -45,6 +46,18 @@ function StackScreensUser() {
     </Stack.Navigator>
   );
 }
+
+function StackScreensDepCli() {
+  return (
+    <Stack.Navigator
+      initialRouteName="LoginScreen"
+      screenOptions={{headerShown: false}}>
+      <Stack.Screen name="AllDepartamentos" component={AllDepartamentos} />
+      <Stack.Screen name="DetalleDepCliente" component={DetalleDepCliente} />
+    </Stack.Navigator>
+  );
+}
+
 const Routes = () => {
   const {user} = useContext(AppContext);
 
@@ -78,6 +91,16 @@ const Routes = () => {
       name: 'Calificar Departamento',
       component:  <Calificar/>,
       rol: [2],
+    },
+    {
+      name: 'Calificar Departamento',
+      component:  <Calificar/>,
+      rol: [2],
+    },
+    {
+      name: 'Buscar Departamentos',
+      component:  <StackScreensDepCli/>,
+      rol: [3],
     },
   ];
 

@@ -9,8 +9,20 @@ const NuevaQueja = ({ navigation, route }) => {
   const [queja, setQueja] = useState({ descripcion: '', cantAdvertencia: 1, limite: 5, costo: '', idResi: '' })
   const [dirigido,setDirigido] =useState('')
   const [verDirigido, setVerDirigido] = useState(false);
-
-  
+  const [isEditando,setIsEditando] = useState(false)
+  const [idResi,setIdResi]=useState(-1)
+  useFocusEffect(
+    React.useCallback(() => {
+      if (
+        route.params?.item
+      ) {
+        setDescripcion(route.params.item.Descripcion)
+        
+        setIsEditando(true)
+      }
+      return () => console.log('on cleanup');
+    }, []),
+  );
   const guardarQueja = async () => {
     //validar
 

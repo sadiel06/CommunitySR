@@ -43,11 +43,10 @@ const verQuejas = ({ navigation, route }) => {
           renderItem={({ item }) => (
             <List.Item
               title={item.descripcion}
-              onPress={() =>navigation.navigate('DetalleQueja',item)}
+              onPress={() =>navigation.navigate('DetalleQueja',{item, idResi:route.params.id})}
             />
           )}
         />
-
         <FAB
           icon="plus"
           style={styles.fab}

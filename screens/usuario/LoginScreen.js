@@ -72,7 +72,7 @@ const LoginScreen=()=> {
         // alert(JSON.stringify(resultados.data, null, 2))
         
         let rol;
-        // let idResi;
+        let idResi;
         
         if (Number(cantPermisos) === 0) {
           idResi=0;
@@ -85,7 +85,7 @@ const LoginScreen=()=> {
         } else if (Number(cantPermisos) === 1) {
           rol = Permisos[0].value;
           idResi=Permisos[0].ID_residencial;
-          alert(rol)
+         
         } else {
           // Presentar el dropdown lista permisos
           // Asignar el rol al dropdown
@@ -97,7 +97,7 @@ const LoginScreen=()=> {
 
         }
          
-        setUser({ ...dataResult, rol: rol });
+        setUser({ ...dataResult, rol: rol, idResi:idResi });
 
 
         // setDataResult(resultados.data);
@@ -175,7 +175,7 @@ const LoginScreen=()=> {
             <PaperButton mode='contained' style={{ marginTop: 10 }} onPress={() => {
               setUser({ ...dataResult, rol: sector });
               hideModal()
-            
+             alert(JSON.stringify(user))
               navigation.replace('Stack');
             }}>Guardar</PaperButton>
           </View>

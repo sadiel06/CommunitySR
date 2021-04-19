@@ -13,9 +13,9 @@ import ClientAxios from '../../helpers/clientAxios';
 const DetalleQuejas = ({navigation, route}) => {
   // return <Text>{route.params.item.descripcion}</Text>
   const [queja, setQueja] = useState({});
-  
+  console.log(route.params)
   useEffect(() => {
-    setQueja(route.params);
+    setQueja(route.params.item);
   }, []);
 
 
@@ -60,6 +60,7 @@ const DetalleQuejas = ({navigation, route}) => {
 
           </Card.Content>
           <Card.Actions>
+            <Button onPress={()=>navigation.navigate('NuevaQueja',route.params)}>Editar</Button>
           </Card.Actions>
         </Card>
       </View>
