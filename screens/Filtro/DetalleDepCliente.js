@@ -54,14 +54,14 @@ const DetalleDep = ({ navigation, route }) => {
   }
 
   const Solicitud = async () => {
-   console.log(JSON.stringify(departamento,null,4))
+  //  console.log(JSON.stringify(departamento,null,4))
  
    
     try {
       const res = await ClientAxios.post('complementos/insertsolicitud', {
         key: '291290336b75b259b77e181c87cc974f',
         data: {
-          idUser: 6,
+          idUser: user.idUsuario,
           idDepar: departamento.ID_departamento,
           idResi: departamento.idresi,
           iscompra: Number(TipoSolicitud)

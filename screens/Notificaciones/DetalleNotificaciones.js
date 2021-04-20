@@ -28,6 +28,7 @@ const detalleNotificacion = ({ navigation, route }) => {
   }, []);
 
   const aceptar = async()=>{
+    
     try {
       const resultados = await ClientAxios.post(
         'complementos/insertinquilinos',

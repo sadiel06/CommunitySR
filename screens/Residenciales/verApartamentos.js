@@ -44,13 +44,13 @@ const verApartamento = ({ navigation, route }) => {
     // console.log(item);
     return (
       <TouchableWithoutFeedback>
-        <Card onPress={() => navigation.navigate('verTorres', item)} >
+        <Card onPress={() => navigation.navigate('detalleDepartamento', {item})} >
           <Card.Content>
             <Card.Cover source={{ uri: image }} />
             <Title>{Nombre_departamento}</Title>
           </Card.Content>
           <Card.Actions>
-            <Button onPress={() => navigation.navigate('verTorres', item)}>Detalles</Button>
+            <Button onPress={() => navigation.navigate('detalleDepartamento', {item})}>Detalles</Button>
 
           </Card.Actions>
         </Card>
