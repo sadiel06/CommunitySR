@@ -3,28 +3,23 @@ import { FlatList, View, TouchableWithoutFeedback } from 'react-native';
 import globalStyles from '../../Styles/global';
 import ClientAxios from '../../helpers/clientAxios';
 import { useFocusEffect } from '@react-navigation/core';
-import { Button, List, Headline, FAB, Appbar, Card, Title, } from 'react-native-paper';
+import { Button, List, Headline, FAB, Appbar, Card, Title, Text } from 'react-native-paper';
 import { AppContext } from '../../context/AppContext';
-import { Right } from 'native-base';
 
 const verResidenciales = ({ navigation }) => {
-  const [pagos, setPagos] = useState([]);
+  const [Notificaciones, setNotificaciones] = useState([]);
   const { user } = useContext(AppContext);
   useFocusEffect(
     React.useCallback(() => {
       const getData = async () => {
-       
+
         try {
           const resultados = await ClientAxios.post(
-            'usuario/cuentaxcobrar',
-            {
-              key: '291290336b75b259b77e181c87cc974f', data: {
-                idUser: user.idUsuario
-              }
-            },
+            'complementos/getsolicitudesempleados',
+            { key: '291290336b75b259b77e181c87cc974f', data: {idUser : user.idUsuario } },
           );
-          setPagos(resultados.data);
-
+          setNotificaciones(resultados.data);
+        //   console.log(JSON.stringify(resultados.data, null, 4))
         } catch (error) {
           console.log(error);
         }
@@ -34,36 +29,21 @@ const verResidenciales = ({ navigation }) => {
     }, []),
   );
 
-  const pagar = async() => {
-    try {
-      const resultados = await ClientAxios.post(
-        'usuario/cuentaxcobrar',
-        {
-          key: '291290336b75b259b77e181c87cc974f', data: {
-            idUser: user.idUsuario
-          }
-        },
-      );
-      setPagos(resultados.data);
-
-    } catch (error) {
-      console.log(error);
-    }
-
-  }
 
 
-  const Cartas = ({ item }) => {
-    const { definicion, monto } = item;
-
+  const CardResid = ({ item }) => {
+    const { nombreresi, nombre } = item;
+    //<Button onPress={() => navigation.navigate('', { item })}>Detalles</Button>
+    // console.log(item);
     return (
       <TouchableWithoutFeedback>
-        <Card onPress={() => console.log('carta')} >
+        <Card onPress={() => navigation.navigate('detalleSolicitudEmpleo', { item }) } >
           <Card.Content>
-            <Title>{definicion + ' - $' + monto}</Title>
-
+            <Title>{nombreresi+' - '+nombre} </Title>
           </Card.Content>
           <Card.Actions>
+            <Button onPress={() => navigation.navigate('detalleSolicitudEmpleo', { item }) }>Detalle</Button>
+
           </Card.Actions>
         </Card>
       </TouchableWithoutFeedback>
@@ -74,22 +54,19 @@ const verResidenciales = ({ navigation }) => {
   return (
     <>
       <Appbar.Header>
-        <Appbar.Content title="Pagos pendientes" />
+        <Appbar.Content title="Solicitudes de empleo" />
       </Appbar.Header>
-
       <View style={globalStyles.contenedor}>
 
         <FlatList
-          data={pagos}
-
+          data={Notificaciones}
           keyExtractor={(_, i) => i.toString()}
-          renderItem={({ item }) => <Cartas item={item} />}
+          renderItem={({ item }) => <CardResid item={item} />}
 
         />
 
 
       </View>
-      <Button mode='contained' >Pagar</Button>
     </>
   );
 };

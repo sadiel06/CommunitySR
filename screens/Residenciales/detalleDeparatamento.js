@@ -47,6 +47,8 @@ const detalleDepartamento = ({ navigation, route }) => {
     )
   } 
 
+
+
   return (
     <>
       <Appbar.Header>

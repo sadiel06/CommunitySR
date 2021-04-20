@@ -33,6 +33,8 @@ import DetalleDepCliente from './screens/Filtro/DetalleDepCliente'
 import VerNotificaciones from './screens/Notificaciones/VerNotificaion'
 import Pagos from './screens/Pagos/pagos'
 import DetalleNotificaciones from './screens/Notificaciones/DetalleNotificaciones'
+import Solicitudesempleo from './screens/Residenciales/solicitudEmpleo'
+import detalleSolicitudEmpleo from './screens/Residenciales/detalleSolicitudEmpleo'
 //stack
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -78,6 +80,11 @@ const Routes = () => {
     {
       name: 'ListaResidenciales',
       component:  <StackScreensResidenciales />,
+      rol: [1],
+    },
+    {
+      name: 'Solicitudes de empleo',
+      component: <StackScreenSolicitudEmpleo/> ,
       rol: [1],
     },
     {
@@ -176,5 +183,17 @@ function StackScreenTareasPen() {
     </Stack.Navigator>
   );
 }
+
+function StackScreenSolicitudEmpleo() {
+  return (
+    <Stack.Navigator
+      initialRouteName="Solicitudesempleo"
+      screenOptions={{headerShown: false}}>
+      <Stack.Screen name="Solicitudesempleo" component={Solicitudesempleo} />
+      <Stack.Screen name="detalleSolicitudEmpleo" component={detalleSolicitudEmpleo} />
+    </Stack.Navigator>
+  );
+}
+
 
 export default StackScreensUser;

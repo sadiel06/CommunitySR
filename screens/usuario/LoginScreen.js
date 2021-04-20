@@ -96,8 +96,8 @@ const LoginScreen=()=> {
           return;
 
         }
-         
-        setUser({ ...dataResult, rol: rol, idResi:idResi });
+         console.log(JSON.stringify(resultados.data,null,4))
+        setUser({ ...resultados.data, rol: rol, idResi:idResi });
 
 
         // setDataResult(resultados.data);

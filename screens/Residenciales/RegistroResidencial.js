@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useFocusEffect } from '@react-navigation/core';
 import { View, StyleSheet, ScrollView, KeyboardAvoidingView } from 'react-native';
+import {launchImageLibrary } from 'react-native-image-picker'
 import {
   Text,
   TextInput,
@@ -15,6 +16,8 @@ import globalStyles from '../../Styles/global';
 import DropDown from 'react-native-paper-dropdown';
 import ClientAxios from '../../helpers/clientAxios';
 import ScreenHeader from '../../components/ScreenHeader';
+import {UPLOADIMG}  from '../../helpers/uploadIMG'
+import {AppContext} from '../../context/AppContext'
 let provincias = [
   { label: 'santiago', value: '1' },
   { label: 'samana', value: '2' },
@@ -42,7 +45,7 @@ const NuevoResidencial = ({ navigation, route }) => {
 
   const [isEditando, setIsEditando] = useState(false);
   const [idResidencial, setIDresidencial] = useState(0)
- 
+  const { user } = useContext(AppContext);
 
   //estados
   const [nombre, setNombre] = useState('');
@@ -61,6 +64,10 @@ const NuevoResidencial = ({ navigation, route }) => {
   const [alerta, setAlerta] = useState(false);
   const [alerta1, setAlerta1] = useState(false);
 
+
+  //imagenes
+  const [url,setUrl]=useState('')
+  const [response, setResponse] = React.useState(null);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -84,7 +91,24 @@ const NuevoResidencial = ({ navigation, route }) => {
     }, []),
   );
 
-
+  const seleccionarimg=()=>{
+    launchImageLibrary(
+       {
+         mediaType: 'photo',
+         includeBase64: true,
+         maxHeight: 200,
+         maxWidth: 200,
+       },
+       async (response) => {
+         setResponse(response);
+         // alert(JSON.stringify(response, null, 2))
+         const respuesta = await UPLOADIMG(response);
+         
+         setUrl(respuesta);
+        
+       },
+     )
+ }
   //funciones
   // residencial/update
   // nombre
@@ -114,11 +138,13 @@ const NuevoResidencial = ({ navigation, route }) => {
     const Residencial = {
      
       nombre,
+      idUser:user.idUsuario,
       area: Number(area),
       provincia: Number(provincia),
       municipio: Number(municipio),
       sector: Number(sector),
-      ID_residencial: Number(idResidencial)
+      ID_residencial: Number(idResidencial),
+      image:url,
     };
     // Consulta
     try {
@@ -253,9 +279,9 @@ const NuevoResidencial = ({ navigation, route }) => {
             <Button
               icon="pencil-circle"
               mode="contained"
-              onPress={() => setAlerta1(true)}
+              onPress={seleccionarimg}
               style={{ marginBottom: 15 }}>
-              enviar
+              Subir portada
             </Button>
 
             <Portal>

@@ -25,6 +25,7 @@ const DetalleDep = ({ navigation, route }) => {
   const { user } = useContext(AppContext);
   console.log(route.params)
   useEffect(() => {
+
     setDepartamento(route.params.item);
   }, []);
 
@@ -35,7 +36,7 @@ const DetalleDep = ({ navigation, route }) => {
         key: '291290336b75b259b77e181c87cc974f',
         data: {
       
-          idUser: 6,
+          idUser: user.idUsuario,
           idResi: departamento.idresi,
         
         },
