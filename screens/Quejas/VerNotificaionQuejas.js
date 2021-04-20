@@ -3,7 +3,7 @@ import { FlatList, View, TouchableWithoutFeedback } from 'react-native';
 import globalStyles from '../../Styles/global';
 import ClientAxios from '../../helpers/clientAxios';
 import { useFocusEffect } from '@react-navigation/core';
-import { Button, List, Headline, FAB, Appbar, Card, Title, Text } from 'react-native-paper';
+import { Button, List, Headline, FAB, Appbar, Card, Title, Text, Paragraph } from 'react-native-paper';
 import { AppContext } from '../../context/AppContext';
 
 const verNotQuejas = ({ navigation }) => {
@@ -29,14 +29,15 @@ const verNotQuejas = ({ navigation }) => {
   );
 
   const CardResid = ({ item }) => {
-    const { nombrepersona, nombreDepartamento, nobrePresunto, nombreResi, } = item;
+    const { nombreresi ,nomperto ,descri, } = item;
     //<Button onPress={() => navigation.navigate('', { item })}>Detalles</Button>
     // console.log(item);
     return (
       <TouchableWithoutFeedback>
         <Card onPress={() => navigation.navigate('DetalleNotificacionesQuejas', { item }) } >
           <Card.Content>
-            <Title>Nombre: {nombrepersona}</Title>
+            <Title> {nombreresi} - {nomperto}</Title>
+            <Paragraph>{descri}</Paragraph>
           </Card.Content>
           <Card.Actions>
             <Button onPress={() => navigation.navigate('DetalleNotificacionesQuejas', { item })}>Detalles</Button>
@@ -51,7 +52,7 @@ const verNotQuejas = ({ navigation }) => {
   return (
     <>
       <Appbar.Header>
-        <Appbar.Content title="Notificaciones" />
+        <Appbar.Content title="Notificaciones Quejas" />
       </Appbar.Header>
       <View style={globalStyles.contenedor}>
 

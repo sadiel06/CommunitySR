@@ -5,6 +5,7 @@ import {
   Appbar,
   Card,
   Title,
+  
   Paragraph,
 } from 'react-native-paper';
 import globalStyles from '../../Styles/global';

@@ -30,14 +30,14 @@ const verNotificaciones = ({ navigation }) => {
   );
 
   const CardResid = ({ item }) => {
-    const { nombrepersona, isCompra } = item;
+    const { nombrepersona, isCompra,Nombre_departamento } = item;
     //<Button onPress={() => navigation.navigate('', { item })}>Detalles</Button>
     // console.log(item);
     return (
       <TouchableWithoutFeedback>
         <Card onPress={() => navigation.navigate('DetalleNotificaciones', { item }) } >
           <Card.Content>
-            <Title>Nombre: {nombrepersona} {isCompra?'Compra':'Alquiler'}</Title>
+            <Title>{nombrepersona} - {Nombre_departamento } -{'  '+isCompra?'Compra':'Alquiler'}</Title>
           </Card.Content>
           <Card.Actions>
             <Button onPress={() => navigation.navigate('DetalleNotificaciones', { item })}>Detalles</Button>

@@ -6,7 +6,13 @@ import {
   Card,
   Title,
   Paragraph,
+  Portal,
+  Modal,
+  TextInput
+
 } from 'react-native-paper';
+import { useFocusEffect } from '@react-navigation/core';
+import DropDown from 'react-native-paper-dropdown';
 import globalStyles from '../../Styles/global';
 import ClientAxios from '../../helpers/clientAxios';
 import { launchImageLibrary, launchCamera } from 'react-native-image-picker';
@@ -21,23 +27,49 @@ const detalleNotificacion = ({ navigation, route }) => {
   // return <Text>{route.params.item.descripcion}</Text>
   const [notificacion, setNotificacion] = useState({});
   const [listaDeSuscripciones, setlistaDeSuscripciones] = useState([])
+  const [suscripcion, setSuscripcion] = useState('');
+  const [verSuscripcion, setVerSuscripcion] = useState(false);
+
+
   const [visible, setVisible] = React.useState(false);
 
-  useEffect(() => {
-    setNotificacion(route.params.item);
+  useFocusEffect(
+    React.useCallback(() => {
+      setNotificacion(route.params.item);
+      const getData = async () => { 
+       console.log(route)
+        try {
+          const resultados = await ClientAxios.post(
+            'complementos/listaplanes',
+            { key: '291290336b75b259b77e181c87cc974f', data: { idResi: route.params.item.idResidencial } },
+          );
+          setlistaDeSuscripciones(resultados.data);
+          console.log(JSON.stringify(resultados.data, null, 4))
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      getData();
+      return () => console.log('on cleanup');
+    }, []),
+  );
 
-
-  }, []);
+  
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
+  
+  
   const aceptar = async () => {
-
-
-    return
+// console.log(notificacion)
+if(suscripcion===''){
+  alert('suscripcion')
+  return
+}
+//     return
     try {
       const resultados = await ClientAxios.post(
         'complementos/insertinquilinos',
-        { key: '291290336b75b259b77e181c87cc974f', data: { idResi: notificacion.idResidencial, idDepart: notificacion.ID_departamento, idUser: notificacion.ID_usuario, idPerso: notificacion.IdPersona, nomDepartameto: notificacion.Nombre_departamento } },
+        { key: '291290336b75b259b77e181c87cc974f', data: { idPlan:suscripcion,idResi: notificacion.idResidencial, idDepart: notificacion.ID_departamento, idUser: notificacion.ID_usuario, idPerso: notificacion.IdPersona, nomDepartameto: notificacion.Nombre_departamento } },
       );
 
       console.log(JSON.stringify(resultados.data, null, 4))
@@ -67,7 +99,7 @@ const detalleNotificacion = ({ navigation, route }) => {
 
           </Card.Content>
           <Card.Actions>
-            <Button onPress={showModal()}>Aceptar</Button>
+            <Button onPress={()=>showModal()}>Aceptar</Button>
           </Card.Actions>
         </Card>
 
@@ -81,26 +113,27 @@ const detalleNotificacion = ({ navigation, route }) => {
             <DropDown
               label={'Selecciona su modo de'}
               mode="outlined"
-              value={sector}
+              value={suscripcion}
               setValue={e => {
                 //alert(e)
 
-                setSector(e)
+                setSuscripcion(e)
               }}
               list={listaDeSuscripciones}
-              visible={mostrarSector}
-              showDropDown={() => setMostrarSector(true)}
-              onDismiss={() => setMostrarSector(false)}
+              visible={verSuscripcion}
+              showDropDown={() => setVerSuscripcion(true)}
+              onDismiss={() => setVerSuscripcion(false)}
               inputProps={{
-                right: <PaperInput.Icon name={'menu-down'} />,
+                right: <TextInput.Icon name={'menu-down'} />,
               }}
 
             />
-            <PaperButton mode='contained' style={{ marginTop: 10 }} onPress={() => {
-              setUser({ ...dataResult, rol: sector });
+            <Button mode='contained' style={{ marginTop: 10 }} onPress={() => {
+              // setUser({ ...dataResult, rol: sector });
+              aceptar()
               hideModal()
               navigation.replace('Stack');
-            }}>Ok</PaperButton>
+            }}>Ok</Button>
           </View>
 
         </Modal>
@@ -110,22 +143,5 @@ const detalleNotificacion = ({ navigation, route }) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: '100%',
-  },
-  imageContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  headerText: {
-    color: '#fff',
-    fontSize: 20,
-  },
-  body: { flex: 1 },
-});
+
 export default detalleNotificacion;

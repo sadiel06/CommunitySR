@@ -37,6 +37,8 @@ import Solicitudesempleo from './screens/Residenciales/solicitudEmpleo'
 import detalleSolicitudEmpleo from './screens/Residenciales/detalleSolicitudEmpleo'
 import verServiciosPre from './screens/Residenciales/PredeterminadosServicios'
 import NuevoServicioPre from './screens/Residenciales/NuevoServicioPre'
+import verNotificaionesQuejas from './screens/Quejas/VerNotificaionQuejas'
+import DetalleNotificaionesQuejas from './screens/Quejas/detalleQuejarse'
 
 //stack
 const Stack = createStackNavigator();
@@ -93,6 +95,11 @@ const Routes = () => {
     {
       name: 'Notificaciones',
       component:  <StackScreenNotificaciones />,
+      rol: [1],
+    },
+    {
+      name: 'Ver quejas',
+      component:  <StackScreenNotificacionesQueja />,
       rol: [1],
     },
     {
@@ -178,7 +185,16 @@ function StackScreenNotificaciones() {
     </Stack.Navigator>
   );
 }
-
+function StackScreenNotificacionesQueja() {
+  return (
+    <Stack.Navigator
+      initialRouteName="VerNotificacionesQuejas"
+      screenOptions={{headerShown: false}}>
+      <Stack.Screen name="VerNotificacionesQuejas" component={verNotificaionesQuejas} />
+      <Stack.Screen name="Detalle notificaicion de queja" component={DetalleNotificaionesQuejas} />
+    </Stack.Navigator>
+  );
+}
 function StackScreenTareasPen() {
   return (
     <Stack.Navigator
