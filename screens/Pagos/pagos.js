@@ -3,12 +3,15 @@ import { FlatList, View, TouchableWithoutFeedback } from 'react-native';
 import globalStyles from '../../Styles/global';
 import ClientAxios from '../../helpers/clientAxios';
 import { useFocusEffect } from '@react-navigation/core';
-import { Button, Text,List, Headline, FAB, Appbar, Card, Title, Portal, Modal } from 'react-native-paper';
+import { Button, Text, List, Headline, FAB, Appbar, Card, Title, Portal, Modal } from 'react-native-paper';
 import { AppContext } from '../../context/AppContext';
+import {useNavigation} from '@react-navigation/native'
 import { Right } from 'native-base';
 
-const verResidenciales = ({ navigation }) => {
+const verResidenciales = ({ }) => {
+  const navigation = useNavigation()
   const [pagos, setPagos] = useState([]);
+  const [Total, setTotal] = useState(0);
   const { user } = useContext(AppContext);
   const showModal = () => setVisible(true);
   const [visible, setVisible] = React.useState(false);
@@ -26,8 +29,8 @@ const verResidenciales = ({ navigation }) => {
               }
             },
           );
-          setPagos(resultados.data);
-
+          setPagos(resultados.data.lista);
+          setTotal(resultados.data.total);
         } catch (error) {
           console.log(error);
         }
@@ -37,7 +40,9 @@ const verResidenciales = ({ navigation }) => {
     }, []),
   );
 
-  const pagar = async () => {
+
+    const pagar = async () => {
+
     try {
       const resultados = await ClientAxios.post(
         'usuario/simulacionpago',
@@ -47,13 +52,38 @@ const verResidenciales = ({ navigation }) => {
           }
         },
       );
-      setPagos(resultados.data);
 
+      if(resultados.data.key == '1'){
+        alert("Simulacion de pagos Stripe");
+        navigation.navigate('Home')
+      }
+      else{
+        alert("chequea")
+      }
+      
     } catch (error) {
       console.log(error);
     }
 
   }
+
+  // const pagar = async () => {
+
+  //   try {
+  //     const resultados = await ClientAxios.post(
+  //       'usuario/simulacionpago',
+  //       {
+  //         key: '291290336b75b259b77e181c87cc974f', data: {
+  //           idUser: user.idUsuario
+  //         }
+  //       },
+  //     );
+
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+
+  // }
 
 
   const Cartas = ({ item }) => {
@@ -89,7 +119,7 @@ const verResidenciales = ({ navigation }) => {
           renderItem={({ item }) => <Cartas item={item} />}
 
         />
-        <Title >Total:{ }</Title>
+        <Title >Total: ${Total}</Title>
 
       </View>
       <Button mode='contained' onPress={() => showModal()}>Pagar</Button>
@@ -101,7 +131,7 @@ const verResidenciales = ({ navigation }) => {
             <Text style={{ marginBottom: 10, fontWeight: 'bold', }}>Pago Stripe</Text>
 
             <Button mode='contained' style={{ marginTop: 10 }} onPress={() => {
-             pagar();
+              pagar();
               hideModal();
 
             }}>Pago Stripe</Button>
