@@ -69,7 +69,7 @@ const verTorre = ({ navigation, route }) => {
 
   return (
     <ScreenHeader title={`Residencial: ${route.params.nombre}`}>
-      <View style={globalStyles.contenedor}>        
+      <View style={globalStyles.contenedor}>
         <Headline style={globalStyles.titulo}>
           {torres.length > 0 ? 'Torres' : 'Aún no tiene torres registradas'}
         </Headline>
@@ -84,7 +84,7 @@ const verTorre = ({ navigation, route }) => {
             />
           )}
         />
-        
+
         {fabVIsible ? <Portal>
           <FAB.Group
             open={isOpen}
@@ -98,6 +98,12 @@ const verTorre = ({ navigation, route }) => {
                 label: 'Servicios',
                 icon: 'room-service-outline',
                 onPress: () => navigation.navigate('verServicios', route.params),
+                // small: false,
+              },
+              {
+                label: 'Servicios Predeterminados',
+                icon: 'room-service',
+                onPress: () => navigation.navigate('verServiciosPre', route.params),
                 // small: false,
               },
               {
@@ -117,7 +123,8 @@ const verTorre = ({ navigation, route }) => {
                 label: 'Editar Residencial',
                 onPress: () => navigation.navigate('NuevoResidencial', route.params),
               },
-              
+
+
             ]}
             onStateChange={() => setIsOpen(!isOpen)}
             onPress={() => {

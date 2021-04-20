@@ -68,7 +68,7 @@ const detalleDepartamento = ({ navigation, route }) => {
 
           </Card.Content>
           <Card.Actions>
-            <Button onPress={handlePicker}>Agregar imagen</Button>
+            
             <Button onPress={() => navigation.navigate('agregarServicios', apartamento)}>Ver servicios</Button>
           </Card.Actions>
         </Card>

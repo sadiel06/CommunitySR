@@ -6,15 +6,16 @@ import globalStyles from '../../Styles/global';
 import ClientAxios from '../../helpers/clientAxios';
 import DropDown from 'react-native-paper-dropdown'
 import {AppContext} from '../../context/AppContext'
-const listTipoqueja = []
-const listPresuntos = []
+import {useNavigation} from '@react-navigation/native'
 const listDirigido = [{ label: 'Administracion', value: '1' }, { label: 'Residente', value: '2' }]
-const Quejarse = ({ navigation, route }) => {
-
+const Quejarse = ({  route }) => {
+  const navigation =useNavigation()
   const [descripcion, setDescripcion] = useState('');
   const [dirigido, setDirigido] = useState('');
   const [verDirigido, setVerDirigido] = useState('');
   const [tipoQueja, setTipoQueja] = useState('');
+  const [lita, setlista] =useState([])
+  const [litaPresun, setListaPresun] =useState([])
   const [verTipo, setVerTipo] = useState(false);
   const [presunto, setPresunto] = useState('');
   const [verPresuntos, setVerPresuntos] = useState(false);
@@ -22,15 +23,39 @@ const Quejarse = ({ navigation, route }) => {
   const [idResi,setIDResi]=useState(0);
   const [idDepartamento,setIDdepartamento]=useState(0);
 
+
+  //getquejasbyinqui
+// idUser
   useFocusEffect(
     React.useCallback(() => {
       const getData = async () => {
+        // try {
+        //   const resultados = await ClientAxios.post('departamento/user', {
+        //     key: '291290336b75b259b77e181c87cc974f',
+        //     data: { idUser: user.idUsuario },
+        //   });
+        //   setIDResi(resultados.data);
+        //   // console.log(resultados.data);
+        // } catch (error) {
+        //   console.log(error);
+        // }
+        
         try {
-          const resultados = await ClientAxios.post('departamento/user', {
+          const resultados = await ClientAxios.post('quejas/getquejasbyinqui', {
             key: '291290336b75b259b77e181c87cc974f',
             data: { idUser: user.idUsuario },
           });
-          setIDResi(resultados.data);
+          setlista(resultados.data);
+          // console.log(resultados.data);
+        } catch (error) {
+          console.log(error);
+        }
+        try {
+          const resultados = await ClientAxios.post('quejas/cargarpresunto', {
+            key: '291290336b75b259b77e181c87cc974f',
+            data: { idUser: user.idUsuario },
+          });
+          setListaPresun(resultados.data);
           // console.log(resultados.data);
         } catch (error) {
           console.log(error);
@@ -41,24 +66,24 @@ const Quejarse = ({ navigation, route }) => {
     }, []),
   );
   
-     useFocusEffect(
-        React.useCallback(() => {
-          const getData = async () => {
-            try {
-              const resultados = await ClientAxios.post('departamento/listaInquilinos', {
-                key: '291290336b75b259b77e181c87cc974f',
-                data: { idResi: idResi },
-              });
-              setIDdepartamento(resultados.data);
-              // console.log(resultados.data);
-            } catch (error) {
-              console.log(error);
-            }
-          };
-          getData();
-          return () => console.log('on cleanup');
-        }, []),
-      );
+    //  useFocusEffect(
+    //     React.useCallback(() => {
+    //       const getData = async () => {
+    //         try {
+    //           const resultados = await ClientAxios.post('departamento/listaInquilinos', {
+    //             key: '291290336b75b259b77e181c87cc974f',
+    //             data: { idResi: idResi },
+    //           });
+    //           setIDdepartamento(resultados.data);
+    //           // console.log(resultados.data);
+    //         } catch (error) {
+    //           console.log(error);
+    //         }
+    //       };
+    //       getData();
+    //       return () => console.log('on cleanup');
+    //     }, []),
+    //   );
  // const { user } = useContext(AppContext);
 
 //   useEffect(() => {
@@ -94,11 +119,19 @@ const Quejarse = ({ navigation, route }) => {
       idTipoqueja: tipoQueja,
       idUserfrom: user.idUsuario,
       idUserto: presunto,
+      idUser:user.idUsuario,
+      username:user.userName
       //idUser: user.idUsuario,
-      idResi, //Obtener de algun metodo con use efect tambien
+       //Obtener de algun metodo con use efect tambien
    //   username: user.userName
     }
     //insert
+//     quejas/inserttouserqueja
+// idTipoqueja   (el value del dropdown)
+// idUserfrom (el id del user)
+// idUserto (el value del dropdown )
+// descripcion
+// idUser: (otra vez el id del usuario)
     try {
       const res = await ClientAxios.post('quejas/inserttouserqueja', {
         key: '291290336b75b259b77e181c87cc974f',
@@ -106,7 +139,7 @@ const Quejarse = ({ navigation, route }) => {
       });
       if (res.data.key === '1') {
         alert('Se completó');
-        navigation.goBack()
+        navigation.navigate('Home')
       } else {
         throw Error('No se ha podido completar');
       }
@@ -126,12 +159,28 @@ const Quejarse = ({ navigation, route }) => {
       <View style={globalStyles.contenedor}>
         <ScrollView>
           <View style={globalStyles.inputs}>
+              <View style={globalStyles.inputs}>
+                <DropDown
+                  label={'Dirigido a:'}
+                  mode="outlined"
+                  value={dirigido}
+                  setValue={setDirigido}
+                  list={listDirigido}
+                  visible={verDirigido}
+                  showDropDown={() => setVerDirigido(true)}
+                  onDismiss={() => setVerDirigido(false)}
+                  inputProps={{
+                    right: <TextInput.Icon name={'menu-down'} />,
+                  }}
+                />
+              </View>
+
             <DropDown
               label={'Tipo de queja'}
               mode="outlined"
               value={tipoQueja}
               setValue={setTipoQueja}
-              list={listTipoqueja}
+              list={lita}
               visible={verTipo}
               showDropDown={() => setVerTipo(true)}
               onDismiss={() => setVerTipo(false)}
@@ -141,40 +190,16 @@ const Quejarse = ({ navigation, route }) => {
             />
           </View>
 
-          <View style={globalStyles.inputs}>
-            <DropDown
-              label={'Dirigido a:'}
-              mode="outlined"
-              value={dirigido}
-              setValue={setDirigido}
-              list={listDirigido}
-              visible={verDirigido}
-              showDropDown={() => setVerDirigido(true)}
-              onDismiss={() => setVerDirigido(false)}
-              inputProps={{
-                right: <TextInput.Icon name={'menu-down'} />,
-              }}
-            />
-          </View>
-
-          <TextInput
-            label="Descripción"
-            placeholder="nombre servicio"
-            style={globalStyles.inputs}
-            onChangeText={texto => setDescripcion(texto)}
-            value={descripcion}
-          />
-
 
           {
             dirigido === '2' ?
               <View style={globalStyles.inputs}>
                 <DropDown
-                  label={'Presunto'}
+                  label={'Departamento presunto'}
                   mode="outlined"
                   value={presunto}
                   setValue={setPresunto}
-                  list={listPresuntos}
+                  list={litaPresun}
                   visible={verPresuntos}
                   showDropDown={() => setVerPresuntos(true)}
                   onDismiss={() => setVerPresuntos(false)}
@@ -184,6 +209,14 @@ const Quejarse = ({ navigation, route }) => {
                 />
               </View> : null
           }
+
+          <TextInput
+            label="Descripción"
+            placeholder="nombre servicio"
+            style={globalStyles.inputs}
+            onChangeText={texto => setDescripcion(texto)}
+            value={descripcion}
+          />
 
           <Button onPress={() => realizarQueja()}>Realizar queja</Button>
         </ScrollView>

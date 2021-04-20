@@ -117,9 +117,10 @@ const Registro = ({ }) => {
       <ScrollView>
         <View style={styles.container} >
           <BackButton />
+          <View  style={{alignItems:'center'}}>
           <Logo />
           <Header>Create Account</Header>
-
+          </View>
           <TextInput
             label="Nombre"
             returnKeyType="next"

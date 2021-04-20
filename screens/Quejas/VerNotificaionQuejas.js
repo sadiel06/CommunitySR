@@ -6,16 +6,15 @@ import { useFocusEffect } from '@react-navigation/core';
 import { Button, List, Headline, FAB, Appbar, Card, Title, Text } from 'react-native-paper';
 import { AppContext } from '../../context/AppContext';
 
-const verNotificaciones = ({ navigation }) => {
+const verNotQuejas = ({ navigation }) => {
   const [Notificaciones, setNotificaciones] = useState([]);
   const { user } = useContext(AppContext);
   useFocusEffect(
     React.useCallback(() => {
       const getData = async () => {
-
         try {
           const resultados = await ClientAxios.post(
-            'complementos/listasolicitud',
+            'quejas/listaquejasbyuser',
             { key: '291290336b75b259b77e181c87cc974f', data: { idUser: user.idUsuario } },
           );
           setNotificaciones(resultados.data);
@@ -30,17 +29,17 @@ const verNotificaciones = ({ navigation }) => {
   );
 
   const CardResid = ({ item }) => {
-    const { nombrepersona, isCompra } = item;
+    const { nombrepersona, nombreDepartamento, nobrePresunto, nombreResi, } = item;
     //<Button onPress={() => navigation.navigate('', { item })}>Detalles</Button>
     // console.log(item);
     return (
       <TouchableWithoutFeedback>
-        <Card onPress={() => navigation.navigate('DetalleNotificaciones', { item }) } >
+        <Card onPress={() => navigation.navigate('DetalleNotificacionesQuejas', { item }) } >
           <Card.Content>
-            <Title>Nombre: {nombrepersona} {isCompra?'Compra':'Alquiler'}</Title>
+            <Title>Nombre: {nombrepersona}</Title>
           </Card.Content>
           <Card.Actions>
-            <Button onPress={() => navigation.navigate('DetalleNotificaciones', { item })}>Detalles</Button>
+            <Button onPress={() => navigation.navigate('DetalleNotificacionesQuejas', { item })}>Detalles</Button>
 
           </Card.Actions>
         </Card>
@@ -69,4 +68,4 @@ const verNotificaciones = ({ navigation }) => {
   );
 };
 
-export default verNotificaciones;
+export default verNotQuejas;

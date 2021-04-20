@@ -35,6 +35,9 @@ import Pagos from './screens/Pagos/pagos'
 import DetalleNotificaciones from './screens/Notificaciones/DetalleNotificaciones'
 import Solicitudesempleo from './screens/Residenciales/solicitudEmpleo'
 import detalleSolicitudEmpleo from './screens/Residenciales/detalleSolicitudEmpleo'
+import verServiciosPre from './screens/Residenciales/PredeterminadosServicios'
+import NuevoServicioPre from './screens/Residenciales/NuevoServicioPre'
+
 //stack
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -78,7 +81,7 @@ const Routes = () => {
       rol: [4],
     },
     {
-      name: 'ListaResidenciales',
+      name: 'Lista de Residenciales',
       component:  <StackScreensResidenciales />,
       rol: [1],
     },
@@ -158,6 +161,9 @@ function StackScreensResidenciales() {
       <Stack.Screen name="DetalleQueja" component={DetalleQueja} />
       <Stack.Screen name="detalleDepartamento" component={detalleDepartamento} />
       <Stack.Screen name="agregarServicios" component={agregarServicios} />
+      <Stack.Screen name="verServiciosPre" component={verServiciosPre} />
+      <Stack.Screen name="NuevoServicioPre" component={NuevoServicioPre} />
+      {/* verServiciosPre NuevoServicioPre*/}
     </Stack.Navigator>
   );
 }

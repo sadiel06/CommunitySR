@@ -118,9 +118,9 @@ const AgregarServicio = ({ navigation, route }) => {
           <Headline style={globalStyles.titulo}>
             {servicios.length > 0
               ? 'Servicios del departamento'
-              : 'Aún no tiene areas comunes registradas'}
+              : 'Aún no tiene servicios registrados'}
           </Headline>
-          {verDropDown ?
+          
             <View style={styles.inputs}>
               <DropDown
                 label={'Seleccione un servicio'}
@@ -136,7 +136,7 @@ const AgregarServicio = ({ navigation, route }) => {
                 }}
               />
               <Button style={{ marginTop: 10 }} onPress={() => guardarServicio()}>Guardar</Button>
-            </View> : null}
+            </View> 
           {
             servicios.length > 0 ?
               <FlatList style={{ marginBottom: 10 }}
@@ -150,13 +150,8 @@ const AgregarServicio = ({ navigation, route }) => {
                 )}
               /> : null
           }
-          <FAB
-            icon="plus"
-            style={styles.fab}
-            onPress={() =>
-              setVerDropDown(!verDropDown)
-            }
-          />
+         
+         
         </View>
       </ScreenHeader>
     </>

@@ -20,21 +20,26 @@ import { UPLOADIMG } from '../../helpers/uploadIMG';
 const detalleNotificacion = ({ navigation, route }) => {
   // return <Text>{route.params.item.descripcion}</Text>
   const [notificacion, setNotificacion] = useState({});
+  const [listaDeSuscripciones, setlistaDeSuscripciones] = useState([])
+  const [visible, setVisible] = React.useState(false);
 
   useEffect(() => {
     setNotificacion(route.params.item);
-    
+
 
   }, []);
+  const showModal = () => setVisible(true);
+  const hideModal = () => setVisible(false);
+  const aceptar = async () => {
 
-  const aceptar = async()=>{
-    
+
+    return
     try {
       const resultados = await ClientAxios.post(
         'complementos/insertinquilinos',
-        { key: '291290336b75b259b77e181c87cc974f', data: { idResi:notificacion.idResidencial, idDepart:notificacion.ID_departamento, idUser: notificacion.ID_usuario,idPerso:notificacion.IdPersona, nomDepartameto:notificacion.Nombre_departamento } },
+        { key: '291290336b75b259b77e181c87cc974f', data: { idResi: notificacion.idResidencial, idDepart: notificacion.ID_departamento, idUser: notificacion.ID_usuario, idPerso: notificacion.IdPersona, nomDepartameto: notificacion.Nombre_departamento } },
       );
-      
+
       console.log(JSON.stringify(resultados.data, null, 4))
       navigation.goBack();
     } catch (error) {
@@ -58,15 +63,49 @@ const detalleNotificacion = ({ navigation, route }) => {
             </Title>
             <Paragraph>Nombre: {notificacion.nombrepersona}</Paragraph>
             <Paragraph>Contacto: {notificacion.celular}</Paragraph>
-            
+
 
           </Card.Content>
           <Card.Actions>
-            <Button onPress={aceptar}>Aceptar</Button>
+            <Button onPress={showModal()}>Aceptar</Button>
           </Card.Actions>
         </Card>
 
       </View>
+      <Portal>
+        <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={{ backgroundColor: 'white', paddingVertical: 100, paddingHorizontal: 10 }} style={{
+          paddingHorizontal: 10
+        }}>
+          <View >
+            <Text style={{ marginBottom: 10, fontWeight: 'bold', }}>Selecione su modo de inicio</Text>
+            <DropDown
+              label={'Selecciona su modo de'}
+              mode="outlined"
+              value={sector}
+              setValue={e => {
+                //alert(e)
+
+                setSector(e)
+              }}
+              list={listaDeSuscripciones}
+              visible={mostrarSector}
+              showDropDown={() => setMostrarSector(true)}
+              onDismiss={() => setMostrarSector(false)}
+              inputProps={{
+                right: <PaperInput.Icon name={'menu-down'} />,
+              }}
+
+            />
+            <PaperButton mode='contained' style={{ marginTop: 10 }} onPress={() => {
+              setUser({ ...dataResult, rol: sector });
+              hideModal()
+              navigation.replace('Stack');
+            }}>Ok</PaperButton>
+          </View>
+
+        </Modal>
+      </Portal>
+
     </>
   );
 };
