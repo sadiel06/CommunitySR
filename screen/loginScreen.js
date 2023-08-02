@@ -1,33 +1,50 @@
 import React from 'react';
 import {
-  Keyboard, Image, View, TextInput, TouchableWithoutFeedback, KeyboardAvoidingView, StyleSheet
+  Keyboard,
+  Image,
+  View,
+  TextInput,
+  TouchableWithoutFeedback,
+  KeyboardAvoidingView,
+  StyleSheet,
 } from 'react-native';
-import { Button } from 'react-native-elements';
+import {Button} from 'react-native-elements';
 const loginScree = () => {
   return (
     <>
       <KeyboardAvoidingView style={styles.containerView} behavior="padding">
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.loginScreenContainer}>
-            <View style={{ flexDirection: 'row', marginTop: 10 }}>
-              <Image source={(require('../src/logo11.png'))} style={styles.logo} />
+            <View style={{flexDirection: 'row', marginTop: 10}}>
+              <Image
+                source={require('../src/logo11.png')}
+                style={styles.logo}
+              />
             </View>
             <View style={styles.loginFormView}>
-              {/* <Text style={styles.logoText}>Community SR</Text> */}
+              {/* <Text style={styles.logoText}>Community SR</Text> cambio*/}
 
-              <TextInput placeholder="Username" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} />
-              <TextInput placeholder="Password" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} secureTextEntry={true} />
+              <TextInput
+                placeholder="Username"
+                placeholderColor="#c4c3cb"
+                style={styles.loginFormTextInput}
+              />
+              <TextInput
+                placeholder="Password"
+                placeholderColor="#c4c3cb"
+                style={styles.loginFormTextInput}
+                secureTextEntry={true}
+              />
               <Button
                 buttonStyle={styles.loginButton}
                 // onPress={() => this.onLoginPress()}
                 title="Login"
               />
-              <Button buttonStyle={styles.SinginButton}
-                type='outline'
+              <Button
+                buttonStyle={styles.SinginButton}
+                type="outline"
                 // onPress={() => this.onLoginPress()}
-                title="Sing in">
-
-              </Button>
+                title="Sing in"></Button>
             </View>
           </View>
         </TouchableWithoutFeedback>
@@ -37,7 +54,6 @@ const loginScree = () => {
 };
 
 const styles = StyleSheet.create({
-
   containerView: {
     flex: 1,
   },
@@ -45,12 +61,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   logo: {
-    height:300,
-    flex:1,
-    marginHorizontal:4
+    height: 300,
+    flex: 1,
+    marginHorizontal: 4,
   },
   loginFormView: {
-    flex: 1
+    flex: 1,
   },
   loginFormTextInput: {
     height: 43,
@@ -64,7 +80,6 @@ const styles = StyleSheet.create({
     marginRight: 15,
     marginTop: 5,
     marginBottom: 5,
-
   },
   loginButton: {
     backgroundColor: '#3897f1',
@@ -73,7 +88,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   SinginButton: {
-     
     borderWidth: 3,
     borderColor: '#3897f1',
     borderRadius: 20,
@@ -85,12 +99,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     backgroundColor: 'transparent',
   },
-
-
-
-
-
-
 });
 
 export default loginScree;
